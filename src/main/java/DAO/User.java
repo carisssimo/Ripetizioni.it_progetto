@@ -1,7 +1,6 @@
 package DAO;
 
 public class User {
-    private int ID_utente;
     private String nome;
     private String cognome;
     private String email;
@@ -9,18 +8,13 @@ public class User {
     private String ruolo;
 
 
-    public User(int ID_utente, String nome, String cognome, String email, String password, String ruolo) {
-        this.ID_utente = ID_utente;
+    public User(String nome, String cognome, String email, String password, String ruolo) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
         this.ruolo = ruolo;
 
-    }
-
-    public int getID_utente() {
-        return ID_utente;
     }
 
     public String getNome() {
@@ -43,16 +37,13 @@ public class User {
         return ruolo;
     }
 
-
-
     @Override
     public String toString(){
-        return "ID utente: " + ID_utente + ",\n" +
-                "Nome: " + nome + ", \n" +
+               return "Nome: " + nome + ", \n" +
                 "Cognome: " + cognome + ", \n" +
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n" +
-                "Ruolo " + ruolo + ", \n" ;
+                "Ruolo: " + ruolo + ", \n" ;
 
     }
 }
