@@ -8,17 +8,12 @@ public class Teacher {
     private String password;
     private int subjectId;
 
-    public Teacher(int teacherId, String name, String surname, String email, String password, int subjectId) {
-        this.teacherId = teacherId;
+    public Teacher(String name, String surname, String email, String password, int subjectId) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.subjectId = subjectId;
-    }
-
-    public int getTeacherId() {
-        return teacherId;
     }
 
     public String getName() {
@@ -43,8 +38,7 @@ public class Teacher {
 
     @Override
     public String toString(){
-        return "ID docente: " + teacherId + ", \n" +
-                "Nome: " + name + ", \n" +
+        return "Nome: " + name + ", \n" +
                 "Cognome: " + surname + ", \n" +
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n"+
