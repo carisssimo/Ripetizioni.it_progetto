@@ -17,7 +17,7 @@ public class SubjectDao implements DAO<Subject>{
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
+            ResultSet rs = st.executeQuery("SELECT * FROM CORSO ");
             while (rs.next()) {
                 Subject s  = new Subject(rs.getInt("ID_CORSO"), rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
                 System.out.println(s);
