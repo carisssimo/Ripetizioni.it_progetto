@@ -1,32 +1,32 @@
 package DAO;
 
 public class Teacher {
-    private int ID_docente;
-    private String nome;
-    private String cognome;
+    private int teacherId;
+    private String name;
+    private String surname;
     private String email;
     private String password;
-    private int ID_corso;
+    private int subjectId;
 
-    public Teacher(int ID_docente, String nome, String cognome, String email, String password, int ID_corso) {
-        this.ID_docente = ID_docente;
-        this.nome = nome;
-        this.cognome = cognome;
+    public Teacher(int teacherId, String name, String surname, String email, String password, int subjectId) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
         this.email = email;
         this.password = password;
-        this.ID_corso = ID_corso;
+        this.subjectId = subjectId;
     }
 
-    public int getID_docente() {
-        return ID_docente;
+    public int getTeacherId() {
+        return teacherId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public String getCognome() {
-        return cognome;
+    public String getSurname() {
+        return surname;
     }
 
     public String getEmail() {
@@ -37,17 +37,17 @@ public class Teacher {
         return password;
     }
 
-    public int getID_corso() {
-        return ID_corso;
+    public int getSubjectId() {
+        return subjectId;
     }
 
     @Override
     public String toString(){
-        return "ID docente: " + ID_docente + ", \n" +
-                "Nome: " + nome + ", \n" +
-                "Cognome: " + cognome + ", \n" +
+        return "ID docente: " + teacherId + ", \n" +
+                "Nome: " + name + ", \n" +
+                "Cognome: " + surname + ", \n" +
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n"+
-                "ID corso: " +  ID_corso + ", \n";
+                "ID corso: " + subjectId + ", \n";
     }
 }

@@ -3,7 +3,8 @@ package com.example.servletjdbcmaven;
 import DAO.UserDao;
 import DAO.User;
 import DAO.DAO;
-
+import DAO.Teacher;
+import DAO.TeacherDao;
 import java.io.*;
 import java.util.ArrayList;
 import javax.servlet.http.*;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.*;
 public class HelloServlet extends HttpServlet {
     private String message;
     private static DAO<User> userDao=new UserDao();
+    private static DAO<Teacher> teacherDao=new TeacherDao();
 
     public void init() {
         message = "Hello World!";
@@ -31,6 +33,8 @@ public class HelloServlet extends HttpServlet {
 
         ArrayList<User> utenti = userDao.getAll();
 
+        ArrayList<Teacher> teachers = teacherDao.getAll();
+
         /*User u = new User(4, "Luana", "Biasi", "luanabiasi@gmail.com", "we", "Utente", "Studente" );
         userDao.add(u);*/
 
@@ -45,6 +49,10 @@ public class HelloServlet extends HttpServlet {
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
             for (User ut: utenti) {
                 out.println("<p>" + ut + "</p>");
+            }
+
+            for (Teacher t: teachers) {
+                out.println("<p>" + t + "</p>");
             }
             out.println("<p>FINE!</p>");
             out.println("</body>");

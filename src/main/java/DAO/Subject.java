@@ -1,31 +1,31 @@
 package DAO;
 
 public class Subject {
-    private int ID_corso;
-    private String nome_corso;
-    private String descrizione;
+    private int subjectId;
+    private String subjectName;
+    private String description;
 
-    public Subject(int ID_corso, String nome_corso, String descrizione) {
-        this.ID_corso = ID_corso;
-        this.nome_corso = nome_corso;
-        this.descrizione = descrizione;
+    public Subject(int subjectId, String subjectName, String description) {
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+        this.description = description;
     }
 
-    public int getID_corso() {
-        return ID_corso;
+    public int getSubjectId() {
+        return subjectId;
     }
 
-    public String getNome_corso() {
-        return nome_corso;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
     public String toString(){
-        return "ID corso: " + ID_corso + ", \n" +
-                "Nome corso: " + nome_corso + ", \n" +
-                "Descrizione: " + descrizione + "\n";
+        return "ID corso: " + subjectId + ", \n" +
+                "Nome corso: " + subjectName + ", \n" +
+                "Descrizione: " + description + "\n";
     }
 }
