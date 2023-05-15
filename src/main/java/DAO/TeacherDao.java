@@ -49,7 +49,7 @@ public class TeacherDao implements DAO<Teacher> {
             }
 
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `DOCENTE` (`ID_DOCENTE`, `NOME`, `COGNOME`, `EMAIL`, `PASSWORD`, `ID_CORSO`) VALUES ('7', 'bubi', 'bubi', 'bubi@hotmail.com', 'Bubi', 'Utente', 'Studente');");
+            st.executeUpdate("");
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
