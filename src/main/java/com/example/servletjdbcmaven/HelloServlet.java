@@ -29,6 +29,9 @@ public class HelloServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        processRequest(request, response);
+    }
     public void destroy() {
     }
 
@@ -40,6 +43,17 @@ public class HelloServlet extends HttpServlet {
         ArrayList<Teacher> teachers = teacherDao.getAll();
 
         ArrayList<Subject> subjects = subjectDao.getAll();
+
+        /*String userName =request.getParameter("name");
+        System.out.println(userName);
+        String userSurname=request.getParameter("surname");
+        String userPassword=request.getParameter("password");
+        String userEmail=request.getParameter("email");
+        String userRole= request.getParameter("role");*/
+
+
+
+
 
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");

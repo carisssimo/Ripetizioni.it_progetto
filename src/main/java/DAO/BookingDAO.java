@@ -14,6 +14,11 @@ public class BookingDAO implements DAO<Booking>{
     }
 
     @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
     public void add(Booking elem) {
 
     }

@@ -74,15 +74,16 @@ public class UserDao implements DAO<User>{
                 System.out.println("Connected to the database");
             }
 
-            String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO, TIPO) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO UTENTE (ID_UTENTE, NOME, COGNOME, EMAIL, PASSWORD, RUOLO, TIPO) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setString(1, u.getNome());
-            statement.setString(2, u.getCognome());
-            statement.setString(3, u.getEmail());
-            statement.setString(4, u.getPassword());
-            statement.setString(5, u.getRuolo());
-            statement.setString(6, u.getTipo());
+            statement.setString(1, Integer.toString(u.getID_utente()));
+            statement.setString(2, u.getNome());
+            statement.setString(3, u.getCognome());
+            statement.setString(4, u.getEmail());
+            statement.setString(5, u.getPassword());
+            statement.setString(6, u.getRuolo());
+            statement.setString(7, u.getTipo());
 
             int rowsInserted = statement.executeUpdate();
 
@@ -103,6 +104,11 @@ public class UserDao implements DAO<User>{
 
     @Override
     public void update(User ut){
+
+    }
+
+    @Override
+    public void delete(int id) {
 
     }
 }
