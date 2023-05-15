@@ -12,7 +12,7 @@ public class UserDao implements DAO<User>{
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("Connected to the database test");
+                System.out.println("UserDAO Connected to the database test");
             }
 
             Statement st = conn1.createStatement();
@@ -38,8 +38,8 @@ public class UserDao implements DAO<User>{
         return out;
     }
 
-    @Override
-    public void add(User u){
+
+    /*public void add(User u){
         Connection conn1 = null;
         try{
 
@@ -58,6 +58,43 @@ public class UserDao implements DAO<User>{
             if (conn1 != null) {
                 try {
                     conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+    }*/
+
+    public void add(User u)
+    {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
+            }
+
+            String query = "INSERT INTO UTENTE (ID_UTENTE, NOME, COGNOME, EMAIL, PASSWORD, RUOLO, TIPO) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1, Integer.toString(u.getID_utente()));
+            statement.setString(2, u.getNome());
+            statement.setString(3, u.getCognome());
+            statement.setString(4, u.getEmail());
+            statement.setString(5, u.getPassword());
+            statement.setString(6, u.getRuolo());
+            statement.setString(7, u.getTipo());
+
+            int rowsInserted = statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
                 } catch (SQLException e2) {
                     System.out.println(e2.getMessage());
                 }
