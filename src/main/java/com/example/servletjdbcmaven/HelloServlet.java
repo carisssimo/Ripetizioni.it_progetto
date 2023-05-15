@@ -29,10 +29,10 @@ public class HelloServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        /*ArrayList<User> utenti = userDao.getAll();*/
+        ArrayList<User> utenti = userDao.getAll();
 
-        User u = new User(4, "Luana", "Biasi", "luanabiasi@gmail.com", "we", "Utente", "Studente" );
-        userDao.add(u);
+        /*User u = new User(4, "Luana", "Biasi", "luanabiasi@gmail.com", "we", "Utente", "Studente" );
+        userDao.add(u);*/
 
         //System.out.println("FINE!");
         try (PrintWriter out = response.getWriter()) {
@@ -43,9 +43,9 @@ public class HelloServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            /*for (User ut: utenti) {
+            for (User ut: utenti) {
                 out.println("<p>" + ut + "</p>");
-            }*/
+            }
             out.println("<p>FINE!</p>");
             out.println("</body>");
             out.println("</html>");

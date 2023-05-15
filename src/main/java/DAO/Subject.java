@@ -1,11 +1,11 @@
 package DAO;
 
-public class Corso {
+public class Subject {
     private int ID_corso;
     private String nome_corso;
     private String descrizione;
 
-    public Corso(int ID_corso, String nome_corso, String descrizione) {
+    public Subject(int ID_corso, String nome_corso, String descrizione) {
         this.ID_corso = ID_corso;
         this.nome_corso = nome_corso;
         this.descrizione = descrizione;
