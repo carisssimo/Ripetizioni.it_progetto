@@ -44,16 +44,16 @@ public class HelloServlet extends HttpServlet {
 
         ArrayList<Subject> subjects = subjectDao.getAll();
 
-        String userName =request.getParameter("name");
+        /*String userName =request.getParameter("name");
         System.out.println(userName);
         String userSurname=request.getParameter("surname");
         String userPassword=request.getParameter("password");
         String userEmail=request.getParameter("email");
-        String userRole= request.getParameter("role");
+        String userRole= request.getParameter("role");*/
 
-        User newUser= new User(userName,userSurname,userPassword,userEmail,userRole);
 
-        userDao.add(newUser);
+
+
 
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
