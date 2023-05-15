@@ -83,7 +83,7 @@ public class UserDao implements DAO<User>{
             statement.setString(4, u.getEmail());
             statement.setString(5, u.getPassword());
             statement.setString(6, u.getRuolo());
-            statement.setString(7, u.getTipo());
+
 
             int rowsInserted = statement.executeUpdate();
 
