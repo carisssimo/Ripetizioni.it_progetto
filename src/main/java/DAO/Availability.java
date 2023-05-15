@@ -8,13 +8,13 @@ public class Availability {
     private String startTime;
     private String endTime;
 
-    public Availability(int ID_disponibilita, int ID_docente, int ID_corso, String giorno, String ora_inizio, String ora_fine) {
-        this.availabilityId = ID_disponibilita;
-        this.teacherId = ID_docente;
-        this.subjectId = ID_corso;
-        this.day = giorno;
-        this.startTime = ora_inizio;
-        this.endTime = ora_fine;
+    public Availability(int availabilityId, int teacherId, int subjectId, String day, String startTime, String endTime) {
+        this.availabilityId = availabilityId;
+        this.teacherId = teacherId;
+        this.subjectId = subjectId;
+        this.day = day;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getAvailabilityId() {
