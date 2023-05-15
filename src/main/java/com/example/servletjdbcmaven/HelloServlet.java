@@ -5,6 +5,8 @@ import DAO.User;
 import DAO.DAO;
 import DAO.Teacher;
 import DAO.TeacherDao;
+import DAO.Subject;
+import DAO.SubjectDao;
 import java.io.*;
 import java.util.ArrayList;
 import javax.servlet.http.*;
@@ -15,6 +17,8 @@ public class HelloServlet extends HttpServlet {
     private String message;
     private static DAO<User> userDao=new UserDao();
     private static DAO<Teacher> teacherDao=new TeacherDao();
+
+    private static DAO<Subject> subjectDao=new SubjectDao();
 
     public void init() {
         message = "Hello World!";
@@ -35,10 +39,8 @@ public class HelloServlet extends HttpServlet {
 
         ArrayList<Teacher> teachers = teacherDao.getAll();
 
-        /*User u = new User(4, "Luana", "Biasi", "luanabiasi@gmail.com", "we", "Utente", "Studente" );
-        userDao.add(u);*/
+        ArrayList<Subject> subjects = subjectDao.getAll();
 
-        //System.out.println("FINE!");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -53,6 +55,10 @@ public class HelloServlet extends HttpServlet {
 
             for (Teacher t: teachers) {
                 out.println("<p>" + t + "</p>");
+            }
+
+            for (Subject s: subjects) {
+                out.println("<p>" + s + "</p>");
             }
             out.println("<p>FINE!</p>");
             out.println("</body>");
