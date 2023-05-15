@@ -45,6 +45,11 @@ public class SubjectDao implements DAO<Subject>{
     }
 
     @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
     public void add(Subject elem) {
 
     }

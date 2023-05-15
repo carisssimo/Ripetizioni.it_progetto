@@ -69,4 +69,9 @@ public class TeacherDao implements DAO<Teacher> {
     public void update(Teacher t){
 
     }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

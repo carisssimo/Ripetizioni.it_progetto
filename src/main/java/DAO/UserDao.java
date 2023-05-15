@@ -106,4 +106,9 @@ public class UserDao implements DAO<User>{
     public void update(User ut){
 
     }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

@@ -23,6 +23,8 @@ public interface DAO<T> {
 
     void update(T elem);
 
+    void delete(int id);
+
 
 
 
