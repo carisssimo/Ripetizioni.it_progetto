@@ -42,12 +42,10 @@ public class Availability {
     }
 
     public String toString(){
-        return "ID disponibilita: " + availabilityId + ", \n" +
+        return "ID disponibilità: " + availabilityId + ", \n" +
                 "ID docente: " + teacherId + ", \n" +
                 "ID corso: " + subjectId + ", \n" +
-                "Giorno: " + day + ", \n" +
-                "Ora inizio: " + startTime + ", \n" +
-                "Ora fine: " + endTime + ", \n";
+                "Slot temporale: " + day + ", \n" ;
     }
 
 }

@@ -19,7 +19,7 @@ public class UserDao implements DAO<User>{
 
             ResultSet rs = st.executeQuery("SELECT * FROM UTENTE ");
             while (rs.next()) {
-                User u = new User(rs.getInt("ID_UTENTE"), rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"), rs.getString("TIPO"));
+                User u = new User(rs.getInt("ID_UTENTE"), rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
                 System.out.println(u);
                 out.add(u);
             }

@@ -7,16 +7,16 @@ public class User {
     private String email;
     private String password;
     private String ruolo;
-    private String tipo;
 
-    public User(int ID_utente, String nome, String cognome, String email, String password, String ruolo, String tipo) {
+
+    public User(int ID_utente, String nome, String cognome, String email, String password, String ruolo) {
         this.ID_utente = ID_utente;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
         this.ruolo = ruolo;
-        this.tipo = tipo;
+
     }
 
     public int getID_utente() {
@@ -43,9 +43,7 @@ public class User {
         return ruolo;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
+
 
     @Override
     public String toString(){
@@ -54,7 +52,7 @@ public class User {
                 "Cognome: " + cognome + ", \n" +
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n" +
-                "Ruolo " + ruolo + ", \n" +
-                "Tipo: " + tipo + "\n";
+                "Ruolo " + ruolo + ", \n" ;
+
     }
 }
