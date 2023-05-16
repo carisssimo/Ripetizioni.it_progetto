@@ -46,11 +46,15 @@ public class HelloServlet extends HttpServlet {
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
         System.out.printf(action);
-        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html"); //???
+        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
         if (action!=null) {
             switch (action) {
                 case "pageSign-in":
                     rd = ctx.getRequestDispatcher("/sign-in.html");
+                    break;
+
+                case "pageLogin":
+                    rd = ctx.getRequestDispatcher("/login.html");
                     break;
                 case "listDB":
                     ArrayList<User> utenti = userDao.getAll();
@@ -83,13 +87,65 @@ public class HelloServlet extends HttpServlet {
                         out.println("</html>");
                     }
                     break;
-                case "pageB":
-                    rd = ctx.getRequestDispatcher("/B.html");
+                case "submitRegistration":
+
+                    String userName =request.getParameter("name");
+                    System.out.println(userName);
+                    String userSurname=request.getParameter("surname");
+                    String userPassword=request.getParameter("password");
+                    String userEmail=request.getParameter("email");
+                    String userRole= request.getParameter("role");
+                    User newUser=new User(userName,userSurname,userPassword,userEmail,userRole);
+                    userDao.add(newUser);
+
                     break;
                 default:
             }
             rd.forward(request, response);
         }
+        /*ArrayList<User> utenti = userDao.getAll();
 
+        ArrayList<Teacher> teachers = teacherDao.getAll();
+
+        ArrayList<Subject> subjects = subjectDao.getAll();
+
+        *//*String userName =request.getParameter("name");
+        System.out.println(userName);
+        String userSurname=request.getParameter("surname");
+        String userPassword=request.getParameter("password");
+        String userEmail=request.getParameter("email");
+        String userRole= request.getParameter("role");*//*
+
+
+
+
+
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            for (User ut: utenti) {
+                out.println("<p>" + ut + "</p>");
+            }
+
+            for (Teacher t: teachers) {
+                out.println("<p>" + t + "</p>");
+            }
+
+            for (Subject s: subjects) {
+                out.println("<p>" + s + "</p>");
+            }
+            out.println("<p>FINE!</p>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+
+
+
+*/
     }
 }

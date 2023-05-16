@@ -46,7 +46,7 @@ public class UserDao implements DAO<User>{
                 System.out.println("Connected to the database");
             }
 
-            String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO, TIPO) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, u.getNome());
