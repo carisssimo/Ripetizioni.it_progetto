@@ -1,38 +1,26 @@
 package DAO;
 
 public class Booking {
-    private int bookingId;
-    private String date;
-    private String time;
-    private boolean confirmed;
+    private String dateTime;
+    private String state;
     private int objectId;
     private int teacherId;
     private int userId;
 
-    public Booking(int bookingId, String date, String time, boolean confirmed, int objectId, int teacherId, int userId) {
-        this.bookingId = bookingId;
-        this.date = date;
-        this.time = time;
-        this.confirmed = confirmed;
+    public Booking(String dateTime, String state, int objectId, int teacherId, int userId) {
+        this.dateTime = dateTime;
+        this.state = state;
         this.objectId = objectId;
         this.teacherId = teacherId;
         this.userId = userId;
     }
 
-    public int getBookingId() {
-        return bookingId;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public boolean isConfirmed() {
-        return confirmed;
+    public String getState() {
+        return state;
     }
 
     public int getObjectId() {
@@ -47,12 +35,9 @@ public class Booking {
         return userId;
     }
 
-
     public String toString(){
-        return "ID_prenotazione: " + bookingId + ", \n" +
-                "Data: " + date + ", \n" +
-                "Orario: " + time + ", \n" +
-                "Confermata: " + isConfirmed() + ", \n" +
+                return "Data e giorno: " + dateTime + ", \n" +
+                "Stato: " + state + ", \n" +
                 "ID_corso: " + objectId + ", \n" +
                 "ID_docente: " + teacherId + ", \n" +
                 "ID_utente: " + userId + ", \n";

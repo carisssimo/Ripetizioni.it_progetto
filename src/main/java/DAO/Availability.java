@@ -1,24 +1,14 @@
 package DAO;
 
 public class Availability {
-    private int availabilityId;
     private int teacherId;
     private int subjectId;
-    private String day;
-    private String startTime;
-    private String endTime;
+    private String dayTime;
 
-    public Availability(int availabilityId, int teacherId, int subjectId, String day, String startTime, String endTime) {
-        this.availabilityId = availabilityId;
+    public Availability(int teacherId, int subjectId, String dayTime) {
         this.teacherId = teacherId;
         this.subjectId = subjectId;
-        this.day = day;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public int getAvailabilityId() {
-        return availabilityId;
+        this.dayTime = dayTime;
     }
 
     public int getTeacherId() {
@@ -29,23 +19,14 @@ public class Availability {
         return subjectId;
     }
 
-    public String getDay() {
-        return day;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
+    public String getDayTime() {
+        return dayTime;
     }
 
     public String toString(){
-        return "ID disponibilità: " + availabilityId + ", \n" +
-                "ID docente: " + teacherId + ", \n" +
+               return "ID docente: " + teacherId + ", \n" +
                 "ID corso: " + subjectId + ", \n" +
-                "Slot temporale: " + day + ", \n" ;
+                "Giorno e ora: " + dayTime + ", \n" ;
     }
 
 }
