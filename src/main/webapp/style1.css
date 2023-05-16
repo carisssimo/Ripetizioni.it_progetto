@@ -1,0 +1,98 @@
+
+body{
+    background-color: #fcefe5;
+}
+.form-container{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border: solid orangered 2px;
+    border-radius: 10px;
+    margin-top: 50px;
+    background-color: white;
+}
+.form-container-selector{
+
+    padding: 17px;
+    border: solid orangered 2px;
+    border-radius: 10px;
+    margin-top: 50px;
+    background-color: white;
+}
+.title-container{
+    margin-top: 59px;
+
+}
+
+.title-main{
+    color:black;
+    font-size:xxx-large;
+    font-weight: 700;
+}
+
+.title-ripetizioni{
+    color:orangered;
+    font-size:xxx-large;
+    font-weight: 700;
+}
+
+.p-start{
+    font-size: larger;
+}
+
+.button-container{
+    padding-bottom: 50px;
+    border-radius: 10px;
+    margin-top: 21px;
+}
+
+.btn-login{
+    background-color: orangered;
+    border-color: orange;
+}
+
+.form-group-orange{
+    border: solid 1px orangered;
+}
+
+.carousel-col{
+    margin:auto;
+    min-width: 300px;
+}
+
+.event-col{
+    padding: 25px;
+}
+.card-row{
+    background-color: white;
+}
+
+.main-row{
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+
+
+.third-row{
+    flex-wrap: nowrap;
+}
+
+
+
+.image-col{
+    background-image: url("images/photo-1500989145603-8e7ef71d639e.webp");
+    margin-top: 54px;
+    margin-bottom: 54px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.image-item{
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.orange-col{
+    margin:15px;
+}
+

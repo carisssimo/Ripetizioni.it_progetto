@@ -9,6 +9,9 @@ import DAO.Subject;
 import DAO.SubjectDao;
 import java.io.*;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
@@ -25,31 +28,80 @@ public class HelloServlet extends HttpServlet {
         DAO.registerDriver();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
     public void destroy() {
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
 
-        ArrayList<User> utenti = userDao.getAll();
+
+        request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
+        ServletContext ctx = getServletContext();
+        String action = request.getParameter("action");
+        System.out.printf(action);
+        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html"); //???
+        if (action!=null) {
+            switch (action) {
+                case "pageSign-in":
+                    rd = ctx.getRequestDispatcher("/sign-in.html");
+                    break;
+                case "listDB":
+                    ArrayList<User> utenti = userDao.getAll();
+
+                    ArrayList<Teacher> teachers = teacherDao.getAll();
+
+                    ArrayList<Subject> subjects = subjectDao.getAll();
+
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<!DOCTYPE html>");
+                        out.println("<html>");
+                        out.println("<head>");
+                        out.println("<title>Servlet NewServlet</title>");
+                        out.println("</head>");
+                        out.println("<body>");
+                        out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+                        for (User ut: utenti) {
+                            out.println("<p>" + ut + "</p>");
+                        }
+
+                        for (Teacher t: teachers) {
+                            out.println("<p>" + t + "</p>");
+                        }
+
+                        for (Subject s: subjects) {
+                            out.println("<p>" + s + "</p>");
+                        }
+                        out.println("<p>FINE!</p>");
+                        out.println("</body>");
+                        out.println("</html>");
+                    }
+                    break;
+                case "pageB":
+                    rd = ctx.getRequestDispatcher("/B.html");
+                    break;
+                default:
+            }
+            rd.forward(request, response);
+        }
+        /*ArrayList<User> utenti = userDao.getAll();
 
         ArrayList<Teacher> teachers = teacherDao.getAll();
 
         ArrayList<Subject> subjects = subjectDao.getAll();
 
-        /*String userName =request.getParameter("name");
+        *//*String userName =request.getParameter("name");
         System.out.println(userName);
         String userSurname=request.getParameter("surname");
         String userPassword=request.getParameter("password");
         String userEmail=request.getParameter("email");
-        String userRole= request.getParameter("role");*/
+        String userRole= request.getParameter("role");*//*
 
 
 
@@ -80,5 +132,7 @@ public class HelloServlet extends HttpServlet {
         }
 
 
+
+*/
     }
 }

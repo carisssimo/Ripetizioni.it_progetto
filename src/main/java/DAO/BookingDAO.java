@@ -75,4 +75,9 @@ public class BookingDAO implements DAO<Booking>{
     public void update(Booking elem) {
 
     }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }
