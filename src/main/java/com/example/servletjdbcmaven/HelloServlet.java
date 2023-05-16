@@ -9,6 +9,7 @@ import DAO.Subject;
 import DAO.SubjectDao;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
@@ -39,21 +40,18 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         ArrayList<User> utenti = userDao.getAll();
+        User c = new User("francesco","cornaglia","fc@gmail.com","frqse","Utente");
+        User b = new User("francesca","cornagliattu","fcg@gmail.com","frqse","Utente");
+
+        userDao.add(b);
+        userDao.add(c);
+        teacherDao.delete(6785);
+        subjectDao.delete(351);
+        utenti =userDao.getAll();
 
         ArrayList<Teacher> teachers = teacherDao.getAll();
 
         ArrayList<Subject> subjects = subjectDao.getAll();
-
-        /*String userName =request.getParameter("name");
-        System.out.println(userName);
-        String userSurname=request.getParameter("surname");
-        String userPassword=request.getParameter("password");
-        String userEmail=request.getParameter("email");
-        String userRole= request.getParameter("role");*/
-
-
-
-
 
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");

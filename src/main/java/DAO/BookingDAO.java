@@ -75,4 +75,36 @@ public class BookingDAO implements DAO<Booking>{
     public void update(Booking elem) {
 
     }
+
+    public void delete(int id)
+    {
+
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
+            }
+
+            String query = "DELETE FROM PRENOTAZIONE WHERE id=?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1, Integer.toString(id));
+            int rowsInserted = statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+    }
+
 }
