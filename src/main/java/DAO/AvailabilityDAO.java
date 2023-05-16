@@ -104,9 +104,7 @@ public class AvailabilityDAO implements DAO<Availability>{
         }
     }
 
-    @Override
-    public void delete(int id) {
 
-    }
+
 
 }
