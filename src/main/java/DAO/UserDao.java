@@ -37,34 +37,6 @@ public class UserDao implements DAO<User>{
         }
         return out;
     }
-
-
-    /*public void add(User u){
-        Connection conn1 = null;
-        try{
-
-            conn1 = DriverManager.getConnection(url1, user, password);
-            if (conn1 != null) {
-                System.out.println("Connected to the database test");
-            }
-
-            Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO `UTENTE` (`ID_UTENTE`, `NOME`, `COGNOME`, `EMAIL`, `PASSWORD`, `RUOLO`, `TIPO`) VALUES ('7', 'bubi', 'bubi', 'bubi@hotmail.com', 'Bubi', 'Utente', 'Studente');");
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (conn1 != null) {
-                try {
-                    conn1.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-    }*/
-
     public void add(User u)
     {
         Connection con = null;
@@ -74,7 +46,7 @@ public class UserDao implements DAO<User>{
                 System.out.println("Connected to the database");
             }
 
-            String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO, TIPO) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, u.getNome());
@@ -82,7 +54,6 @@ public class UserDao implements DAO<User>{
             statement.setString(3, u.getEmail());
             statement.setString(4, u.getPassword());
             statement.setString(5, u.getRuolo());
-
 
             int rowsInserted = statement.executeUpdate();
 
@@ -107,7 +78,34 @@ public class UserDao implements DAO<User>{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id)
+    {
 
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
+            }
+
+            String query = "DELETE FROM UTENTE WHERE ID_UTENTE=?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1, Integer.toString(id));
+            int rowsInserted = statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
     }
 }
