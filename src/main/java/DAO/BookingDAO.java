@@ -38,8 +38,9 @@ public class BookingDAO implements DAO<Booking>{
     }
 
     @Override
-    public void add(Booking b) {
+    public int add(Booking b) {
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -55,7 +56,7 @@ public class BookingDAO implements DAO<Booking>{
             statement.setInt(4, b.getTeacherId());
             statement.setInt(5, b.getUserId());
 
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -69,6 +70,7 @@ public class BookingDAO implements DAO<Booking>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
@@ -76,10 +78,11 @@ public class BookingDAO implements DAO<Booking>{
 
     }
 
-    public void delete(int id)
+    public int delete(int id)
     {
 
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -90,7 +93,7 @@ public class BookingDAO implements DAO<Booking>{
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -105,6 +108,7 @@ public class BookingDAO implements DAO<Booking>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override

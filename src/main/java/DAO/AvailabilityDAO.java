@@ -38,8 +38,9 @@ public class AvailabilityDAO implements DAO<Availability>{
     }
 
     @Override
-    public void add(Availability a) {
+    public int add(Availability a) {
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -53,7 +54,7 @@ public class AvailabilityDAO implements DAO<Availability>{
             statement.setInt(2, a.getSubjectId());
             statement.setString(3, a.getDayTime());
 
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -67,16 +68,18 @@ public class AvailabilityDAO implements DAO<Availability>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
     public void update(Availability elem) {
 
     }
-    public void delete(int id)
+    public int delete(int id)
     {
 
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -87,7 +90,7 @@ public class AvailabilityDAO implements DAO<Availability>{
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -102,6 +105,7 @@ public class AvailabilityDAO implements DAO<Availability>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override

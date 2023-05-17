@@ -39,8 +39,9 @@ public class TeacherDao implements DAO<Teacher> {
     }
 
     @Override
-    public void add(Teacher t){
+    public int add(Teacher t){
         Connection conn1 = null;
+        int rowsInserted=0;
         try{
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
@@ -56,7 +57,7 @@ public class TeacherDao implements DAO<Teacher> {
             statement.setString(4, t.getPassword());
             statement.setInt(5, t.getSubjectId());
 
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
@@ -70,6 +71,7 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
@@ -78,10 +80,11 @@ public class TeacherDao implements DAO<Teacher> {
     }
 
     @Override
-    public void delete(int id)
+    public int delete(int id)
     {
 
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -92,7 +95,7 @@ public class TeacherDao implements DAO<Teacher> {
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+             rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -107,6 +110,8 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
+        return rowsInserted;
+
     }
 
     @Override

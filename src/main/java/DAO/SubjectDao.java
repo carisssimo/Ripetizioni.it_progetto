@@ -44,10 +44,11 @@ public class SubjectDao implements DAO<Subject> {
     }
 
     @Override
-    public void delete(int id)
+    public int delete(int id)
     {
 
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -58,7 +59,7 @@ public class SubjectDao implements DAO<Subject> {
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -73,6 +74,7 @@ public class SubjectDao implements DAO<Subject> {
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
@@ -82,25 +84,19 @@ public class SubjectDao implements DAO<Subject> {
 
 
     @Override
-    public void add(Subject s) {
+    public int add(Subject s) {
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
-
             String query = "INSERT INTO CORSO (NOME_CORSO, DESCRIZIONE) VALUES (?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
-
             statement.setString(1, s.getSubjectName());
             statement.setString(2, s.getDescription());
-
-
-
-            int rowsInserted = statement.executeUpdate();
-
-
+            rowsInserted = statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -112,6 +108,6 @@ public class SubjectDao implements DAO<Subject> {
                 }
             }
         }
-
+        return rowsInserted;
     }
 }

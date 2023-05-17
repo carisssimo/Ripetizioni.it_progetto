@@ -37,9 +37,10 @@ public class UserDao implements DAO<User>{
         }
         return out;
     }
-    public void add(User u)
+    public int add(User u)
     {
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -55,7 +56,7 @@ public class UserDao implements DAO<User>{
             statement.setString(4, u.getPassword());
             statement.setString(5, u.getRuolo());
 
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
 
 
             if(rowsInserted==0){
@@ -76,6 +77,7 @@ public class UserDao implements DAO<User>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
@@ -84,10 +86,11 @@ public class UserDao implements DAO<User>{
     }
 
     @Override
-    public void delete(int id)
+    public int delete(int id)
     {
 
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -98,7 +101,7 @@ public class UserDao implements DAO<User>{
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+           rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -113,6 +116,7 @@ public class UserDao implements DAO<User>{
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
