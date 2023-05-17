@@ -107,4 +107,10 @@ public class BookingDAO implements DAO<Booking>{
         }
     }
 
+    @Override
+    public Booking get(int id) {
+        return null;
+    }
+
+
 }

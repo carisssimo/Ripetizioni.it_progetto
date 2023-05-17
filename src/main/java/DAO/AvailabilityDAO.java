@@ -104,7 +104,10 @@ public class AvailabilityDAO implements DAO<Availability>{
         }
     }
 
-
+    @Override
+    public Availability get(int id) {
+        return null;
+    }
 
 
 }

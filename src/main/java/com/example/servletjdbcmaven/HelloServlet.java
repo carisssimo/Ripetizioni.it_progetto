@@ -49,14 +49,14 @@ public class HelloServlet extends HttpServlet {
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
         if (action!=null) {
             switch (action) {
-                case "pageSign-in":
+                case "pageSign-in":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/sign-in.html");
                     break;
 
-                case "pageLogin":
+                case "pageLogin":    //al client torna la pagina di login
                     rd = ctx.getRequestDispatcher("/login.html");
                     break;
-                case "listDB":
+                case "listDB":    // torna la pagina di test del database
                     ArrayList<User> utenti = userDao.getAll();
 
                     ArrayList<Teacher> teachers = teacherDao.getAll();
@@ -87,16 +87,25 @@ public class HelloServlet extends HttpServlet {
                         out.println("</html>");
                     }
                     break;
-                case "submitRegistration":
+                case "submitRegistration":  //vera e propria registrazione di un utente
 
-                    String userName =request.getParameter("name");
+                    /*String userName =request.getParameter("name");
                     System.out.println(userName);
                     String userSurname=request.getParameter("surname");
                     String userPassword=request.getParameter("password");
                     String userEmail=request.getParameter("email");
-                    String userRole= request.getParameter("role");
-                    User newUser=new User(userName,userSurname,userPassword,userEmail,userRole);
-                    userDao.add(newUser);
+                    String userRole= request.getParameter("role");*/
+                    submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+
+
+                    break;
+
+                case "submitLogin":  //vera e propria login di un utente
+
+
+                    /*String userPassword=request.getParameter("password");
+                    String userEmail=request.getParameter("email");*/
+
 
                     break;
                 default:
@@ -147,5 +156,15 @@ public class HelloServlet extends HttpServlet {
 
 
 */
+    }
+
+    private void submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
+        User newUser=new User(userName, userSurname, userPassword, userEmail, userRole);
+        userDao.add(newUser);
+    }
+
+    private void submitLogin( String userPassword, String userEmail, String userRole) {
+
+        //userDao.add(newUser);
     }
 }

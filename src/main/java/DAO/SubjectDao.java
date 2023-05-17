@@ -76,6 +76,12 @@ public class SubjectDao implements DAO<Subject> {
     }
 
     @Override
+    public Subject get(int id) {
+        return null;
+    }
+
+
+    @Override
     public void add(Subject s) {
         Connection con = null;
         try {

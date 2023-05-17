@@ -19,12 +19,14 @@ public interface DAO<T> {
 
     ArrayList<T> getAll();
 
+    //TODO cambiare return void in booleani
     void add(T elem);
 
     void update(T elem);
 
     void delete(int id);
 
+    T get(int id);
 
 
 

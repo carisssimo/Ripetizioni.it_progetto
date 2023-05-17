@@ -108,4 +108,11 @@ public class TeacherDao implements DAO<Teacher> {
             }
         }
     }
+
+    @Override
+    public Teacher get(int id) {
+        return null;
+    }
+
+
 }
