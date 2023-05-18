@@ -1,5 +1,5 @@
 package com.example.servletjdbcmaven;
-
+import Crypt.Service;
 import DAO.UserDao;
 import DAO.User;
 import DAO.DAO;
@@ -14,6 +14,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.*;
 
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
@@ -40,7 +42,11 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
+        ArrayList<User> utenti = userDao.getAll();
 
+        ArrayList<Teacher> teachers = teacherDao.getAll();
+
+        ArrayList<Subject> subjects = subjectDao.getAll();
 
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -57,11 +63,7 @@ public class HelloServlet extends HttpServlet {
                     rd = ctx.getRequestDispatcher("/login.html");
                     break;
                 case "listDB":    // torna la pagina di test del database
-                    ArrayList<User> utenti = userDao.getAll();
 
-                    ArrayList<Teacher> teachers = teacherDao.getAll();
-
-                    ArrayList<Subject> subjects = subjectDao.getAll();
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -89,23 +91,10 @@ public class HelloServlet extends HttpServlet {
                     break;
                 case "submitRegistration":  //vera e propria registrazione di un utente
 
-                    /*String userName =request.getParameter("name");
-                    System.out.println(userName);
-                    String userSurname=request.getParameter("surname");
-                    String userPassword=request.getParameter("password");
-                    String userEmail=request.getParameter("email");
-                    String userRole= request.getParameter("role");*/
                     submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
-
-
                     break;
 
-                case "submitLogin":  //vera e propria login di un utente
-
-
-                    /*String userPassword=request.getParameter("password");
-                    String userEmail=request.getParameter("email");*/
-
+                case "submitLogin":
 
                     break;
                 default:
@@ -159,7 +148,9 @@ public class HelloServlet extends HttpServlet {
     }
 
     private void submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
-        User newUser=new User(userName, userSurname, userPassword, userEmail, userRole);
+        Service s= new Service();
+        String crptpassw=s.encryptMD5(userPassword);
+        User newUser=new User(userName, userSurname, userEmail, crptpassw, userRole);
         userDao.add(newUser);
     }
 
