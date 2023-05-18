@@ -95,56 +95,13 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
-
+                   // submitLogin(request.getParameter(""),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+                    //submitLogin( String userPassword, String userEmail, String userRole)
                     break;
                 default:
             }
             rd.forward(request, response);
         }
-        /*ArrayList<User> utenti = userDao.getAll();
-
-        ArrayList<Teacher> teachers = teacherDao.getAll();
-
-        ArrayList<Subject> subjects = subjectDao.getAll();
-
-        *//*String userName =request.getParameter("name");
-        System.out.println(userName);
-        String userSurname=request.getParameter("surname");
-        String userPassword=request.getParameter("password");
-        String userEmail=request.getParameter("email");
-        String userRole= request.getParameter("role");*//*
-
-
-
-
-
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            for (User ut: utenti) {
-                out.println("<p>" + ut + "</p>");
-            }
-
-            for (Teacher t: teachers) {
-                out.println("<p>" + t + "</p>");
-            }
-
-            for (Subject s: subjects) {
-                out.println("<p>" + s + "</p>");
-            }
-            out.println("<p>FINE!</p>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-
-
-
-*/
     }
 
     private void submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
