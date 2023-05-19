@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class SubjectDao implements DAO<Subject> {
     @Override
     public ArrayList<Subject> getAll() {
-
         Connection conn1 = null;
         ArrayList<Subject> out = new ArrayList<>();
         try {
@@ -39,14 +38,12 @@ public class SubjectDao implements DAO<Subject> {
     }
 
     @Override
-    public void update(Subject elem) {
+    public void update(int id, Subject s) {
 
     }
 
     @Override
-    public void delete(int id)
-    {
-
+    public void delete(int id) {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
@@ -89,8 +86,6 @@ public class SubjectDao implements DAO<Subject> {
 
             statement.setString(1, s.getSubjectName());
             statement.setString(2, s.getDescription());
-
-
 
             int rowsInserted = statement.executeUpdate();
 

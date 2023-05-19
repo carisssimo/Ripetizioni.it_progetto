@@ -1,13 +1,14 @@
 package DAO;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 
-public class BookingDAO implements DAO<Booking>{
+public class SubjectTeacherDAO implements DAO<SubjectTeacher>{
     @Override
-    public ArrayList<Booking> getAll() {
+    public ArrayList<SubjectTeacher> getAll() {
         Connection conn1 = null;
-        ArrayList<Booking> out = new ArrayList<>();
+        ArrayList<SubjectTeacher> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
@@ -16,11 +17,11 @@ public class BookingDAO implements DAO<Booking>{
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM PRENOTAZIONE ");
+            ResultSet rs = st.executeQuery("SELECT * FROM CORSO_DOCENTE");
             while (rs.next()) {
-                Booking b = new Booking(rs.getString("DATA_ORA"), rs.getString("STATO"), rs.getInt("ID_CORSO"), rs.getInt("ID_DOCENTE"), rs.getInt("ID_UTENTE"));
-                System.out.println(b);
-                out.add(b);
+                SubjectTeacher ass = new SubjectTeacher(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"));
+                System.out.println(ass);
+                out.add(ass);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -38,7 +39,7 @@ public class BookingDAO implements DAO<Booking>{
     }
 
     @Override
-    public void add(Booking b) {
+    public void add(SubjectTeacher ass) {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
@@ -46,14 +47,11 @@ public class BookingDAO implements DAO<Booking>{
                 System.out.println("Connected to the database");
             }
 
-            String query = "INSERT INTO PRENOTAZIONE (DATA_ORA, STATO, ID_CORSO, ID_DOCENTE, ID_UTENTE) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO CORSO_DOCENTE (ID_DOCENTE, ID_CORSO) VALUES (?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setString(1, b.getDateTime());
-            statement.setString(2, b.getState());
-            statement.setInt(3, b.getObjectId());
-            statement.setInt(4, b.getTeacherId());
-            statement.setInt(5, b.getUserId());
+            statement.setInt(1, ass.getTeacherID());
+            statement.setInt(2, ass.getSubjectID());
 
             int rowsInserted = statement.executeUpdate();
 
@@ -71,14 +69,7 @@ public class BookingDAO implements DAO<Booking>{
         }
     }
 
-    @Override
-    public void update(Booking elem) {
-
-    }
-
-    public void delete(int id)
-    {
-
+    public void delete(int id) {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
@@ -86,7 +77,7 @@ public class BookingDAO implements DAO<Booking>{
                 System.out.println("Connected to the database");
             }
 
-            String query = "DELETE FROM PRENOTAZIONE WHERE id=?";
+            String query = "DELETE FROM DISPONIBILITÀ WHERE id=?";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
@@ -107,4 +98,11 @@ public class BookingDAO implements DAO<Booking>{
         }
     }
 
+
+    @Override
+    public void update(int id, SubjectTeacher ass){
+
+    }
+
 }
+

@@ -19,7 +19,7 @@ public class TeacherDao implements DAO<Teacher> {
 
             ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
             while (rs.next()) {
-                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getInt("ID_CORSO"));
+                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
                 System.out.println(t);
                 out.add(t);
             }
@@ -47,14 +47,13 @@ public class TeacherDao implements DAO<Teacher> {
                 System.out.println("Connected to the database test");
             }
 
-            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL, PASSWORD, ID_CORSO) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = conn1.prepareStatement(query);
 
             statement.setString(1, t.getName());
             statement.setString(2, t.getSurname());
             statement.setString(3, t.getEmail());
             statement.setString(4, t.getPassword());
-            statement.setInt(5, t.getSubjectId());
 
             int rowsInserted = statement.executeUpdate();
         }
@@ -73,14 +72,12 @@ public class TeacherDao implements DAO<Teacher> {
     }
 
     @Override
-    public void update(Teacher t){
+    public void update(int id, Teacher t){
 
     }
 
     @Override
-    public void delete(int id)
-    {
-
+    public void delete(int id){
         Connection con = null;
         try {
             con = DriverManager.getConnection(url1, user, password);

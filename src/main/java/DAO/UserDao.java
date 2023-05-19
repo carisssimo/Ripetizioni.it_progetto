@@ -73,14 +73,12 @@ public class UserDao implements DAO<User>{
     }
 
     @Override
-    public void update(User ut){
+    public void update(int id, User u){
 
     }
 
     @Override
-    public void delete(int id)
-    {
-
+    public void delete(int id) {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url1, user, password);

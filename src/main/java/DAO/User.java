@@ -43,7 +43,7 @@ public class User {
                 "Cognome: " + cognome + ", \n" +
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n" +
-                "Ruolo: " + ruolo + ", \n" ;
+                "Ruolo: " + ruolo + ";\n" ;
 
     }
 }

@@ -6,14 +6,12 @@ public class Teacher {
     private String surname;
     private String email;
     private String password;
-    private int subjectId;
 
-    public Teacher(String name, String surname, String email, String password, int subjectId) {
+    public Teacher(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.subjectId = subjectId;
     }
 
     public String getName() {
@@ -32,16 +30,11 @@ public class Teacher {
         return password;
     }
 
-    public int getSubjectId() {
-        return subjectId;
-    }
-
     @Override
     public String toString(){
         return "Nome: " + name + ", \n" +
                 "Cognome: " + surname + ", \n" +
                 "Email: " + email + ", \n" +
-                "Password: " + password + ", \n"+
-                "ID corso: " + subjectId + ", \n";
+                "Password: " + password + "; \n";
     }
 }
