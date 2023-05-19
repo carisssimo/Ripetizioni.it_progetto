@@ -19,7 +19,7 @@ public class TeacherDao implements DAO<Teacher> {
 
             ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
             while (rs.next()) {
-                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
+                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getInt("ID_CORSO"));
                 System.out.println(t);
                 out.add(t);
             }
@@ -39,15 +39,16 @@ public class TeacherDao implements DAO<Teacher> {
     }
 
     @Override
-    public void add(Teacher t){
+    public int add(Teacher t){
         Connection conn1 = null;
+        int rowsInserted=0;
         try{
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
                 System.out.println("Connected to the database test");
             }
 
-            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL, PASSWORD, ID_CORSO) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn1.prepareStatement(query);
 
             statement.setString(1, t.getName());
@@ -55,7 +56,7 @@ public class TeacherDao implements DAO<Teacher> {
             statement.setString(3, t.getEmail());
             statement.setString(4, t.getPassword());
 
-            int rowsInserted = statement.executeUpdate();
+            rowsInserted = statement.executeUpdate();
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
@@ -69,6 +70,7 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
+        return rowsInserted;
     }
 
     @Override
@@ -77,8 +79,11 @@ public class TeacherDao implements DAO<Teacher> {
     }
 
     @Override
-    public void delete(int id){
+    public int delete(int id)
+    {
+
         Connection con = null;
+        int rowsInserted=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -89,7 +94,7 @@ public class TeacherDao implements DAO<Teacher> {
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, Integer.toString(id));
-            int rowsInserted = statement.executeUpdate();
+             rowsInserted = statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -104,5 +109,14 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
+        return rowsInserted;
+
     }
+
+    @Override
+    public Teacher get(int id) {
+        return null;
+    }
+
+
 }

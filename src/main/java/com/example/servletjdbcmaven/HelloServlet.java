@@ -1,6 +1,12 @@
 package com.example.servletjdbcmaven;
 
-import DAO.*;
+import DAO.UserDao;
+import DAO.User;
+import DAO.DAO;
+import DAO.Teacher;
+import DAO.TeacherDao;
+import DAO.Subject;
+import DAO.SubjectDao;
 import java.io.*;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -14,9 +20,8 @@ public class HelloServlet extends HttpServlet {
     private String message;
     private static DAO<User> userDao=new UserDao();
     private static DAO<Teacher> teacherDao=new TeacherDao();
+
     private static DAO<Subject> subjectDao=new SubjectDao();
-    private static DAO<Availability> availabilityDAO= new AvailabilityDAO();
-    private static DAO<SubjectTeacher> subjectTeacherDAO= new SubjectTeacherDAO();
 
     public void init() {
         message = "Hello World!";
@@ -35,7 +40,11 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
+        ArrayList<User> utenti = userDao.getAll();
 
+        ArrayList<Teacher> teachers = teacherDao.getAll();
+
+        ArrayList<Subject> subjects = subjectDao.getAll();
 
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -44,19 +53,19 @@ public class HelloServlet extends HttpServlet {
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
         if (action!=null) {
             switch (action) {
-                case "pageSign-in":
+                case "pageSign-in":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/sign-in.html");
                     break;
 
-                case "pageLogin":
+                case "pageLogin":    //al client torna la pagina di login
                     rd = ctx.getRequestDispatcher("/login.html");
                     break;
                 case "listDB":
                     ArrayList<User> users = userDao.getAll();
+
                     ArrayList<Teacher> teachers = teacherDao.getAll();
+
                     ArrayList<Subject> subjects = subjectDao.getAll();
-                    //ArrayList<Availability> availabilities = availabilityDAO.getAll();
-                    ArrayList<SubjectTeacher> associations = subjectTeacherDAO.getAll();
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -111,19 +120,30 @@ public class HelloServlet extends HttpServlet {
                         out.println("</html>");
                     }
                     break;
-                case "submitRegistration":
-                    String userName =request.getParameter("name");
-                    System.out.println(userName);
-                    String userSurname=request.getParameter("surname");
-                    String userPassword=request.getParameter("password");
-                    String userEmail=request.getParameter("email");
-                    String userRole= request.getParameter("role");
-                    User newUser=new User(userName,userSurname,userPassword,userEmail,userRole);
-                    userDao.add(newUser);
+                case "submitRegistration":  //vera e propria registrazione di un utente
+
+                    submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+                    break;
+
+                case "submitLogin":
+                   // submitLogin(request.getParameter(""),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+                    //submitLogin( String userPassword, String userEmail, String userRole)
                     break;
                 default:
             }
             rd.forward(request, response);
         }
+    }
+
+    private void submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
+        Service s= new Service();
+        String crptpassw=s.encryptMD5(userPassword);
+        User newUser=new User(userName, userSurname, userEmail, crptpassw, userRole);
+        userDao.add(newUser);
+    }
+
+    private void submitLogin( String userPassword, String userEmail, String userRole) {
+
+        //userDao.add(newUser);
     }
 }

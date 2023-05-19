@@ -19,11 +19,12 @@ public interface DAO<T> {
 
     ArrayList<T> getAll();
 
-    void add(T elem);
+
+    int add(T elem);
 
     void update(int id, T elem);
 
-    void delete(int id);
+    int delete(int id);
 
     T get(String ... strings);
 
