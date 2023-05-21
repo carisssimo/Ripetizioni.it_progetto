@@ -1,12 +1,7 @@
 package com.example.servletjdbcmaven;
 
-import DAO.UserDao;
-import DAO.User;
-import DAO.DAO;
-import DAO.Teacher;
-import DAO.TeacherDao;
-import DAO.Subject;
-import DAO.SubjectDao;
+import Crypt.Service;
+import DAO.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -18,10 +13,11 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
-    private static DAO<User> userDao=new UserDao();
-    private static DAO<Teacher> teacherDao=new TeacherDao();
-
-    private static DAO<Subject> subjectDao=new SubjectDao();
+    private static DAO<User> userDao = new UserDao();
+    private static DAO<Teacher> teacherDao = new TeacherDao();
+    private static DAO<Subject> subjectDao = new SubjectDao();
+    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAO();
+    private static DAO<Availability> availabilityDao = new AvailabilityDAO();
 
     public void init() {
         message = "Hello World!";
@@ -40,11 +36,6 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
-        ArrayList<User> utenti = userDao.getAll();
-
-        ArrayList<Teacher> teachers = teacherDao.getAll();
-
-        ArrayList<Subject> subjects = subjectDao.getAll();
 
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -62,10 +53,10 @@ public class HelloServlet extends HttpServlet {
                     break;
                 case "listDB":
                     ArrayList<User> users = userDao.getAll();
-
                     ArrayList<Teacher> teachers = teacherDao.getAll();
-
                     ArrayList<Subject> subjects = subjectDao.getAll();
+                    ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
+                    //ArrayList<Availability> availabilities = availabilityDao.getAll();
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -109,7 +100,7 @@ public class HelloServlet extends HttpServlet {
                         //cancellazione da parte di admin
                         //availabilityDAO.delete(1);
 
-                        ArrayList<Availability> availabilities = availabilityDAO.getAll();
+                        ArrayList<Availability> availabilities = availabilityDao.getAll();
                         out.println("<h2>DISPONIBILITÀ</h2>");
                         for(Availability a: availabilities){
                             out.println("<p> " + a + "</p>");

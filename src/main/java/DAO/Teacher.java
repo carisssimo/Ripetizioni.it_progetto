@@ -5,13 +5,22 @@ public class Teacher {
     private String name;
     private String surname;
     private String email;
-    private String password;
 
-    public Teacher(String name, String surname, String email, String password) {
+    public Teacher(String name, String surname, String email) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password = password;
+    }
+
+    public Teacher(int teacherId, String name, String surname, String email) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
     }
 
     public String getName() {
@@ -26,15 +35,11 @@ public class Teacher {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     public String toString(){
-        return "Nome: " + name + ", \n" +
+        return "ID docente: " + teacherId + ",\n" +
+                "Nome: " + name + ", \n" +
                 "Cognome: " + surname + ", \n" +
-                "Email: " + email + ", \n" +
-                "Password: " + password + "; \n";
+                "Email: " + email + "; \n";
     }
 }

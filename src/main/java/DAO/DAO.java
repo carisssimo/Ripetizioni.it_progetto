@@ -19,13 +19,13 @@ public interface DAO<T> {
 
     ArrayList<T> getAll();
 
-
     int add(T elem);
 
-    void update(int id, T elem);
+    int update(T elem, String ... args);
 
     int delete(int id);
 
-    T get(String ... strings);
+    T get(String ... args);
 
+    ArrayList<T> getByParameters(String ... args);
 }
