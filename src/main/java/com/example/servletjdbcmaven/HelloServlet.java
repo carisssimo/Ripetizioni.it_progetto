@@ -13,11 +13,11 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
+    private static DAO<Teacher> teacherDao = new TeacherDaoImpl();
+    private static DAO<Subject> subjectDao = new SubjectDaoImpl();
+    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
+    private static DAO<Availability> availabilityDao = new AvailabilityDAOImpl();
     private static UserDAOImpl userDao = new UserDAOImpl();
-    private static TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-    private static SubjectDaoImpl subjectDao = new SubjectDaoImpl();
-    private static SubjectTeacherDAOImpl subjectTeacherDao = new SubjectTeacherDAOImpl();
-    private static AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
 
     public void init() {
         message = "Hello World!";
@@ -117,9 +117,8 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
-                   // submitLogin(request.getParameter(""),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+                   submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
                     //submitLogin( String userPassword, String userEmail, String userRole)
-                    submitLogin(request.getParameter("email"),request.getParameter("password"),request.getParameter("role"));
                     break;
                 default:
             }
@@ -135,7 +134,19 @@ public class HelloServlet extends HttpServlet {
     }
 
     private void submitLogin( String userEmail,String userPassword, String userRole) {
-        User u= userDao.getByEmail(userEmail);
+        Service s= new Service();
+        User u= userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
+        if(s.checkMD5(u.getPassword(),userPassword))
+        {
+            //LOGGED
+            System.out.println("---------logged");
+        }
+        else
+        {
+            //NOT LOGGED
+            System.out.println("---------not logged");
+        }
+
         //userDao.add(newUser);
     }
 }

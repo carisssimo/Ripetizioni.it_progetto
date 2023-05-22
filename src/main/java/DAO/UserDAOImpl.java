@@ -18,7 +18,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
 
             ResultSet rs = st.executeQuery("SELECT * FROM UTENTE ");
             while (rs.next()) {
-                User u = new User(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
+                User u = new User(rs.getInt("ID_UTENTE"),rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
                 System.out.println(u);
                 out.add(u);
             }
@@ -73,43 +73,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
         return rowsInserted;
     }
 
-    /*@Override
-    public int update(User u, String ... args){
-        Connection con = null;
-        int rowsUpdated = 0;
-        try {
-            con = DriverManager.getConnection(url1, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database");
-            }
 
-            String query = "UPDATE UTENTE SET NOME = ?, COGNOME = ?, EMAIL = ?, PASSWORD = ?, RUOLO = ? WHERE ID_UTENTE = ?";
-            PreparedStatement statement = con.prepareStatement(query);
-
-            statement.setString(1, args[0]);
-            statement.setString(2, args[1]);
-            statement.setString(3, args[2]);
-            statement.setString(4, args[3]);
-            statement.setString(5, args[4]);
-            statement.setInt(6, u.getUserID());
-
-            rowsUpdated = statement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-
-        return rowsUpdated;
-    }*/
 
     @Override
     public int delete(int id){

@@ -19,7 +19,7 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
 
             ResultSet rs = st.executeQuery("SELECT * FROM CORSO_DOCENTE");
             while (rs.next()) {
-                SubjectTeacher ass = new SubjectTeacher(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"));
+                SubjectTeacher ass = new SubjectTeacher(rs.getInt("ID_CORSO_DOCENTE"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"));
                 System.out.println(ass);
                 out.add(ass);
             }
