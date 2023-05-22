@@ -13,10 +13,10 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
-    private static DAO<User> userDao = new UserDao();
-    private static DAO<Teacher> teacherDao = new TeacherDao();
-    private static DAO<Subject> subjectDao = new SubjectDao();
-    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAO();
+    private static DAO<User> userDao = new UserDaoImpl();
+    private static DAO<Teacher> teacherDao = new TeacherDaoImpl();
+    private static DAO<Subject> subjectDao = new SubjectDaoImpl();
+    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static DAO<Availability> availabilityDao = new AvailabilityDAO();
 
     public void init() {

@@ -3,24 +3,24 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class TeacherDao implements DAO<Teacher> {
+public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
     @Override
-    public ArrayList<Teacher> getAll() {
+    public ArrayList<Availability> getAll() {
         Connection conn1 = null;
-        ArrayList<Teacher> out = new ArrayList<>();
+        ArrayList<Availability> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("Connected to the database test");
+                System.out.println("UserDAO Connected to the database test");
             }
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
+            ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA");
             while (rs.next()) {
-                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
-                System.out.println(t);
-                out.add(t);
+                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                System.out.println(a);
+                out.add(a);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -34,45 +34,61 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
+
         return out;
     }
 
     @Override
-    public int add(Teacher t){
-        Connection conn1 = null;
+    public int add(Availability a) {
+        Connection con = null;
         int rowsInserted = 0;
-        try{
-            conn1 = DriverManager.getConnection(url1, user, password);
-            if (conn1 != null) {
-                System.out.println("Connected to the database test");
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
             }
 
-            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL) VALUES (?, ?, ?)";
-            PreparedStatement statement = conn1.prepareStatement(query);
+            if(a.getUserId() > 0) {
+                String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, ID_UTENTE, GIORNO_ORA, PRENOTAZIONE) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setString(1, t.getName());
-            statement.setString(2, t.getSurname());
-            statement.setString(3, t.getEmail());
+                statement.setInt(1, a.getTeacherId());
+                statement.setInt(2, a.getSubjectId());
+                statement.setInt(3, a.getUserId());
+                statement.setString(4, a.getDayTime());
+                statement.setString(5, a.getBooking());
 
-            rowsInserted = statement.executeUpdate();
-        }
-        catch (SQLException e){
+                rowsInserted = statement.executeUpdate();
+            }
+            else{ //aggiunta di una riga in disponibilità fattibile solo da admin (utente può solo fare update se prenota)
+                String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, GIORNO_ORA) VALUES (?, ?, ?)";
+                PreparedStatement statement = con.prepareStatement(query);
+
+                statement.setInt(1, a.getTeacherId());
+                statement.setInt(2, a.getSubjectId());
+                statement.setString(3, a.getDayTime());
+
+                rowsInserted = statement.executeUpdate();
+            }
+
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         finally {
-            if (conn1 != null) {
+            if (con != null) {
                 try {
-                    conn1.close();
+                    con.close();
                 } catch (SQLException e2) {
                     System.out.println(e2.getMessage());
                 }
             }
         }
+
         return rowsInserted;
     }
 
     @Override
-    public int update(Teacher t, String ... args){
+    public int update(Availability a, String ... args) {
         Connection con = null;
         int rowsUpdated = 0;
         try {
@@ -81,13 +97,15 @@ public class TeacherDao implements DAO<Teacher> {
                 System.out.println("Connected to the database");
             }
 
-            String query = "UPDATE UTENTE SET NOME = ?, COGNOME = ?, EMAIL = ? WHERE ID_UTENTE = ?";
+            String query = "UPDATE DISPONIBILITA SET ID_DOCENTE = ?, ID_CORSO = ?, ID_UTENTE = ?, GIORNO_ORA = ?, PRENOTAZIONE = ? WHERE ID_DISPONIBILITA = ?";
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setString(1, args[0]);
-            statement.setString(2, args[1]);
-            statement.setString(3, args[2]);
-            statement.setInt(4, t.getTeacherId());
+            statement.setInt(1, a.getTeacherId());
+            statement.setInt(2, a.getSubjectId());
+            statement.setInt(3, a.getUserId());
+            statement.setString(4, a.getDayTime());
+            statement.setString(5, a.getBooking());
+            statement.setInt(6, a.getAvailabilityID());
 
             rowsUpdated = statement.executeUpdate();
 
@@ -110,17 +128,17 @@ public class TeacherDao implements DAO<Teacher> {
     @Override
     public int delete(int id) {
         Connection con = null;
-        int rowsDeleted=0;
+        int rowsDeleted = 0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
 
-            String query = "DELETE FROM DOCENTE WHERE ID_DOCENTE=?";
+            String query = "DELETE FROM DISPONIBILITA WHERE DISPONIBILITA.ID_DISPONIBILITA=?";
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setString(1, Integer.toString(id));
+            statement.setInt(1, id);
 
             rowsDeleted = statement.executeUpdate();
 
@@ -140,24 +158,26 @@ public class TeacherDao implements DAO<Teacher> {
         return rowsDeleted;
     }
 
-    @Override
-    public Teacher get(String ... args) {
+    public Availability get(String ... args){
         Connection con = null;
-        Teacher t = null;
+        Availability av = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
 
-            String sql = "SELECT * FROM DOCENTE WHERE EMAIL = ?";
+            String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND ID_CORSO = ? AND GIORNO_ORA = ?";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, args[0]);
+
+            statement.setInt(1, Integer.parseInt(args[0]));
+            statement.setInt(2, Integer.parseInt(args[1]));
+            statement.setString(3, args[2]);
 
             ResultSet rs = statement.executeQuery();
 
-            t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
-            System.out.println(t);
+            av = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+            System.out.println(av);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -170,31 +190,32 @@ public class TeacherDao implements DAO<Teacher> {
                 }
             }
         }
-        return t;
+
+        return av;
     }
 
     @Override
-    public ArrayList<Teacher> getByParameters(String ... args){
+    public ArrayList<Availability> getByParameters(String... args) {
         Connection conn1 = null;
-        ArrayList<Teacher> out = new ArrayList<>();
+        ArrayList<Availability> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM DOCENTE WHERE NOME = ? AND COGNOME = ? AND EMAIL = ?";
+            String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND ID_CORSO = ? AND GIORNO_ORA = ?";
             PreparedStatement statement = conn1.prepareStatement(sql);
-            statement.setString(1, args[0]);
-            statement.setString(2, args[1]);
+            statement.setInt(1, Integer.parseInt(args[0]));
+            statement.setInt(2, Integer.parseInt(args[1]));
             statement.setString(3, args[2]);
 
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                Teacher t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
-                System.out.println(t);
-                out.add(t);
+                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                System.out.println(a);
+                out.add(a);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

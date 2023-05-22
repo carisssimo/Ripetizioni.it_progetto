@@ -4,9 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public interface DAO<T> {
-    static final String url1 = "jdbc:mysql://localhost:8889/test_ripetizioni";
+    static final String url1 = "jdbc:mysql://localhost:3306/test_ripetizioni";
     static final String user = "root";
-    static final String password = "root";
+    static final String password = "";
 
     public static void registerDriver() {
         try {
@@ -21,11 +21,11 @@ public interface DAO<T> {
 
     int add(T elem);
 
-    int update(T elem, String ... args);
+
 
     int delete(int id);
 
-    T get(String ... args);
 
-    ArrayList<T> getByParameters(String ... args);
+
+
 }

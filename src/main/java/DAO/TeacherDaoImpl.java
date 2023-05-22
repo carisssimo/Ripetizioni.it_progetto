@@ -3,11 +3,11 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SubjectDao implements DAO<Subject> {
+public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
     @Override
-    public ArrayList<Subject> getAll() {
+    public ArrayList<Teacher> getAll() {
         Connection conn1 = null;
-        ArrayList<Subject> out = new ArrayList<>();
+        ArrayList<Teacher> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
@@ -16,15 +16,16 @@ public class SubjectDao implements DAO<Subject> {
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM CORSO ");
+            ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
             while (rs.next()) {
-                Subject s = new Subject( rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
-                System.out.println(s);
-                out.add(s);
+                Teacher t  = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+                System.out.println(t);
+                out.add(t);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
+        }
+        finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -33,44 +34,45 @@ public class SubjectDao implements DAO<Subject> {
                 }
             }
         }
-
         return out;
     }
 
     @Override
-    public int add(Subject s) {
-        Connection con = null;
+    public int add(Teacher t){
+        Connection conn1 = null;
         int rowsInserted = 0;
-        try {
-            con = DriverManager.getConnection(url1, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database");
+        try{
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("Connected to the database test");
             }
 
-            String query = "INSERT INTO CORSO (NOME_CORSO, DESCRIZIONE) VALUES (?, ?)";
-            PreparedStatement statement = con.prepareStatement(query);
+            String query = "INSERT INTO DOCENTE(NOME, COGNOME, EMAIL) VALUES (?, ?, ?)";
+            PreparedStatement statement = conn1.prepareStatement(query);
 
-            statement.setString(1, s.getSubjectName());
-            statement.setString(2, s.getDescription());
+            statement.setString(1, t.getName());
+            statement.setString(2, t.getSurname());
+            statement.setString(3, t.getEmail());
 
             rowsInserted = statement.executeUpdate();
-
-        } catch (SQLException e) {
+        }
+        catch (SQLException e){
             System.out.println(e.getMessage());
-        } finally {
-            if (con != null) {
+        }
+        finally {
+            if (conn1 != null) {
                 try {
-                    con.close();
+                    conn1.close();
                 } catch (SQLException e2) {
                     System.out.println(e2.getMessage());
                 }
             }
         }
-
         return rowsInserted;
     }
-    @Override
-    public int update(Subject s, String ... args) {
+
+    /*@Override
+    public int update(Teacher t, String ... args){
         Connection con = null;
         int rowsUpdated = 0;
         try {
@@ -79,12 +81,13 @@ public class SubjectDao implements DAO<Subject> {
                 System.out.println("Connected to the database");
             }
 
-            String query = "UPDATE CORSO SET NOME_CORSO = ?, DESCRIZIONE = ? WHERE ID_CORSO = ?";
+            String query = "UPDATE UTENTE SET NOME = ?, COGNOME = ?, EMAIL = ? WHERE ID_UTENTE = ?";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1, args[0]);
             statement.setString(2, args[1]);
-            statement.setInt(3, s.getSubjectID());
+            statement.setString(3, args[2]);
+            statement.setInt(4, t.getTeacherId());
 
             rowsUpdated = statement.executeUpdate();
 
@@ -102,7 +105,7 @@ public class SubjectDao implements DAO<Subject> {
         }
 
         return rowsUpdated;
-    }
+    }*/
 
     @Override
     public int delete(int id) {
@@ -114,10 +117,10 @@ public class SubjectDao implements DAO<Subject> {
                 System.out.println("Connected to the database");
             }
 
-            String query = "DELETE FROM CORSO WHERE ID_DOCENTE = ?";
+            String query = "DELETE FROM DOCENTE WHERE ID_DOCENTE=?";
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setInt(1, id);
+            statement.setString(1, Integer.toString(id));
 
             rowsDeleted = statement.executeUpdate();
 
@@ -137,24 +140,24 @@ public class SubjectDao implements DAO<Subject> {
         return rowsDeleted;
     }
 
-    @Override
-    public Subject get(String ... args){
+    /*@Override
+    public Teacher get(String ... args) {
         Connection con = null;
-        Subject s = null;
+        Teacher t = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
 
-            String sql = "SELECT * FROM CORSO WHERE NOME_CORSO = ?";
+            String sql = "SELECT * FROM DOCENTE WHERE EMAIL = ?";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, args[0]);
 
             ResultSet rs = statement.executeQuery();
 
-            s = new Subject(rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
-            System.out.println(s);
+            t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+            System.out.println(t);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -167,19 +170,20 @@ public class SubjectDao implements DAO<Subject> {
                 }
             }
         }
-        return s;
-    }
+        return t;
+    }*/
 
-    public ArrayList<Subject> getByParameters(String ... args){
+    /*@Override
+    public ArrayList<Teacher> getByParameters(String ... args){
         Connection conn1 = null;
-        ArrayList<Subject> out = new ArrayList<>();
+        ArrayList<Teacher> out = new ArrayList<>();
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM DOCENTE WHERE NOME = ?, COGNOME = ?, EMAIL = ?";
+            String sql = "SELECT * FROM DOCENTE WHERE NOME = ? AND COGNOME = ? AND EMAIL = ?";
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setString(1, args[0]);
             statement.setString(2, args[1]);
@@ -188,9 +192,9 @@ public class SubjectDao implements DAO<Subject> {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                Subject s = new Subject(rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
-                System.out.println(s);
-                out.add(s);
+                Teacher t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+                System.out.println(t);
+                out.add(t);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -204,7 +208,6 @@ public class SubjectDao implements DAO<Subject> {
                 }
             }
         }
-
         return out;
-    }
+    }*/
 }

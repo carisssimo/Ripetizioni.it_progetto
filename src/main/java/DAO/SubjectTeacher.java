@@ -1,6 +1,6 @@
 package DAO;
 
-public class SubjectTeacher {
+public class SubjectTeacher  {
     private int subjectTeacherID;
     private int teacherID;
     private int subjectID;
