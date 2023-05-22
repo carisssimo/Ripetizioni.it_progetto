@@ -3,7 +3,7 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class UserDaoImpl implements DAO<User>,UserDAO{
+public class UserDAOImpl implements DAO<User>,UserDAO{
     @Override
     public ArrayList<User> getAll() {
         Connection conn1 = null;
@@ -215,3 +215,5 @@ public class UserDaoImpl implements DAO<User>,UserDAO{
         return out;
     }*/
 }
+
+
