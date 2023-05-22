@@ -116,16 +116,16 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
                 System.out.println("UserDAO Connected to the database test");
             }
 
-
-            String query = "SELECT FROM UTENTE WHERE EMAIL=?";
+            String query = "SELECT* FROM UTENTE WHERE EMAIL=?";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setString(1,email);
 
             ResultSet rs = statement.executeQuery();
+            rs.next();
 
             /*User u = new User(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
-           */ System.out.println(u);
+           */
            u.setName(rs.getString("NOME"));
            u.setSurname(rs.getString("COGNOME"));
            u.setEmail(rs.getString("EMAIL"));
@@ -150,6 +150,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
                 }
             }
         }
+        System.out.println(u);
         return u;
     }
 

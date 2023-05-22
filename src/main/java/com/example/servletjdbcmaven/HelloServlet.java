@@ -117,6 +117,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
+                    System.out.println("submitLogin");
                    submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
                     //submitLogin( String userPassword, String userEmail, String userRole)
                     break;
@@ -134,6 +135,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     private void submitLogin( String userEmail,String userPassword, String userRole) {
+
         Service s= new Service();
         User u= userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
         if(s.checkMD5(u.getPassword(),userPassword))
