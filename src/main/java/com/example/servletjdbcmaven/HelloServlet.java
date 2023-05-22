@@ -13,11 +13,11 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
-    private static DAO<User> userDao = new UserDaoImpl();
-    private static DAO<Teacher> teacherDao = new TeacherDaoImpl();
-    private static DAO<Subject> subjectDao = new SubjectDaoImpl();
-    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
-    private static DAO<Availability> availabilityDao = new AvailabilityDAO();
+    private static UserDAOImpl userDao = new UserDAOImpl();
+    private static TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+    private static SubjectDaoImpl subjectDao = new SubjectDaoImpl();
+    private static SubjectTeacherDAOImpl subjectTeacherDao = new SubjectTeacherDAOImpl();
+    private static AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
 
     public void init() {
         message = "Hello World!";
@@ -119,6 +119,7 @@ public class HelloServlet extends HttpServlet {
                 case "submitLogin":
                    // submitLogin(request.getParameter(""),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
                     //submitLogin( String userPassword, String userEmail, String userRole)
+                    submitLogin(request.getParameter("email"),request.getParameter("password"),request.getParameter("role"));
                     break;
                 default:
             }
@@ -133,8 +134,8 @@ public class HelloServlet extends HttpServlet {
         userDao.add(newUser);
     }
 
-    private void submitLogin( String userPassword, String userEmail, String userRole) {
-
+    private void submitLogin( String userEmail,String userPassword, String userRole) {
+        User u= userDao.getByEmail(userEmail);
         //userDao.add(newUser);
     }
 }

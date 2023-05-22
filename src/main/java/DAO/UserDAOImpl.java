@@ -3,7 +3,7 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class UserDaoImpl implements DAO<User>,UserDAO{
+public class UserDAOImpl implements DAO<User>,UserDAO{
     @Override
     public ArrayList<User> getAll() {
         Connection conn1 = null;
@@ -140,6 +140,49 @@ public class UserDaoImpl implements DAO<User>,UserDAO{
             }
         }
         return rowsDeleted;
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        Connection con = null;
+        User u= new User();
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("UserDAO Connected to the database test");
+            }
+
+
+            String query = "SELECT FROM UTENTE WHERE EMAIL=?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1,email);
+
+            ResultSet rs = statement.executeQuery();
+
+            /*User u = new User(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
+           */ System.out.println(u);
+           u.setName(rs.getString("NOME"));
+           u.setSurname(rs.getString("COGNOME"));
+           u.setEmail(rs.getString("EMAIL"));
+
+
+
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return null;
     }
 
     /*@Override

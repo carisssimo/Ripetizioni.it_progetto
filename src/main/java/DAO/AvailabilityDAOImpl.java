@@ -87,7 +87,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return rowsInserted;
     }
 
-    @Override
+    /*@Override
     public int update(Availability a, String ... args) {
         Connection con = null;
         int rowsUpdated = 0;
@@ -123,7 +123,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         }
 
         return rowsUpdated;
-    }
+    }*/
 
     @Override
     public int delete(int id) {
@@ -194,7 +194,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return av;
     }
 
-    @Override
+    /*@Override
     public ArrayList<Availability> getByParameters(String... args) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
@@ -230,5 +230,5 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         }
         return out;
-    }
+    }*/
 }

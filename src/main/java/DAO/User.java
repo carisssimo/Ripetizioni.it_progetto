@@ -24,6 +24,13 @@ public class User {
         this.password = password;
         this.role = role;
     }
+    public User(){
+        this.name = null;
+        this.surname =null;
+        this.email = null;
+        this.password = null;
+        this.role = null;
+    }
 
     public int getUserID(){
         return userID;
@@ -57,5 +64,29 @@ public class User {
                 "Email: " + email + ", \n" +
                 "Password: " + password + ", \n" +
                 "Ruolo: " + role + ";\n" ;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
