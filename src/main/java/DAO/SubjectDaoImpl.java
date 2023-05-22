@@ -3,7 +3,7 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SubjectDaoImpl implements DAO<Subject>,SubjectDAO {
+public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
     @Override
     public ArrayList<Subject> getAll() {
 
@@ -38,12 +38,36 @@ public class SubjectDaoImpl implements DAO<Subject>,SubjectDAO {
 
     }
 
-
+    @Override
+    public int add(Subject s) {
+        Connection con = null;
+        int rowsInserted=0;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
+            }
+            String query = "INSERT INTO CORSO (NOME_CORSO, DESCRIZIONE) VALUES (?, ?)";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, s.getSubjectName());
+            statement.setString(2, s.getDescription());
+            rowsInserted = statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return rowsInserted;
+    }
 
     @Override
-    public int delete(int id)
-    {
-
+    public int delete(int id) {
         Connection con = null;
         int rowsInserted=0;
         try {
@@ -74,23 +98,25 @@ public class SubjectDaoImpl implements DAO<Subject>,SubjectDAO {
         return rowsInserted;
     }
 
-
-
-
     @Override
-    public int add(Subject s) {
+    public Subject getByName(String subjectName){
         Connection con = null;
-        int rowsInserted=0;
+        Subject s = null;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
-            String query = "INSERT INTO CORSO (NOME_CORSO, DESCRIZIONE) VALUES (?, ?)";
-            PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, s.getSubjectName());
-            statement.setString(2, s.getDescription());
-            rowsInserted = statement.executeUpdate();
+
+            String sql = "SELECT * FROM CORSO WHERE NOME_CORSO = ?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, subjectName);
+
+            ResultSet rs = statement.executeQuery();
+
+            s = new Subject(rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
+            System.out.println(s);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -102,6 +128,6 @@ public class SubjectDaoImpl implements DAO<Subject>,SubjectDAO {
                 }
             }
         }
-        return rowsInserted;
+        return s;
     }
 }

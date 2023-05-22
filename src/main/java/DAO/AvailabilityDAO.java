@@ -1,13 +1,14 @@
 package DAO;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public interface AvailabilityDAO {
-    ArrayList<Availability> getAll() ;
-    int add(Availability a);
-
-    int delete(int id) ;
-
-
+    int updateUser(Availability a, int userId);
+    int updateBookingState(Availability a, String state);
+    Availability getByTeacherSubjectUser(int teacherId, int subjectId, String dayTime);
+    ArrayList<Availability> getByTeacherId(int teacherId);
+    ArrayList<Availability> getBySubjectId(int subjectId);
+    ArrayList<Availability> getByUserId(int userId);
+    ArrayList<Availability> getByDayTime(String dayTime);
+    ArrayList<Availability> getByBookingState(String bookingState);
 }
