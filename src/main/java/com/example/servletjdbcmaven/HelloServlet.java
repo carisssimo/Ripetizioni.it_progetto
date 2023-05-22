@@ -15,9 +15,6 @@ public class HelloServlet extends HttpServlet {
     private String message;
     private static DAO<User> userDao = new UserDao();
     private static DAO<Teacher> teacherDao = new TeacherDao();
-    private static DAO<Subject> subjectDao = new SubjectDao();
-    private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAO();
-    private static DAO<Availability> availabilityDao = new AvailabilityDAO();
 
     public void init() {
         message = "Hello World!";
@@ -52,11 +49,8 @@ public class HelloServlet extends HttpServlet {
                     rd = ctx.getRequestDispatcher("/login.html");
                     break;
                 case "listDB":
-                    ArrayList<User> users = userDao.getAll();
-                    ArrayList<Teacher> teachers = teacherDao.getAll();
-                    ArrayList<Subject> subjects = subjectDao.getAll();
-                    ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
-                    //ArrayList<Availability> availabilities = availabilityDao.getAll();
+                    //ArrayList<User> users = userDao.getAll();
+                    //ArrayList<Teacher> teachers = teacherDao.getAll();
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -66,25 +60,53 @@ public class HelloServlet extends HttpServlet {
                         out.println("</head>");
                         out.println("<body>");
                         out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+
+                        //aggiunta di un utente
+                        //User us = new User("ProvaNome", "ProvaCognome", "ProvaEmail@gmail.com", "ProvaPW", "Utente");
+                        //System.out.println("res add: " + userDao.add(us));
+
+                        ArrayList<User> users = userDao.getAll();
+
                         out.println("<h2>UTENTI:</h2>");
                         for (User u: users) {
                             out.println("<p>" + u + "</p>");
                         }
+/*
+                        out.println("<h3> TEST UTENTI </h3>");
+                        //get di un utente passando la mail
+                        User resGet = userDao.get("lapolapo@gmail.com");
+                        out.println("<p> " + resGet + "</p>");
+
+                        //update dei dati di un utente
+                        User resGet = userDao.get("lapolapo@gmail.com");
+                        out.println("<p> " + resGet + "</p>");
+                        System.out.println("res update: " + userDao.update(resGet, "Lapo", "Elkann", "lapoelkann@modificato.it", "cocaina", "Utente"));
+                        out.println("<p>Dopo update: " + resGet + "</p>");
+
+                        //delete di un utente
+                        out.println("res delete: " + userDao.delete(4));
+
+                        //restituzione di righe che soddisfano le condizioni passate come parametro
+                        ArrayList<User> usersTestParameters = userDao.getByParameters("Amministratore");
+                        for (User u: usersTestParameters) {
+                            out.println("<p>" + u + "</p>");
+                        }
+*/
+                        //aggiunta di un docente
+                        //Teacher tc = new Teacher("ProvaNome", "ProvaCognome", "ProvaEmail@gmail.com");
+                        //System.out.println("res add: " + teacherDao.add(tc));
+
+                        ArrayList<Teacher> teachers = teacherDao.getAll();
 
                         out.println("<h2>DOCENTI:</h2>");
                         for (Teacher t: teachers) {
                             out.println("<p>" + t + "</p>");
                         }
 
-                        out.println("<h2>CORSI:</h2>");
-                        for (Subject s: subjects) {
-                            out.println("<p>" + s + "</p>");
-                        }
-
-                        out.println("<h2>ASSOCIAZIONE CORSO-DOCENTE</h2>");
-                        for(SubjectTeacher ass: associations){
-                            out.println("<p> " + ass + "</p>");
-                        }
+                        out.println("<h3> TEST DOCENTI </h3>");
+                        //get di un docente passando la mail
+                        Teacher resGet = teacherDao.get("giusesimo@gmail.com");
+                        out.println("<p> " + resGet + "</p>");
 
                         //aggiunta availability da parte di admin
                         //Availability av = new Availability(3, 4, -1, "Giovedì 14:00 - 15:00", true, null);
@@ -100,11 +122,6 @@ public class HelloServlet extends HttpServlet {
                         //cancellazione da parte di admin
                         //availabilityDAO.delete(1);
 
-                        ArrayList<Availability> availabilities = availabilityDao.getAll();
-                        out.println("<h2>DISPONIBILITÀ</h2>");
-                        for(Availability a: availabilities){
-                            out.println("<p> " + a + "</p>");
-                        }
 
                         out.println("<p>FINE!</p>");
                         out.println("</body>");

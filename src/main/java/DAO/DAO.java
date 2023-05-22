@@ -21,11 +21,11 @@ public interface DAO<T> {
 
     int add(T elem);
 
+    T get(String ... args);
+
     int update(T elem, String ... args);
 
     int delete(int id);
-
-    T get(String ... args);
 
     ArrayList<T> getByParameters(String ... args);
 }

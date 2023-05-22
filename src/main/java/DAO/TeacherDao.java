@@ -35,7 +35,7 @@ public class TeacherDao implements DAO<Teacher> {
             }
         }
         return out;
-    }
+    } //ok
 
     @Override
     public int add(Teacher t){
@@ -69,7 +69,41 @@ public class TeacherDao implements DAO<Teacher> {
             }
         }
         return rowsInserted;
-    }
+    } //ok
+
+    @Override
+    public Teacher get(String ... args) {
+        Connection con = null;
+        Teacher t = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("TeacherDao Connected to the database -> method: get(String ... args)");
+            }
+
+            String sql = "SELECT * FROM DOCENTE WHERE EMAIL = ?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, args[0]);
+
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()){
+                t = new Teacher(rs.getInt("ID_DOCENTE"), rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return t;
+    } //ok (salva l'id con il secondo costruttore in Teacher)
 
     @Override
     public int update(Teacher t, String ... args){
@@ -138,39 +172,6 @@ public class TeacherDao implements DAO<Teacher> {
         }
 
         return rowsDeleted;
-    }
-
-    @Override
-    public Teacher get(String ... args) {
-        Connection con = null;
-        Teacher t = null;
-        try {
-            con = DriverManager.getConnection(url1, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database");
-            }
-
-            String sql = "SELECT * FROM DOCENTE WHERE EMAIL = ?";
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, args[0]);
-
-            ResultSet rs = statement.executeQuery();
-
-            t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
-            System.out.println(t);
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-        return t;
     }
 
     @Override

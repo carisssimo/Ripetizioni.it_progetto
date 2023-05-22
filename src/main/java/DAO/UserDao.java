@@ -11,12 +11,12 @@ public class UserDao implements DAO<User>{
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("UserDAO Connected to the database test");
+                System.out.println("UserDAO Connected to the database test -> method: getAll()");
             }
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM UTENTE ");
+            ResultSet rs = st.executeQuery("SELECT * FROM UTENTE");
             while (rs.next()) {
                 User u = new User(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
                 System.out.println(u);
@@ -35,7 +35,7 @@ public class UserDao implements DAO<User>{
             }
         }
         return out;
-    }
+    } //ok
 
     @Override
     public int add(User u){
@@ -44,7 +44,7 @@ public class UserDao implements DAO<User>{
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("UserDao Connected to the database -> method: add(User u)");
             }
 
             String query = "INSERT INTO UTENTE (NOME, COGNOME, EMAIL, PASSWORD, RUOLO) VALUES (?, ?, ?, ?, ?)";
@@ -71,7 +71,41 @@ public class UserDao implements DAO<User>{
             }
         }
         return rowsInserted;
-    }
+    } //ok
+
+    @Override
+    public User get(String ... args) {
+        Connection con = null;
+        User u = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("UserDao Connected to the database -> method: get(String ... args)");
+            }
+
+            String sql = "SELECT * FROM UTENTE WHERE EMAIL = ?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, args[0]);
+
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()){
+                u = new User(rs.getInt("ID_UTENTE"), rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return u;
+    } //ok (salva l'id con il secondo costruttore in User)
 
     @Override
     public int update(User u, String ... args){
@@ -80,7 +114,7 @@ public class UserDao implements DAO<User>{
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("UserDao Connected to the database -> method: update(User u, String ... args");
             }
 
             String query = "UPDATE UTENTE SET NOME = ?, COGNOME = ?, EMAIL = ?, PASSWORD = ?, RUOLO = ? WHERE ID_UTENTE = ?";
@@ -109,7 +143,7 @@ public class UserDao implements DAO<User>{
         }
 
         return rowsUpdated;
-    }
+    } // ok ma con bug strano sulla stampa
 
     @Override
     public int delete(int id){
@@ -140,40 +174,7 @@ public class UserDao implements DAO<User>{
             }
         }
         return rowsDeleted;
-    }
-
-    @Override
-    public User get(String ... args) {
-        Connection con = null;
-        User u = null;
-        try {
-            con = DriverManager.getConnection(url1, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database");
-            }
-
-            String sql = "SELECT * FROM UTENTE WHERE EMAIL = ?";
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, args[0]);
-
-            ResultSet rs = statement.executeQuery();
-
-            u = new User(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
-            System.out.println(u);
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-        return u;
-    }
+    } //ok
 
     @Override
     public ArrayList<User> getByParameters(String ... args){
@@ -185,13 +186,13 @@ public class UserDao implements DAO<User>{
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM UTENTE WHERE NOME = ?, COGNOME = ?, EMAIL = ?, PASSWORD = ?, RUOLO =?";
+            String sql = "SELECT * FROM UTENTE WHERE/* NOME = ?, COGNOME = ?, EMAIL = ?, PASSWORD = ?, */RUOLO =?";
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setString(1, args[0]);
-            statement.setString(2, args[1]);
+            /*statement.setString(2, args[1]);
             statement.setString(3, args[2]);
             statement.setString(4, args[3]);
-            statement.setString(5, args[4]);
+            statement.setString(5, args[4]);*/
 
             ResultSet rs = statement.executeQuery();
 
@@ -213,5 +214,5 @@ public class UserDao implements DAO<User>{
             }
         }
         return out;
-    }
+    } //ok ma commentato args per restituire array di utenti
 }
