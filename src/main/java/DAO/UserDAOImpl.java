@@ -165,6 +165,10 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
            u.setName(rs.getString("NOME"));
            u.setSurname(rs.getString("COGNOME"));
            u.setEmail(rs.getString("EMAIL"));
+           u.setPassword( rs.getString("PASSWORD"));
+           u.setRole(rs.getString("RUOLO"));
+
+            System.out.println(u);
 
 
 
@@ -182,7 +186,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
                 }
             }
         }
-        return null;
+        return u;
     }
 
     /*@Override
