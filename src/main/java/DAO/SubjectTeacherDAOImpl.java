@@ -72,41 +72,6 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
         return rowsInserted;
     }
 
-    /*@Override
-    public int update(SubjectTeacher ass, String ... args){
-        Connection con = null;
-        int rowsUpdated = 0;
-        try {
-            con = DriverManager.getConnection(url1, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database");
-            }
-
-            String query = "UPDATE CORSO_DOCENTE SET ID_DOCENTE = ?, ID_CORSO = ? WHERE ID_CORSO_DOCENTE = ?";
-            PreparedStatement statement = con.prepareStatement(query);
-
-            statement.setInt(1, Integer.parseInt(args[0]));
-            statement.setInt(2, Integer.parseInt(args[1]));
-            statement.setInt(3, ass.getSubjectTeacherID());
-
-            rowsUpdated = statement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-
-        return rowsUpdated;
-    }*/
-
     @Override
     public int delete(int id) {
         Connection con = null;
@@ -141,49 +106,27 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
     }
 
     @Override
-    public SubjectTeacher getByTeacherId(int teacherId) {
-        return null;
-    }
-
-    @Override
-    public SubjectTeacher getBySubjectId(int subjectId) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<SubjectTeacher> getAllTeachersBySubjectId(int subjectId) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<SubjectTeacher> getAllSubjectsByTeacherId(int teacherId) {
-        return null;
-    }
-
-    /*@Override
-    public SubjectTeacher get(String ... args){
+    public int updateSubjectByID(SubjectTeacher ass, int subjectID){
         Connection con = null;
-        SubjectTeacher ass = null;
+        int rowsUpdated = 0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database");
             }
 
-            String sql = "SELECT * FROM CORSO_DOCENTE WHERE ID_DOCENTE = ?, ID_CORSO = ?";
-            PreparedStatement statement = con.prepareStatement(sql);
+            String query = "UPDATE CORSO_DOCENTE SET ID_CORSO = ? WHERE ID_CORSO_DOCENTE = ?";
+            PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setInt(1, Integer.parseInt(args[0]));
-            statement.setInt(2, Integer.parseInt(args[1]));
+            statement.setInt(1, subjectID);
+            statement.setInt(2, ass.getSubjectTeacherID());
 
-            ResultSet rs = statement.executeQuery();
-
-            ass = new SubjectTeacher(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"));
-            System.out.println(ass);
+            rowsUpdated = statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
+        }
+        finally {
             if (con != null) {
                 try {
                     con.close();
@@ -192,11 +135,46 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
                 }
             }
         }
-        return ass;
-    }*/
 
-    /*@Override
-    public ArrayList<SubjectTeacher> getByParameters(String ... args){
+        return rowsUpdated;
+    }
+
+    @Override
+    public int updateTeacherByID(SubjectTeacher ass, int teacherID){
+        Connection con = null;
+        int rowsUpdated = 0;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database");
+            }
+
+            String query = "UPDATE CORSO_DOCENTE SET ID_ = ? WHERE ID_CORSO_DOCENTE = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setInt(1, teacherID);
+            statement.setInt(2, ass.getSubjectTeacherID());
+
+            rowsUpdated = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return rowsUpdated;
+    }
+
+    @Override
+    public ArrayList<SubjectTeacher> getAllTeachersBySubjectId(int subjectId) {
         Connection conn1 = null;
         ArrayList<SubjectTeacher> out = new ArrayList<>();
         try {
@@ -205,10 +183,9 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM DOCENTE WHERE ID_DOCENTE = ?, ID_CORSO = ?";
+            String sql = "SELECT * FROM DOCENTE WHERE ID_CORSO = ?";
             PreparedStatement statement = conn1.prepareStatement(sql);
-            statement.setInt(1, Integer.parseInt(args[0]));
-            statement.setInt(2, Integer.parseInt(args[1]));
+            statement.setInt(1, subjectId);
 
             ResultSet rs = statement.executeQuery();
 
@@ -230,6 +207,42 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
             }
         }
         return out;
-    }*/
+    }
+
+    @Override
+    public ArrayList<SubjectTeacher> getAllSubjectsByTeacherId(int teacherId) {
+        Connection conn1 = null;
+        ArrayList<SubjectTeacher> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("UserDAO Connected to the database test");
+            }
+
+            String sql = "SELECT * FROM DOCENTE WHERE ID_DOCENTE = ?";
+            PreparedStatement statement = conn1.prepareStatement(sql);
+            statement.setInt(1, teacherId);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                SubjectTeacher t = new SubjectTeacher(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"));
+                System.out.println(t);
+                out.add(t);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return out;
+    }
 }
 
