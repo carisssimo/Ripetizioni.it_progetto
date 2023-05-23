@@ -47,7 +47,6 @@ public class HelloServlet extends HttpServlet {
                 case "pageSign-in":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/sign-in.html");
                     break;
-
                 case "pageLogin":    //al client torna la pagina di login
                     rd = ctx.getRequestDispatcher("/login.html");
                     break;
@@ -121,6 +120,11 @@ public class HelloServlet extends HttpServlet {
                    submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
                     //submitLogin( String userPassword, String userEmail, String userRole)
                     break;
+
+                case "pageFormBooking":  //al client torna la pagina di registrazione
+                    rd = ctx.getRequestDispatcher("/formBooking.html");
+                    break;
+
                 default:
             }
             rd.forward(request, response);

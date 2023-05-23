@@ -110,6 +110,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
     public User getByEmail(String email) {
         Connection con = null;
         User u= new User();
+        System.out.println(email);
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
