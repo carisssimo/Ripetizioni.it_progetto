@@ -25,18 +25,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        String email = request.getParameter("email");
-        HttpSession s = request.getSession();
-
-        s.setAttribute("email", email);
-
-        System.out.println("****************************");
-        System.out.println(s.getAttribute("email"));
-
         processRequest(request, response);
-
-
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -47,6 +36,9 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
+
+        String email = request.getParameter("email");
+        HttpSession s = request.getSession();
 
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -87,8 +79,8 @@ public class HelloServlet extends HttpServlet {
                         }
 
                         out.println("<h2>CORSI:</h2>");
-                        for (Subject s: subjects) {
-                            out.println("<p>" + s + "</p>");
+                        for (Subject subs: subjects) {
+                            out.println("<p>" + subs + "</p>");
                         }
 
                         out.println("<h2>ASSOCIAZIONE CORSO-DOCENTE</h2>");
@@ -107,14 +99,18 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "submitRegistration":  //vera e propria registrazione di un utente
-
                     submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
                     break;
 
                 case "submitLogin":
-                    System.out.println("submitLogin");
                     submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
-                    //submitLogin( String userPassword, String userEmail, String userRole)
+
+                    s.setAttribute("email", email);
+
+                    User client = userDao.getByEmail((String) s.getAttribute("email"));
+
+                    s.setAttribute("userId", client.getUserID());
+                    s.setAttribute("role", client.getRole());
                     break;
 
                 case "pageFormBooking":  //al client torna la pagina di registrazione
@@ -141,7 +137,6 @@ public class HelloServlet extends HttpServlet {
         {
             //LOGGED
             System.out.println("---------logged");
-            System.out.println(u);
         }
         else
         {

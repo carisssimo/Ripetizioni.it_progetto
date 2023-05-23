@@ -19,7 +19,6 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
             ResultSet rs = st.executeQuery("SELECT * FROM UTENTE ");
             while (rs.next()) {
                 User u = new User(rs.getInt("ID_UTENTE"),rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("RUOLO"));
-                System.out.println(u);
                 out.add(u);
             }
         } catch (SQLException e) {
@@ -132,8 +131,6 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
             u.setPassword( rs.getString("PASSWORD"));
             u.setRole(rs.getString("RUOLO"));
 
-            System.out.println(u);
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -146,7 +143,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
                 }
             }
         }
-        System.out.println(u);
+
         return u;
     }
 }
