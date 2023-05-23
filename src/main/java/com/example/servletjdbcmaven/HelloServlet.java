@@ -25,7 +25,18 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        String email = request.getParameter("email");
+        HttpSession s = request.getSession();
+
+        s.setAttribute("email", email);
+
+        System.out.println("****************************");
+        System.out.println(s.getAttribute("email"));
+
         processRequest(request, response);
+
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -55,7 +66,7 @@ public class HelloServlet extends HttpServlet {
                     ArrayList<Teacher> teachers = teacherDao.getAll();
                     ArrayList<Subject> subjects = subjectDao.getAll();
                     ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
-                    //ArrayList<Availability> availabilities = availabilityDao.getAll();
+                    ArrayList<Availability> availabilities = availabilityDao.getAll();
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -85,21 +96,6 @@ public class HelloServlet extends HttpServlet {
                             out.println("<p> " + ass + "</p>");
                         }
 
-                        //aggiunta availability da parte di admin
-                        //Availability av = new Availability(3, 4, -1, "Giovedì 14:00 - 15:00", true, null);
-                        //availabilityDAO.add(av);
-
-                        //prenotazione di un utente
-                        //Availability av = new Availability(1, 1, 1, "prova prova modifica", false, "attiva");
-                        //availabilityDAO.update(1, av);
-
-                        //cancellazione di una prenotazione da parte di un utente
-
-
-                        //cancellazione da parte di admin
-                        //availabilityDAO.delete(1);
-
-                        ArrayList<Availability> availabilities = availabilityDao.getAll();
                         out.println("<h2>DISPONIBILITÀ</h2>");
                         for(Availability a: availabilities){
                             out.println("<p> " + a + "</p>");
@@ -117,7 +113,7 @@ public class HelloServlet extends HttpServlet {
 
                 case "submitLogin":
                     System.out.println("submitLogin");
-                   submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
+                    submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
                     //submitLogin( String userPassword, String userEmail, String userRole)
                     break;
 
@@ -139,13 +135,13 @@ public class HelloServlet extends HttpServlet {
     }
 
     private void submitLogin( String userEmail,String userPassword, String userRole) {
-
         Service s= new Service();
         User u= userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
         if(s.checkMD5(u.getPassword(),userPassword))
         {
             //LOGGED
             System.out.println("---------logged");
+            System.out.println(u);
         }
         else
         {
