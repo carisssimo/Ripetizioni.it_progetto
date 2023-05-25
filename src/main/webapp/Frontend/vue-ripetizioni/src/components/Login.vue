@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="title-container container">
       <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-      <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua </p>
+      <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua città</p>
     </div>
 
     <!--FORM-->
@@ -30,7 +30,7 @@
 
         <!--<button type="Login" class="btn-login btn btn-primary">Submit</button>-->
 <!--        <div class="btn-login btn btn-primary"><input type="submit" name="action" value="submitLogin"/></div>-->
-        <button  v-on:click="submitForm">Log-in</button>
+        <button  v-on:click="submitForm" class="btn-login btn btn-primary">Log-in</button>
       </form>
     </div>
 
@@ -40,7 +40,8 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Login',
   data() {
     return {
       email: '',
@@ -85,18 +86,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
