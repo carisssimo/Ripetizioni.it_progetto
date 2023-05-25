@@ -7,27 +7,30 @@
 
     <!--FORM-->
     <div class="form-container container align-items-center">
-      <form @submit.prevent="submitForm">
+      <form >
         <div class=" form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-group-orange form-control" id="email" name="email" v-model="email"
-                 aria-describedby="emailHelp">
+          <input type="email" class="form-group-orange form-control" id="email" v-model="email"
+                 aria-describedby="emailHelp" required>
 
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-group-orange form-control" id="password" name="password" v-model="password">
+          <input type="password" class="form-group-orange form-control" id="password" v-model="password" required>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Ruolo</label>
-          <select class="form-group-orange form-control" id="role" name="role" v-model="role">
+          <select class="form-group-orange form-control" id="role" v-model="role" required>
             <option>Utente</option>
             <option>Amministratore</option>
           </select>
         </div>
 
+        {{email}}
+
         <!--<button type="Login" class="btn-login btn btn-primary">Submit</button>-->
-        <div class="btn-login btn btn-primary"><input type="submit" name="action" value="submitLogin"/></div>
+<!--        <div class="btn-login btn btn-primary"><input type="submit" name="action" value="submitLogin"/></div>-->
+        <button  v-on:click="submitForm">Log-in</button>
       </form>
     </div>
 
@@ -48,12 +51,11 @@ export default {
   },
   methods: {
     submitForm() {
-      // Esegui la richiesta HTTP
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = new URLSearchParams();
       console.log(this.username);
       console.log(this.action);
-      params.append('username', this.username);
+      params.append('email', this.email);
       params.append('password', this.password);
       params.append('role', this.role);
       params.append('action', this.action);
