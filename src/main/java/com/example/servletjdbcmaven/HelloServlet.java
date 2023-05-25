@@ -104,7 +104,7 @@ public class HelloServlet extends HttpServlet {
 
                 case "submitLogin":
                     submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
-
+                    System.out.println(request.getParameter("email"));
                     s.setAttribute("email", email);
 
                     User client = userDao.getByEmail((String) s.getAttribute("email"));
