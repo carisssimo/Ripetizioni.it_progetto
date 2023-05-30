@@ -26,12 +26,16 @@
           </select>
         </div>
 
-        {{email}}
+
 
         <!--<button type="Login" class="btn-login btn btn-primary">Submit</button>-->
 <!--        <div class="btn-login btn btn-primary"><input type="submit" name="action" value="submitLogin"/></div>-->
-        <button  v-on:click="submitForm" class="btn-login btn btn-primary">Log-in</button>
+        <button  v-on:click="submitForm" class="btn-login btn btn-primary">Accedi</button>
       </form>
+    </div>
+
+    <div class="button-container container align-items-center">
+      <RouterLink to="/signin"><a class="btn-login btn btn-primary"  role="button">Registrati</a></RouterLink>
     </div>
 
 
