@@ -1,5 +1,5 @@
 package com.example.servletjdbcmaven;
-
+import com.google.gson.Gson;
 import Crypt.Service;
 import DAO.*;
 import java.io.*;
@@ -9,6 +9,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+
+import static java.lang.System.out;
 
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
@@ -35,7 +37,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
 
         String email = request.getParameter("email");
         HttpSession s = request.getSession();
@@ -43,22 +45,33 @@ public class HelloServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
-        System.out.printf(action);
-        RequestDispatcher rd = ctx.getRequestDispatcher("/index.html");
+        PrintWriter out = response.getWriter();
+        response.setHeader("Access-Control-Allow-Origin","http://localhost:8081"); // Sostituisci con l'URL del tuo frontend JavaScript
+        ArrayList<User> users = userDao.getAll();
+        ArrayList<Teacher> teachers = teacherDao.getAll();
+        ArrayList<Subject> subjects = subjectDao.getAll();
+        ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
+        ArrayList<Availability> availabilities = availabilityDao.getAll();
+
         if (action!=null) {
             switch (action) {
-                case "pageSign-in":  //al client torna la pagina di registrazione
+                /*case "pageSign-in":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/sign-in.html");
                     break;
                 case "pageLogin":    //al client torna la pagina di login
                     rd = ctx.getRequestDispatcher("/login.html");
+                    break;*/
+                case "getAllTeacher":    //al client torna la pagina di login
+                    System.out.println("Siamo su getAllTeacher");
+                    Gson gson = new Gson(); // traduttore da e verso formato JSON
+
+                    // creo oggetto JSON con oggetto Coppia
+                    String sJson = gson.toJson(teachers);
+                    System.out.println("STRINGA JSON " + sJson);
+                    out.print(sJson);
                     break;
-                case "listDB":
-                    ArrayList<User> users = userDao.getAll();
-                    ArrayList<Teacher> teachers = teacherDao.getAll();
-                    ArrayList<Subject> subjects = subjectDao.getAll();
-                    ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
-                    ArrayList<Availability> availabilities = availabilityDao.getAll();
+                /*case "listDB":
+
 
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -97,14 +110,14 @@ public class HelloServlet extends HttpServlet {
                         out.println("</body>");
                         out.println("</html>");
                     }
-                    break;
+                    break;*/
                 case "submitRegistration":  //vera e propria registrazione di un utente
                     submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
                     break;
 
                 case "submitLogin":
                     submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
-                    System.out.println(request.getParameter("email"));
+                    out.println(request.getParameter("email"));
                     s.setAttribute("email", email);
 
                     User client = userDao.getByEmail((String) s.getAttribute("email"));
@@ -113,13 +126,13 @@ public class HelloServlet extends HttpServlet {
                     s.setAttribute("role", client.getRole());
                     break;
 
-                case "pageFormBooking":  //al client torna la pagina di registrazione
+                /*case "pageFormBooking":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/formBooking.html");
-                    break;
+                    break;*/
 
                 default:
             }
-            rd.forward(request, response);
+
         }
     }
 
@@ -136,12 +149,12 @@ public class HelloServlet extends HttpServlet {
         if(s.checkMD5(u.getPassword(),userPassword))
         {
             //LOGGED
-            System.out.println("---------logged");
+            out.println("---------logged");
         }
         else
         {
             //NOT LOGGED
-            System.out.println("---------not logged");
+            out.println("---------not logged");
         }
 
         //userDao.add(newUser);

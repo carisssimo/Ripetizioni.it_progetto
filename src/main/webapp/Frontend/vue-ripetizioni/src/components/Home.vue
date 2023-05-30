@@ -128,8 +128,8 @@
           <div style="min-height: 120px;">
             <div class="collapse width" id="collapseProfessors">
               <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">A simple default list group item</a>
-
+                <a v-for="teacher in teachers" :key="teacher.name" class="list-group-item list-group-item-action">{{teacher.name}}</a>
+<!--
                 <a href="#" class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>
                 <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>
                 <a href="#" class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>
@@ -137,7 +137,7 @@
                 <a href="#" class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>
                 <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
                 <a href="#" class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>-->
               </div>
             </div>
           </div>
@@ -155,9 +155,33 @@
 </template>
 
 <script>
+import {teacherService} from "@/Service/teachersService";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Home"
+  name: "Home",
+  data: function (){
+    return{
+      loading:false,
+      teachers:{},
+      subjects:{}
+    }
+  },
+  created: async function(){
+    try{
+      this.loading=true;
+      let response=await teacherService.getAllTeachers();
+      let response2=await subjectsService.getAllSubjects();
+      this.loading=false;
+      console.log(response.data);
+      this.teachers=response.data;
+      this.subjects=response2.data;
+    }catch(e){
+      console.log(e);
+    }
+
+
+  }
 }
 </script>
 
