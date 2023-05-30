@@ -38,11 +38,15 @@
       <RouterLink to="/signin"><a class="btn-login btn btn-primary"  role="button">Registrati</a></RouterLink>
     </div>
 
+    {{this.isLogged}}
 
   </div>
 </template>
 
 <script>
+
+import {loggedService} from "@/Service/loggedService";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Login',
@@ -51,7 +55,8 @@ export default {
       email: '',
       password: '',
       role: '',
-      action:'submitLogin'
+      action:'submitLogin',
+      isLogged:false,
     };
   },
   methods: {
@@ -83,6 +88,19 @@ export default {
             // Gestisci gli errori di rete
             console.error('Errore di rete', error);
           });
+      /*try{
+        this.loading=true;
+        let response= loggedService.getIsLogged(this.email,this.password,this.role)
+        this.loading=false;
+        console.log(response.data);
+        if(response.data==='isLogged'){
+          this.isLogged=true;
+        }else{
+          this.isLogged=false
+        }
+      }catch(e){
+        console.log(e);
+      }*/
     }
   }
 }

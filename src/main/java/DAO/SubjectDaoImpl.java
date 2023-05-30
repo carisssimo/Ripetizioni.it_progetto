@@ -20,7 +20,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
             ResultSet rs = st.executeQuery("SELECT * FROM CORSO ");
             while (rs.next()) {
                 Subject s = new Subject(rs.getInt("ID_CORSO"), rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
-                System.out.println(s);
+                /*System.out.println(s);*/
                 out.add(s);
             }
         } catch (SQLException e) {

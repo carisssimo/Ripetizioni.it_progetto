@@ -89,11 +89,12 @@
             <div class="collapse width" id="collapseCourses">
               <div class="card card-body" style="width: 320px;">
                 <ul class="list-group">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
+                  <li v-for="subject in subjects" :key="subject.subjectID" class="list-group-item">{{subject.subjectName}}</li>
+
+<!--                  <li class="list-group-item">A second item</li>
                   <li class="list-group-item">A third item</li>
                   <li class="list-group-item">A fourth item</li>
-                  <li class="list-group-item">And a fifth one</li>
+                  <li class="list-group-item">And a fifth one</li>-->
                 </ul>
               </div>
             </div>
@@ -102,18 +103,14 @@
         <div class="col">
           <p>
             <button class="btn-login btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSlots" aria-expanded="false" aria-controls="collapseWidthExample">
-              Orari disponibili
+              Slot disponibili
             </button>
           </p>
           <div style="min-height: 120px;">
             <div class="collapse width" id="collapseSlots">
               <div class="card card-body" style="width: 320px;">
                 <ul class="list-group">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
-                  <li class="list-group-item">A third item</li>
-                  <li class="list-group-item">A fourth item</li>
-                  <li class="list-group-item">And a fifth one</li>
+                  <li class="list-group-item">Vai alle prenotazioni disponibili</li>
                 </ul>
               </div>
             </div>
@@ -128,16 +125,7 @@
           <div style="min-height: 120px;">
             <div class="collapse width" id="collapseProfessors">
               <div class="list-group">
-                <a v-for="teacher in teachers" :key="teacher.name" class="list-group-item list-group-item-action">{{teacher.name}}</a>
-<!--
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>-->
+                <a v-for="teacher in teachers" :key="teacher.name" class="list-group-item list-group-item-action">{{teacher.name}} {{teacher.surname}}</a>
               </div>
             </div>
           </div>
@@ -156,6 +144,7 @@
 
 <script>
 import {teacherService} from "@/Service/teachersService";
+import {subjectsService} from "@/Service/subjectsService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -173,9 +162,9 @@ export default {
       let response=await teacherService.getAllTeachers();
       let response2=await subjectsService.getAllSubjects();
       this.loading=false;
-      console.log(response.data);
       this.teachers=response.data;
       this.subjects=response2.data;
+      console.log(this.subjects);
     }catch(e){
       console.log(e);
     }

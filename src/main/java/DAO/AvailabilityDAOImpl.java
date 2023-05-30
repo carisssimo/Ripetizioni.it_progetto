@@ -19,7 +19,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA");
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-                System.out.println(a);
+                /*System.out.println(a);*/
                 out.add(a);
             }
         } catch (SQLException e) {

@@ -53,6 +53,8 @@ public class HelloServlet extends HttpServlet {
         ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
         ArrayList<Availability> availabilities = availabilityDao.getAll();
 
+        Gson gson = new Gson();
+
         if (action!=null) {
             switch (action) {
                 /*case "pageSign-in":  //al client torna la pagina di registrazione
@@ -63,12 +65,21 @@ public class HelloServlet extends HttpServlet {
                     break;*/
                 case "getAllTeacher":    //al client torna la pagina di login
                     System.out.println("Siamo su getAllTeacher");
-                    Gson gson = new Gson(); // traduttore da e verso formato JSON
+
 
                     // creo oggetto JSON con oggetto Coppia
-                    String sJson = gson.toJson(teachers);
-                    System.out.println("STRINGA JSON " + sJson);
-                    out.print(sJson);
+                    String teachersJson = gson.toJson(teachers);
+                    System.out.println("STRINGA JSON " + teachersJson);
+                    out.print(teachersJson);
+                    break;
+                case "getAllSubjects":    //al client torna la pagina di login
+                    System.out.println("Siamo su getAllSubjects");
+
+
+                    // creo oggetto JSON con oggetto Coppia
+                    String subjectsJson = gson.toJson(subjects);
+                    System.out.println("STRINGA JSON " + subjectsJson);
+                    out.print(subjectsJson);
                     break;
                 /*case "listDB":
 
@@ -116,7 +127,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
-                    submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
+                    String result=submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
                     out.println(request.getParameter("email"));
                     s.setAttribute("email", email);
 
@@ -124,6 +135,12 @@ public class HelloServlet extends HttpServlet {
 
                     s.setAttribute("userId", client.getUserID());
                     s.setAttribute("role", client.getRole());
+
+                    // creo oggetto JSON con oggetto Coppia
+                    String loggedJson = gson.toJson(result);
+                    System.out.println("STRINGA JSON " + loggedJson);
+                    out.print(loggedJson);
+
                     break;
 
                 /*case "pageFormBooking":  //al client torna la pagina di registrazione
@@ -143,18 +160,20 @@ public class HelloServlet extends HttpServlet {
         userDao.add(newUser);
     }
 
-    private void submitLogin( String userEmail,String userPassword, String userRole) {
+    private String submitLogin( String userEmail,String userPassword, String userRole) {
         Service s= new Service();
         User u= userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
         if(s.checkMD5(u.getPassword(),userPassword))
         {
             //LOGGED
             out.println("---------logged");
+            return "isLogged";
         }
         else
         {
             //NOT LOGGED
             out.println("---------not logged");
+            return "isNotLogged";
         }
 
         //userDao.add(newUser);
