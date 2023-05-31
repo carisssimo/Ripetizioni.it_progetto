@@ -7,7 +7,7 @@
 
     <!--FORM-->
     <div class="form-container container align-items-center">
-      <form >
+      <form v-on:submit.prevent="onSubmit" >
         <div class=" form-group">
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" class="form-group-orange form-control" id="email" v-model="email"
@@ -30,7 +30,7 @@
 
         <!--<button type="Login" class="btn-login btn btn-primary">Submit</button>-->
 <!--        <div class="btn-login btn btn-primary"><input type="submit" name="action" value="submitLogin"/></div>-->
-        <button  v-on:click="submitForm" class="btn-login btn btn-primary">Accedi</button>
+        <button  @click="submitForm" class="btn-login btn btn-primary">Accedi</button>
       </form>
     </div>
 
@@ -45,7 +45,8 @@
 
 <script>
 
-import {loggedService} from "@/Service/loggedService";
+
+import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -55,52 +56,34 @@ export default {
       email: '',
       password: '',
       role: '',
-      action:'submitLogin',
       isLogged:false,
     };
   },
   methods: {
     submitForm() {
-      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = new URLSearchParams();
-      console.log(this.username);
-      console.log(this.action);
-      params.append('email', this.email);
-      params.append('password', this.password);
-      params.append('role', this.role);
-      params.append('action', this.action);
 
-      fetch(url, {
-        method: 'POST',
-        body: params
-      })
-          .then(response => {
-            // Gestisci la risposta
-            if (response.ok) {
-              // La richiesta è stata completata con successo
-              console.log('Richiesta inviata con successo');
-            } else {
-              // La richiesta ha generato un errore
-              console.error('Errore durante l\'invio della richiesta');
-            }
-          })
-          .catch(error => {
-            // Gestisci gli errori di rete
-            console.error('Errore di rete', error);
-          });
-      /*try{
-        this.loading=true;
-        let response= loggedService.getIsLogged(this.email,this.password,this.role)
-        this.loading=false;
-        console.log(response.data);
-        if(response.data==='isLogged'){
-          this.isLogged=true;
-        }else{
-          this.isLogged=false
-        }
-      }catch(e){
-        console.log(e);
-      }*/
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      const params = {
+        action: 'submitLogin',
+        email:this.email,
+        password:this.password,
+        role:this.role
+      };
+
+        axios.get(url,{params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if(response.data==="isLogged"){
+                console.log(" loggato con successo")
+                this.isLogged=true;
+              }
+              this.isLogged=true;
+              console.log(response.data);
+            })
+            .catch(error => {
+
+              console.error(error);
+            });
+
     }
   }
 }
