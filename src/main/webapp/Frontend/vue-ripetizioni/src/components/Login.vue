@@ -43,8 +43,9 @@
       <div class="logged-container title-container container">
         <h1 class="title-main">Bentornato!</h1>
         <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua
-          città selezionando le date e gli orari che ti fanno più comodo. Registrati per prenotare la tua
-          lezione </p>
+          città selezionando le date e gli orari che ti fanno più comodo.Prenota la tua
+          lezione oppure dai un'occhiata alle lezioni già prenotate!!</p>
+        <RouterLink to="/booking"><a class="btn-login btn btn-primary" role="button">Prenota una lezione</a></RouterLink>
       </div>
     </div>
 

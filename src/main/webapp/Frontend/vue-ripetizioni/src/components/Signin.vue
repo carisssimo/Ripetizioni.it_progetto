@@ -43,9 +43,8 @@
     <div v-if="isSigned">
       <div class="logged-container title-container container">
         <h1 class="title-main">Ti sei correttamente registrato!</h1>
-        <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua
-          città selezionando le date e gli orari che ti fanno più comodo. Registrati per prenotare la tua
-          lezione </p>
+        <p class="p-start">Torna alla Home e poi effettua il login per prenotare una lezione! </p>
+        <p class="p-start"><router-link to="/">Home</router-link> </p>
       </div>
     </div>
 
@@ -100,5 +99,12 @@ export default {
 </script>
 
 <style scoped>
-
+.logged-container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border: solid orangered 2px;
+  border-radius: 10px;
+  margin-top: 50px;
+  background-color: white;
+}
 </style>
