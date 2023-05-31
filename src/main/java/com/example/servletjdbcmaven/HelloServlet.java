@@ -123,12 +123,14 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;*/
                 case "submitRegistration":  //vera e propria registrazione di un utente
-                    submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role"));
+                    String signedJson = gson.toJson(submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role")));
+                    System.out.println("STRINGA JSON " + signedJson);
+                    out.print(signedJson);
                     break;
 
                 case "submitLogin":
                     String result=submitLogin(request.getParameter("email"),request.getParameter("password"), request.getParameter("role"));
-                    out.println(request.getParameter("email"));
+
                     s.setAttribute("email", email);
 
                     User client = userDao.getByEmail((String) s.getAttribute("email"));
@@ -153,11 +155,16 @@ public class HelloServlet extends HttpServlet {
         }
     }
 
-    private void submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
+    private String submitRegistration(String userName, String userSurname, String userPassword, String userEmail, String userRole) {
         Service s= new Service();
         String crptpassw=s.encryptMD5(userPassword);
         User newUser=new User(userName, userSurname, userEmail, crptpassw, userRole);
-        userDao.add(newUser);
+        int row=userDao.add(newUser);
+        if(row==0){
+            return "isNotSigned";
+        }else{
+            return "isSigned";
+        }
     }
 
     private String submitLogin( String userEmail,String userPassword, String userRole) {
