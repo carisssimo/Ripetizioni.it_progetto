@@ -460,11 +460,12 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         if (a1.getBooking() == "disdetta") {
             a1.setUserId(0);
             add(a1);
+        }
         Connection conn1 = null;
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("99999999999999999999999");
+                System.out.println("AvailabilityDao inside updateAvailability Connected to the database test");
             }
             String sql = "UPDATE DISPONIBILITA SET PRENOTAZIONE = ? WHERE ID_DISPONIBILITA = ?";
             int id_av = getIDAvailability(a1);
@@ -485,6 +486,38 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             }
         }
     }
+
+    public Availability getAvailability_by_ID(int av_id)
+    {
+        int id=0;
+
+        Availability a= null;
+        Connection conn1 = null;
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("AvailabilityDao inside getAvailability_by_ID Connected to the database test");
+            }
+
+            String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DISPONIBILITA = ?";
+            PreparedStatement statement = conn1.prepareStatement(sql);
+            statement.setInt(1, av_id);
+
+            ResultSet rs = statement.executeQuery();
+            a = new Availability(rs.getInt("ID_DOCENTE"),rs.getInt("ID_CORSO"),rs.getInt("ID_UTENTE"),rs.getString("GIORNO_ORA"),rs.getString("PRENOTAZIONE"));
+            rs.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return a;
     }
 
 }

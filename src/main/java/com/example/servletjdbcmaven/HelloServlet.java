@@ -99,6 +99,7 @@ public class HelloServlet extends HttpServlet {
                     User client = userDao.getByEmail((String) s.getAttribute("email"));
 
                     s.setAttribute("userId", client.getUserID());
+                    s.setAttribute("name", client.getName());
                     s.setAttribute("role", client.getRole());
 
                     // creo oggetto JSON con oggetto Coppia
@@ -117,6 +118,10 @@ public class HelloServlet extends HttpServlet {
                 /*case "pageFormBooking":  //al client torna la pagina di registrazione
                     rd = ctx.getRequestDispatcher("/formBooking.html");
                     break;*/
+                case "bookingAvailability":
+                   int av_id= Integer.parseInt(request.getParameter("availability_id"));
+                   Availability a= availabilityDao.getAvailability_by_ID(av_id);
+                   availabilityDao.updateAvailability(a);
 
                 default:
             }
