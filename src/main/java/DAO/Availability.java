@@ -4,10 +4,26 @@ public class Availability {
     private int availabilityID;
     private int teacherId;
     private int subjectId;
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     private int userId;
     private String dayTime;
+
+    public void setBooking(String booking) {
+        this.booking = booking;
+    }
+
     private String booking;
 
+    public Availability(int teacherId, int subjectId, String dayTime)
+    {
+        this.teacherId = teacherId;
+        this.subjectId=subjectId;
+        this.dayTime=dayTime;
+    }
     public Availability(int teacherId, int subjectId, int userId, String dayTime, String booking) {
         this.teacherId = teacherId;
         this.subjectId = subjectId;

@@ -38,7 +38,10 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
-
+        Availability a1=new Availability(1,1,1,"Martedi 18:00 - 19:00","attiva");
+        availabilityDao.add(a1);
+        a1.setBooking("disdetta");
+        availabilityDao.updateAvailability(a1);
         String email = request.getParameter("email");
         HttpSession s = request.getSession();
 
@@ -81,47 +84,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + subjectsJson);
                     out.print(subjectsJson);
                     break;
-                /*case "listDB":
 
-
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println("<!DOCTYPE html>");
-                        out.println("<html>");
-                        out.println("<head>");
-                        out.println("<title>Servlet NewServlet</title>");
-                        out.println("</head>");
-                        out.println("<body>");
-                        out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-                        out.println("<h2>UTENTI:</h2>");
-                        for (User u: users) {
-                            out.println("<p>" + u + "</p>");
-                        }
-
-                        out.println("<h2>DOCENTI:</h2>");
-                        for (Teacher t: teachers) {
-                            out.println("<p>" + t + "</p>");
-                        }
-
-                        out.println("<h2>CORSI:</h2>");
-                        for (Subject subs: subjects) {
-                            out.println("<p>" + subs + "</p>");
-                        }
-
-                        out.println("<h2>ASSOCIAZIONE CORSO-DOCENTE</h2>");
-                        for(SubjectTeacher ass: associations){
-                            out.println("<p> " + ass + "</p>");
-                        }
-
-                        out.println("<h2>DISPONIBILITÀ</h2>");
-                        for(Availability a: availabilities){
-                            out.println("<p> " + a + "</p>");
-                        }
-
-                        out.println("<p>FINE!</p>");
-                        out.println("</body>");
-                        out.println("</html>");
-                    }
-                    break;*/
                 case "submitRegistration":  //vera e propria registrazione di un utente
                     String signedJson = gson.toJson(submitRegistration(request.getParameter("name"),request.getParameter("surname"),request.getParameter("password"),request.getParameter("email"), request.getParameter("role")));
                     System.out.println("STRINGA JSON " + signedJson);
@@ -138,7 +101,7 @@ public class HelloServlet extends HttpServlet {
                     s.setAttribute("userId", client.getUserID());
                     s.setAttribute("role", client.getRole());
 
-
+                    // creo oggetto JSON con oggetto Coppia
                     String loggedJson = gson.toJson(result);
                     System.out.println("STRINGA JSON " + loggedJson);
                     out.print(loggedJson);

@@ -3,7 +3,7 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
+public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
     @Override
     public ArrayList<Availability> getAll() {
         Connection conn1 = null;
@@ -24,8 +24,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -48,7 +47,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
                 System.out.println("Connected to the database");
             }
 
-            if(a.getUserId() > 0) {
+            if (a.getUserId() > 0) {
                 String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, ID_UTENTE, GIORNO_ORA, PRENOTAZIONE) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement statement = con.prepareStatement(query);
 
@@ -59,8 +58,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
                 statement.setString(5, a.getBooking());
 
                 rowsInserted = statement.executeUpdate();
-            }
-            else{ //aggiunta di una riga in disponibilità fattibile solo da admin (utente può solo fare update se prenota)
+            } else { //aggiunta di una riga in disponibilità fattibile solo da admin (utente può solo fare update se prenota)
                 String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, GIORNO_ORA) VALUES (?, ?, ?)";
                 PreparedStatement statement = con.prepareStatement(query);
 
@@ -73,8 +71,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (con != null) {
                 try {
                     con.close();
@@ -106,8 +103,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (con != null) {
                 try {
                     con.close();
@@ -120,7 +116,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return rowsDeleted;
     }
 
-    public int updateUser(Availability a, int userId){
+    public int updateUser(Availability a, int userId) {
         Connection con = null;
         int rowsUpdated = 0;
         try {
@@ -139,8 +135,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (con != null) {
                 try {
                     con.close();
@@ -153,7 +148,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return rowsUpdated;
     }
 
-    public int updateBookingState(Availability a, String state){
+    public int updateBookingState(Availability a, String state) {
         Connection con = null;
         int rowsUpdated = 0;
         try {
@@ -172,8 +167,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (con != null) {
                 try {
                     con.close();
@@ -186,7 +180,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return rowsUpdated;
     }
 
-    public Availability getByTeacherSubjectUser(int teacherId, int subjectId, String dayTime){
+    public Availability getByTeacherSubjectUser(int teacherId, int subjectId, String dayTime) {
         Connection con = null;
         Availability av = null;
         try {
@@ -222,7 +216,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return av;
     }
 
-    public ArrayList<Availability> getByTeacherId(int teacherId){
+    public ArrayList<Availability> getByTeacherId(int teacherId) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
         try {
@@ -244,8 +238,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -257,7 +250,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return out;
     }
 
-    public ArrayList<Availability> getBySubjectId(int subjectId){
+    public ArrayList<Availability> getBySubjectId(int subjectId) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
         try {
@@ -279,8 +272,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -292,7 +284,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return out;
     }
 
-    public ArrayList<Availability> getByUserId(int userId){
+    public ArrayList<Availability> getByUserId(int userId) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
         try {
@@ -314,8 +306,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -327,7 +318,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return out;
     }
 
-    public ArrayList<Availability> getByDayTime(String dayTime){
+    public ArrayList<Availability> getByDayTime(String dayTime) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
         try {
@@ -349,8 +340,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -362,7 +352,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return out;
     }
 
-    public ArrayList<Availability> getByBookingState(String bookingState){
+    public ArrayList<Availability> getByBookingState(String bookingState) {
         Connection conn1 = null;
         ArrayList<Availability> out = new ArrayList<>();
         try {
@@ -384,8 +374,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             if (conn1 != null) {
                 try {
                     conn1.close();
@@ -396,7 +385,6 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         }
         return out;
     }
-
     @Override
     public ArrayList<Availability> getAllAvailabilityAvailable() {
         Connection conn1 = null;
@@ -429,6 +417,74 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         }
 
         return out;
+    }
+    public int getIDAvailability(Availability a1)
+    {
+        int id=0;
+        Connection conn1 = null;
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("Connected to the database test");
+            }
+            String sql = "SELECT ID_DISPONIBILITA FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND ID_CORSO = ? AND GIORNO_ORA=?";
+            PreparedStatement statement = conn1.prepareStatement(sql);
+            statement.setInt(1, a1.getTeacherId());
+            statement.setInt(2, a1.getSubjectId());
+            statement.setString(3, a1.getDayTime());
+
+            ResultSet rs = statement.executeQuery();
+
+
+
+            rs.next();
+            id=rs.getInt("ID_DISPONIBILITA");
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return id;
+    }
+
+    //
+    public void updateAvailability(Availability a1) {
+        if (a1.getBooking() == "disdetta") {
+            a1.setUserId(0);
+            add(a1);
+        Connection conn1 = null;
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("99999999999999999999999");
+            }
+            String sql = "UPDATE DISPONIBILITA SET PRENOTAZIONE = ? WHERE ID_DISPONIBILITA = ?";
+            int id_av = getIDAvailability(a1);
+            PreparedStatement statement = conn1.prepareStatement(sql);
+            statement.setString(1, a1.getBooking());
+            statement.setInt(2, id_av);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+    }
     }
 
 }

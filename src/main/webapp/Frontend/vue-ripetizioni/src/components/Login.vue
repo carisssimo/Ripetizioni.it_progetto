@@ -49,6 +49,7 @@
       </div>
     </div>
 
+    {{this.isLogged}}
 
   </div>
 </template>

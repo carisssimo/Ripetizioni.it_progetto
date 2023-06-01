@@ -9,8 +9,5 @@
         <module name="ServletJDBCmaven" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ServletJDBCmaven" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
