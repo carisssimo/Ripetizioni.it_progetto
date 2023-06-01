@@ -18,7 +18,7 @@ public class HelloServlet extends HttpServlet {
     private static DAO<Teacher> teacherDao = new TeacherDaoImpl();
     private static DAO<Subject> subjectDao = new SubjectDaoImpl();
     private static DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
-    private static DAO<Availability> availabilityDao = new AvailabilityDAOImpl();
+    private static AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
     private static UserDAOImpl userDao = new UserDAOImpl();
 
     public void init() {
@@ -138,11 +138,17 @@ public class HelloServlet extends HttpServlet {
                     s.setAttribute("userId", client.getUserID());
                     s.setAttribute("role", client.getRole());
 
-                    // creo oggetto JSON con oggetto Coppia
+
                     String loggedJson = gson.toJson(result);
                     System.out.println("STRINGA JSON " + loggedJson);
                     out.print(loggedJson);
 
+                    break;
+                case "getAllAvailabilitiesAvailable":
+                    ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
+                    String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
+                    System.out.println("STRINGA JSON " + availabilityAvailableJson);
+                    out.print(availabilityAvailableJson);
                     break;
 
                 /*case "pageFormBooking":  //al client torna la pagina di registrazione
@@ -170,6 +176,7 @@ public class HelloServlet extends HttpServlet {
     private String submitLogin( String userEmail,String userPassword, String userRole) {
         Service s= new Service();
         User u= userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
+        out.println(u);
         if(s.checkMD5(u.getPassword(),userPassword))
         {
             //LOGGED

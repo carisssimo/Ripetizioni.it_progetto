@@ -397,4 +397,38 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO{
         return out;
     }
 
+    @Override
+    public ArrayList<Availability> getAllAvailabilityAvailable() {
+        Connection conn1 = null;
+        ArrayList<Availability> out = new ArrayList<>();
+        try {
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("UserDAO Connected to the database test");
+            }
+
+            Statement st = conn1.createStatement();
+
+            ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA WHERE PRENOTAZIONE='disponibile'");
+            while (rs.next()) {
+                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                /*System.out.println(a);*/
+                out.add(a);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return out;
+    }
+
 }
