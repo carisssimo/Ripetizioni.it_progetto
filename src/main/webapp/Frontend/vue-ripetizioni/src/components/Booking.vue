@@ -10,6 +10,8 @@
   </nav>
   <!--</div>-->
 
+  {{this.teacherSelected}}
+  {{this.subjectSelected}}
   <div class="logged-container title-container container">
     <h1 class="title-main">Ora scegli la materia e il professore, poi prenotati !</h1>
   </div>
@@ -18,20 +20,20 @@
   <div class="form-container-selector container">
     <form class="form-inline">
       <label class="my-1 mr-2" for="inlineFormCustomSelectCourse">Materia</label>
-      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2">
+      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2" v-model="subjectSelected">
         <option selected>Scegli la materia</option>
-        <option v-for="subject in subjects" :key="subject.subjectID" value="1">{{ subject.subjectName }}</option>
+        <option v-for="subject in subjects" :key="subject.subjectID" >{{ subject.subjectName }}</option>
       </select>
 
       <label class="my-1 mr-2" for="inlineFormCustomSelectTime">Professore</label>
-      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2">
+      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2" v-model="teacherSelected">
         <option selected>Scegli professore</option>
-        <option v-for="teacher in teachers" :key="teacher.name" value="1">{{ teacher.name }} {{ teacher.surname }}
+        <option v-for="teacher in teachers" :key="teacher.name" >{{ teacher.name }} {{ teacher.surname }}
         </option>
       </select>
 
 
-      <button class="btn-login btn btn-primary my-1" type="submit">Submit</button>
+      <button class="btn-login btn btn-primary my-1" type="submit" >Submit</button>
     </form>
   </div>
 
@@ -50,9 +52,9 @@
       <tr v-for="availability in availabilities" :key="availability.availabilityID">
 <!--        <td>{{ availability.teacherId }}</td>-->
         <td>{{ printTeacherName(availability.teacherId) }}</td>
-        <td>{{ availability.subjectId }}</td>
+        <td>{{ printSubjectName(availability.subjectId) }}</td>
         <td>{{ availability.dayTime }}</td>
-        <td><a class="btn-login btn btn-primary" role="button">Prenota</a></td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="Booking(availability.availabilityID)">Prenota</a></td>
       </tr>
 
       </tbody>
@@ -66,6 +68,7 @@
 import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {availabilityService} from "@/Service/availabilityService";
+import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -76,6 +79,8 @@ export default {
       teachers: {},
       subjects: {},
       availabilities: {},
+      teacherSelected:this.teacherSelected,
+      subjectSelected:this.subjectSelected
     }
   },
   created: async function () {
@@ -106,14 +111,40 @@ export default {
       }
       return null;
     },
-    trovaElementoPerChiave(array, chiave, valoreDaCercare) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i][chiave] === valoreDaCercare) {
-          console.log(array[i]);
-          return array[i];
+    printSubjectName(Id){
+      for (let i = 0; i < this.subjects.length; i++) {
+        if (this.subjects[i].subjectID === Id) {
+          console.log(this.subjects[i]);
+          return this.subjects[i].subjectName;
         }
       }
-      return null; // Se l'elemento non viene trovato
+      return null;
+    },
+    booking(id){
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      const params = {
+        action: 'bookingAvailability',
+        availability_id: id,
+      };
+
+
+      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "isBooked") {
+              console.log(" prenotato con successo ")
+              this.isLogged = true;
+            } else {
+              alert("prenotazione fallita ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
+
+
+
     }
 
   }
