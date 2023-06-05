@@ -119,8 +119,8 @@ public class HelloServlet extends HttpServlet {
                     rd = ctx.getRequestDispatcher("/formBooking.html");
                     break;*/
                 case "bookingAvailability":
-                   int av_id= Integer.parseInt(request.getParameter("availability_id"));
-                   Availability a= availabilityDao.getAvailability_by_ID(av_id);
+                   int availabilityId= Integer.parseInt(request.getParameter("availabilityId"));
+                   Availability a= availabilityDao.getAvailabilityByID(availabilityId);
                    availabilityDao.updateAvailability(a);
 
                 default:

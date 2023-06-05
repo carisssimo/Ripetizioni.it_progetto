@@ -18,7 +18,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA");
             while (rs.next()) {
-                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
                 /*System.out.println(a);*/
                 out.add(a);
             }
@@ -399,7 +399,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA WHERE PRENOTAZIONE='disponibile'");
             while (rs.next()) {
-                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
                 /*System.out.println(a);*/
                 out.add(a);
             }
@@ -487,7 +487,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         }
     }
 
-    public Availability getAvailability_by_ID(int av_id)
+    public Availability getAvailabilityByID(int av_id)
     {
         int id=0;
 
@@ -504,7 +504,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             statement.setInt(1, av_id);
 
             ResultSet rs = statement.executeQuery();
-            a = new Availability(rs.getInt("ID_DOCENTE"),rs.getInt("ID_CORSO"),rs.getInt("ID_UTENTE"),rs.getString("GIORNO_ORA"),rs.getString("PRENOTAZIONE"));
+            a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"),rs.getInt("ID_CORSO"),rs.getInt("ID_UTENTE"),rs.getString("GIORNO_ORA"),rs.getString("PRENOTAZIONE"));
             rs.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

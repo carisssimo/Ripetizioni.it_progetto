@@ -54,7 +54,7 @@
         <td>{{ printTeacherName(availability.teacherId) }}</td>
         <td>{{ printSubjectName(availability.subjectId) }}</td>
         <td>{{ availability.dayTime }}</td>
-        <td><a class="btn-login btn btn-primary" role="button" @click="Booking(availability.availabilityID)">Prenota</a></td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a></td>
       </tr>
 
       </tbody>
@@ -121,10 +121,11 @@ export default {
       return null;
     },
     booking(id){
+      console.log(id)
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
         action: 'bookingAvailability',
-        availability_id: id,
+        availabilityId: id,
       };
 
 
