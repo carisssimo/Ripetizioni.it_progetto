@@ -10,8 +10,8 @@
   </nav>
   <!--</div>-->
 
-  {{this.teacherSelected}}
-  {{this.subjectSelected}}
+<!--  {{this.teacherSelected}}
+  {{this.subjectSelected}}-->
   <div class="logged-container title-container container">
     <h1 class="title-main">Ora scegli la materia e il professore, poi prenotati !</h1>
   </div>

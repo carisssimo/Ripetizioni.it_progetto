@@ -397,7 +397,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             Statement st = conn1.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA WHERE PRENOTAZIONE='disponibile'");
+            ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA WHERE PRENOTAZIONE IS NULL");
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
                 /*System.out.println(a);*/
@@ -456,10 +456,11 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
     }
 
     //
-    public void updateAvailability(Availability a1) {
+    public int updateAvailability(Availability a1) { //prenotazione di una ripetizione)
+        int result=0;
         if (a1.getBooking() == "disdetta") {
             a1.setUserId(0);
-            add(a1);
+            add(a1); //aggiungo senza id
         }
         Connection conn1 = null;
         try {
@@ -472,7 +473,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setString(1, a1.getBooking());
             statement.setInt(2, id_av);
-            statement.executeUpdate();
+            result=statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -485,6 +486,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
                 }
             }
         }
+        return result;
     }
 
     public Availability getAvailabilityByID(int av_id)
