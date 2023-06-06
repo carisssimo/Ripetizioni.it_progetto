@@ -491,7 +491,6 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
     public Availability getAvailabilityByID(int av_id)
     {
-        int id=0;
 
         Availability a= null;
         Connection conn1 = null;
