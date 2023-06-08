@@ -46,20 +46,12 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("application/json");
         sessionCookie.setMaxAge(60 * 30);
         sessionCookie.setPath("/");
-
-
        /* Availability a1=new Availability(1,1,1,"Martedi 18:00 - 19:00","attiva");
         availabilityDao.add(a1);
         a1.setBooking("disdetta");
         availabilityDao.updateAvailability(a1);*/
         //HttpSession s=null;
         //System.out.println((String)s.getAttribute("email")+"333333333333333333333333333333333333333333333333");
-
-
-
-
-
-
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
@@ -75,16 +67,8 @@ public class HelloServlet extends HttpServlet {
 
         if (action != null) {
             switch (action) {
-                /*case "pageSign-in":  //al client torna la pagina di registrazione
-                    rd = ctx.getRequestDispatcher("/sign-in.html");
-                    break;
-                case "pageLogin":    //al client torna la pagina di login
-                    rd = ctx.getRequestDispatcher("/login.html");
-                    break;*/
                 case "getAllTeacher":    //al client torna la pagina di login
                     System.out.println("Siamo su getAllTeacher");
-
-
                     // creo oggetto JSON con oggetto Coppia
                     String teachersJson = gson.toJson(teachers);
                     System.out.println("STRINGA JSON " + teachersJson);
@@ -109,39 +93,10 @@ public class HelloServlet extends HttpServlet {
                 case "submitLogin":
 
                     String result = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
-
                     String email = request.getParameter("email");
-
-                    //session.setAttribute("email", email);
-                    sessionCookie.setComment(email);
+                    User u1= userDao.getByEmail(email);
+                    sessionCookie.setComment(Integer.toString(u1.getUserID()));
                     response.addCookie(sessionCookie);
-
-                    //session = request.getSession(false);
-                    /*synchronized (s)
-                    //{
-                        s.setAttribute("email", email);
-
-                        User client = userDao.getByEmail((String) s.getAttribute("email"));
-
-                        s.setAttribute("userId", client.getUserID());
-                        s.setAttribute("name", client.getName());
-                        s.setAttribute("role", client.getRole());
-                        System.out.println(s.getAttribute("userId")+"Sessione uteneeeeeeeeeeeeeeeeeeeeeeeeee");
-                    //}*/
-                    // System.out.println(session.getId());
-                    //String email2 = (String) session.getAttribute("email");
-                     //System.out.println(email2+" AAAAAAAAAAA    AAAAAAAA    3333333333333333333333333");
-                   // User client = userDao.getByEmail(email2);
-
-                   /* if (client != null && session!=null) {
-                        session.setAttribute("userId", client.getUserID());
-                        session.setAttribute("name", client.getName());
-                        session.setAttribute("role", client.getRole());
-                        System.out.println("uuuuuuuuu43h52u35h2u5hu23h5u23h5u2h3u5hn23uh52u3");
-                    } else {
-                        System.out.println("Impossibile trovare l'utente corrispondente all'email specificata");
-                    }*/
-
                     // creo oggetto JSON con oggetto Coppia
                     String loggedJson = gson.toJson(result);
                     System.out.println("STRINGA JSON " + loggedJson);
@@ -179,12 +134,14 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "getAvailabilitiesOfUser":
-                    System.out.println("getAvailabilitiesOfUser");
-                    if(session!=null)
-                    System.out.println("shrek");
-
-                    System.out.println(sessionCookie.getComment());
-
+                    if(sessionCookie.getComment()!=null) {
+                        System.out.println("getAvailabilitiesOfUser");
+                        System.out.println(sessionCookie.getComment());
+                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(Integer.parseInt(sessionCookie.getComment()));
+                        String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
+                        System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                        out.print(userAvailabilitiesBookedJson);
+                    }
                     break;
 
                 default:
