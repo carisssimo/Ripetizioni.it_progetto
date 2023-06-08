@@ -3,6 +3,7 @@ import Home from "@/components/Home.vue";
 import Login from "@/components/Login.vue";
 import Signin from "@/components/Signin.vue";
 import Booking from "@/components/Booking.vue";
+import PersonalPage from "@/components/PersonalPage.vue";
 
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
         name: 'Booking',
         component: Booking
     },
+    {
+        path:'/PersonalPage',
+        name: 'PersonalPage',
+        component: PersonalPage
+    }
     /*{
         path: '/users/:userId',
         props: true,

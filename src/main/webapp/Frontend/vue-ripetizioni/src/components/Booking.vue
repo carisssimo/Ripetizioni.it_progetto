@@ -41,7 +41,6 @@
     <table class="table">
       <thead>
       <tr>
-
         <th scope="col">Docente</th>
         <th scope="col">Corso</th>
         <th scope="col">Slot Orario</th>

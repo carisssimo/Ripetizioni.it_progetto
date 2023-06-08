@@ -3,8 +3,9 @@
   <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">
-
-      <RouterLink to="/login"><a class="btn-login btn btn-primary" role="button">Login</a></RouterLink>
+      <div style="margin-right: 25px;">
+        <RouterLink to="/login"><a class="btn-login btn btn-primary" role="button">Login</a></RouterLink>
+      </div>
 
     </form>
   </nav>
@@ -51,20 +52,22 @@
       </div>
     </div>
     <!-- riga per le descrizioni varie -->
-    <div class="card-row row align-items-center">
-      <div class="event-col col">
-        <h1>Eventi</h1>
-        <p>scopri tutti gli eventi per incontrare altri studenti</p>
+
+      <div class="card-row row align-items-center">
+        <div class="event-col col">
+          <h1>Eventi</h1>
+          <p>scopri tutti gli eventi per incontrare altri studenti</p>
+        </div>
+        <div class="event-col col">
+          <h1>Locali</h1>
+          <p>scopri tutti gli eventi della nostro borgo</p>
+        </div>
+        <div class="event-col col">
+          <h1>Partner</h1>
+          <p>scopri tutti gli eventi della nostro borgo</p>
+        </div>
       </div>
-      <div class="event-col col">
-        <h1>Locali</h1>
-        <p>scopri tutti gli eventi della nostro borgo</p>
-      </div>
-      <div class="event-col col">
-        <h1>Partner</h1>
-        <p>scopri tutti gli eventi della nostro borgo</p>
-      </div>
-    </div>
+
     <div class="container">
       <div class="row">
         <div class="image-col col">
@@ -182,4 +185,24 @@ export default {
   border-radius: 20px;
   overflow: hidden;
 }
+.card-row {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  /* Altri stili opzionali */
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  /* Altri stili opzionali per le righe */
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+
+
 </style>

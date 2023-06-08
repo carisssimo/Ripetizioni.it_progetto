@@ -45,7 +45,9 @@
         <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua
           città selezionando le date e gli orari che ti fanno più comodo.Prenota la tua
           lezione oppure dai un'occhiata alle lezioni già prenotate!!</p>
-        <RouterLink to="/booking"><a class="btn-login btn btn-primary" role="button">Prenota una lezione</a></RouterLink>
+          <RouterLink to="/booking"><a class="btn-login btn btn-primary" role="button">Prenota una lezione</a></RouterLink>
+        <span style="padding: 0 10px;"></span>
+        <RouterLink to="/PersonalPage"><a class="btn-l btn-login btn btn-success" role="button">Pagina Utente</a></RouterLink>
       </div>
     </div>
 

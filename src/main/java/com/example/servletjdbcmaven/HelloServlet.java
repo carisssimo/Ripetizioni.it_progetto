@@ -3,14 +3,11 @@ package com.example.servletjdbcmaven;
 import Crypt.Service;
 import DAO.*;
 import com.google.gson.Gson;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -19,12 +16,15 @@ import static java.lang.System.out;
 
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
+    HttpSession session;
     private static final DAO<Teacher> teacherDao = new TeacherDaoImpl();
     private static final DAO<Subject> subjectDao = new SubjectDaoImpl();
     private static final DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static final AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
     private static final UserDAOImpl userDao = new UserDAOImpl();
     private String message;
+    Cookie sessionCookie = new Cookie("session_id", "123456789");
+
 
     public void init() {
         message = "Hello World!";
@@ -44,14 +44,21 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
+        sessionCookie.setMaxAge(60 * 30);
+        sessionCookie.setPath("/");
+
 
        /* Availability a1=new Availability(1,1,1,"Martedi 18:00 - 19:00","attiva");
         availabilityDao.add(a1);
         a1.setBooking("disdetta");
         availabilityDao.updateAvailability(a1);*/
+        //HttpSession s=null;
+        //System.out.println((String)s.getAttribute("email")+"333333333333333333333333333333333333333333333333");
 
-        String email = request.getParameter("email");
-        HttpSession s = request.getSession();
+
+
+
+
 
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -100,15 +107,40 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
+
                     String result = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
 
-                    s.setAttribute("email", email);
+                    String email = request.getParameter("email");
 
-                    User client = userDao.getByEmail((String) s.getAttribute("email"));
+                    //session.setAttribute("email", email);
+                    sessionCookie.setComment(email);
+                    response.addCookie(sessionCookie);
 
-                    s.setAttribute("userId", client.getUserID());
-                    s.setAttribute("name", client.getName());
-                    s.setAttribute("role", client.getRole());
+                    //session = request.getSession(false);
+                    /*synchronized (s)
+                    //{
+                        s.setAttribute("email", email);
+
+                        User client = userDao.getByEmail((String) s.getAttribute("email"));
+
+                        s.setAttribute("userId", client.getUserID());
+                        s.setAttribute("name", client.getName());
+                        s.setAttribute("role", client.getRole());
+                        System.out.println(s.getAttribute("userId")+"Sessione uteneeeeeeeeeeeeeeeeeeeeeeeeee");
+                    //}*/
+                    // System.out.println(session.getId());
+                    //String email2 = (String) session.getAttribute("email");
+                     //System.out.println(email2+" AAAAAAAAAAA    AAAAAAAA    3333333333333333333333333");
+                   // User client = userDao.getByEmail(email2);
+
+                   /* if (client != null && session!=null) {
+                        session.setAttribute("userId", client.getUserID());
+                        session.setAttribute("name", client.getName());
+                        session.setAttribute("role", client.getRole());
+                        System.out.println("uuuuuuuuu43h52u35h2u5hu23h5u23h5u2h3u5hn23uh52u3");
+                    } else {
+                        System.out.println("Impossibile trovare l'utente corrispondente all'email specificata");
+                    }*/
 
                     // creo oggetto JSON con oggetto Coppia
                     String loggedJson = gson.toJson(result);
@@ -117,6 +149,8 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "getAllAvailabilitiesAvailable":
+
+
                     ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
                     String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
                     System.out.println("STRINGA JSON " + availabilityAvailableJson);
@@ -128,8 +162,9 @@ public class HelloServlet extends HttpServlet {
                     break;*/
                 case "bookingAvailability":
 
+                    System.out.println(session.getAttribute("userId") + " Sessione utente!!!!!!!!!!!!!!!!!!!!!!!");
                     int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
-                    int sessionUserId = (int) s.getAttribute("userId");
+                    int sessionUserId = (int) session.getAttribute("userId");
                     Availability a = availabilityDao.getAvailabilityByID(availabilityId);
                     a.setUserId(sessionUserId);
                     a.setBooking("attiva");
@@ -142,6 +177,16 @@ public class HelloServlet extends HttpServlet {
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
                     }
+                    break;
+                case "getAvailabilitiesOfUser":
+                    System.out.println("getAvailabilitiesOfUser");
+                    if(session!=null)
+                    System.out.println("shrek");
+
+                    System.out.println(sessionCookie.getComment());
+
+                    break;
+
                 default:
             }
 
@@ -173,7 +218,5 @@ public class HelloServlet extends HttpServlet {
             out.println("---------not logged");
             return "isNotLogged";
         }
-
-        //userDao.add(newUser);
     }
 }
