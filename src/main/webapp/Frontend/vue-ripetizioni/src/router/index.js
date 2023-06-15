@@ -4,6 +4,7 @@ import Login from "@/components/Login.vue";
 import Signin from "@/components/Signin.vue";
 import Booking from "@/components/Booking.vue";
 import PersonalPage from "@/components/PersonalPage.vue";
+import SmartBookig from "@/components/SmartBookig.vue";
 
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
         path: '/booking',
         name: 'Booking',
         component: Booking
+    },
+    {
+        path: '/smartBooking',
+        name: 'SmartBooking',
+        component: SmartBookig
     },
     {
         path:'/PersonalPage',

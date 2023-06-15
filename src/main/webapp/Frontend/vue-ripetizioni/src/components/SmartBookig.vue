@@ -10,8 +10,8 @@
   </nav>
   <!--</div>-->
 
-<!--  {{this.teacherSelected}}
-  {{this.subjectSelected}}-->
+  <!--  {{this.teacherSelected}}
+    {{this.subjectSelected}}-->
   <div class="logged-container title-container container">
     <h1 class="title-main">Ora scegli la materia e il professore, poi prenotati !</h1>
   </div>
@@ -20,15 +20,15 @@
   <div class="form-container-selector container">
     <form class="form-inline">
       <label class="my-1 mr-2" for="inlineFormCustomSelectCourse">Materia</label>
-      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2" v-model="filters.subjectFilter.value">
+      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2" v-model="subjectSelected">
         <option selected>Scegli la materia</option>
-        <option v-for="subject in subjects" :value="subject.subjectID" :key="subject.subjectID" >{{ subject.subjectName }}</option>
+        <option v-for="subject in subjects" :key="subject.subjectID" >{{ subject.subjectName }}</option>
       </select>
 
       <label class="my-1 mr-2" for="inlineFormCustomSelectTime">Professore</label>
-      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2" v-model="filters.teacherFilter.value">
+      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2" v-model="teacherSelected">
         <option selected>Scegli professore</option>
-        <option v-for="teacher in teachers" :value="teacher.teacherId" :key="teacher.name" >{{ teacher.name }} {{ teacher.surname }}
+        <option v-for="teacher in teachers" :key="teacher.name" >{{ teacher.name }} {{ teacher.surname }}
         </option>
       </select>
 
@@ -38,29 +38,26 @@
   </div>
 
   <div class="form-container-selector container">
-    <VTable
-        :data="availabilities"
-        :filters="filters"
-        class="table">
-      <template #head >
+    <table class="table">
+      <thead>
       <tr>
         <th scope="col">Docente</th>
         <th scope="col">Corso</th>
         <th scope="col">Slot Orario</th>
         <th scope="col"></th>
       </tr>
-      </template>
-      <template #body="{rows}" >
-      <tr v-for="row in rows" :key="row.availabilityID">
-<!--        <td>{{ availability.teacherId }}</td>-->
-        <td>{{ printTeacherName(row.teacherId) }}</td>
-        <td>{{ printSubjectName(row.subjectId) }}</td>
-        <td>{{ row.dayTime }}</td>
-        <td><a class="btn-login btn btn-primary" role="button" @click="booking(row.availabilityID)">Prenota</a></td>
+      </thead>
+      <tbody>
+      <tr v-for="availability in availabilities" :key="availability.availabilityID">
+        <!--        <td>{{ availability.teacherId }}</td>-->
+        <td>{{ printTeacherName(availability.teacherId) }}</td>
+        <td>{{ printSubjectName(availability.subjectId) }}</td>
+        <td>{{ availability.dayTime }}</td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a></td>
       </tr>
 
-      </template>
-    </VTable>
+      </tbody>
+    </table>
   </div>
 
 
@@ -74,17 +71,15 @@ import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Booking",
+  name: "SmartBooking",
   data: function () {
     return {
       loading: false,
       teachers: {},
       subjects: {},
       availabilities: {},
-      filters: {/*  utilizzo di filtri per filtrare la tabella a seconda delle richieste dell'utente'*/
-        subjectFilter: { value: '', keys: ['subjectId'] },
-        teacherFilter: { value: '', keys: ['teacherId'] }
-      }
+      teacherSelected:this.teacherSelected,
+      subjectSelected:this.subjectSelected
     }
   },
   created: async function () {

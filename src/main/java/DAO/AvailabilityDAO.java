@@ -13,4 +13,5 @@ public interface AvailabilityDAO {
     ArrayList<Availability> getByBookingState(String bookingState);
     ArrayList<Availability> getAllAvailabilityAvailable();
     Availability getAvailabilityByID(int av_id);
+    public ArrayList<Availability> getUserBooking(int userID);
 }
