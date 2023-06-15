@@ -75,7 +75,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("Siamo su getAllSubjects");
 
 
-
+                    // creo oggetto JSON con oggetto Coppia
                     String subjectsJson = gson.toJson(subjects);
                     System.out.println("STRINGA JSON " + subjectsJson);
                     out.print(subjectsJson);
@@ -140,12 +140,14 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "getAvailabilitiesOfUser":
-                    System.out.println("getAvailabilitiesOfUser");
-                    if(session!=null)
-                    System.out.println("shrek");
-
-                    System.out.println(sessionCookie.getComment());
-
+                    if(sessionCookie.getComment()!=null) {
+                        System.out.println("getAvailabilitiesOfUser");
+                        System.out.println(sessionCookie.getComment());
+                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(Integer.parseInt(sessionCookie.getComment()));
+                        String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
+                        System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                        out.print(userAvailabilitiesBookedJson);
+                    }
                     break;
                 case "logout":
                     System.out.println("logout----");
