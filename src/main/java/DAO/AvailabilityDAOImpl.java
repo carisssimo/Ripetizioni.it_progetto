@@ -19,7 +19,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             ResultSet rs = st.executeQuery("SELECT * FROM DISPONIBILITA");
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-                /*System.out.println(a);*/
+
                 out.add(a);
             }
         } catch (SQLException e) {
@@ -233,7 +233,6 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-                System.out.println(a);
                 out.add(a);
             }
         } catch (SQLException e) {
@@ -267,7 +266,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-                System.out.println(a);
+
                 out.add(a);
             }
         } catch (SQLException e) {
@@ -301,7 +300,6 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
             while (rs.next()) {
                 Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-                System.out.println(a);
                 out.add(a);
             }
         } catch (SQLException e) {
@@ -456,7 +454,8 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
     }
 
     //
-    public int updateAvailability(Availability a1) { //prenotazione di una ripetizione)
+    public int updateAvailability(Availability a1) { //prenotazione di una ripetizione
+        System.out.println("update Availability--------");
         int result=0;
         if (a1.getBooking() == "disdetta") {
             a1.setUserId(0);
@@ -468,11 +467,12 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             if (conn1 != null) {
                 System.out.println("AvailabilityDao inside updateAvailability Connected to the database test");
             }
-            String sql = "UPDATE DISPONIBILITA SET PRENOTAZIONE = ? WHERE ID_DISPONIBILITA = ?";
-            int id_av = getIDAvailability(a1);
+            String sql = "UPDATE DISPONIBILITA SET PRENOTAZIONE = ? , ID_UTENTE = ? WHERE ID_DISPONIBILITA = ?";
+            /*int id_av = getIDAvailability(a1);*/
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setString(1, a1.getBooking());
-            statement.setInt(2, id_av);
+            statement.setInt(2, a1.getUserId());
+            statement.setInt(3, a1.getAvailabilityID());
             result=statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -505,8 +505,9 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             statement.setInt(1, av_id);
 
             ResultSet rs = statement.executeQuery();
-            a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"),rs.getInt("ID_CORSO"),rs.getInt("ID_UTENTE"),rs.getString("GIORNO_ORA"),rs.getString("PRENOTAZIONE"));
             rs.next();
+            a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"),rs.getInt("ID_CORSO"),rs.getInt("ID_UTENTE"),rs.getString("GIORNO_ORA"),rs.getString("PRENOTAZIONE"));
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

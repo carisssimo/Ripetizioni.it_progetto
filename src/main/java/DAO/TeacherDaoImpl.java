@@ -19,7 +19,6 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
             ResultSet rs = st.executeQuery("SELECT * FROM DOCENTE ");
             while (rs.next()) {
                 Teacher t  = new Teacher(rs.getInt("ID_DOCENTE"),rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
-                /*System.out.println(t);*/
                 out.add(t);
             }
         } catch (SQLException e) {

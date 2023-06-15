@@ -130,7 +130,7 @@ export default {
 
       axios.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "isBooked") {
+            if (response.data === "booked") {
               console.log(" prenotato con successo ")
               this.isLogged = true;
             } else {

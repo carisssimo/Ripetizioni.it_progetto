@@ -48,18 +48,6 @@ public class HelloServlet extends HttpServlet {
         sessionCookie.setPath("/");
 
 
-       /* Availability a1=new Availability(1,1,1,"Martedi 18:00 - 19:00","attiva");
-        availabilityDao.add(a1);
-        a1.setBooking("disdetta");
-        availabilityDao.updateAvailability(a1);*/
-        //HttpSession s=null;
-        //System.out.println((String)s.getAttribute("email")+"333333333333333333333333333333333333333333333333");
-
-
-
-
-
-
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
@@ -75,17 +63,10 @@ public class HelloServlet extends HttpServlet {
 
         if (action != null) {
             switch (action) {
-                /*case "pageSign-in":  //al client torna la pagina di registrazione
-                    rd = ctx.getRequestDispatcher("/sign-in.html");
-                    break;
-                case "pageLogin":    //al client torna la pagina di login
-                    rd = ctx.getRequestDispatcher("/login.html");
-                    break;*/
-                case "getAllTeacher":    //al client torna la pagina di login
+
+                case "getAllTeacher":
                     System.out.println("Siamo su getAllTeacher");
 
-
-                    // creo oggetto JSON con oggetto Coppia
                     String teachersJson = gson.toJson(teachers);
                     System.out.println("STRINGA JSON " + teachersJson);
                     out.print(teachersJson);
@@ -94,13 +75,14 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("Siamo su getAllSubjects");
 
 
-                    // creo oggetto JSON con oggetto Coppia
+
                     String subjectsJson = gson.toJson(subjects);
                     System.out.println("STRINGA JSON " + subjectsJson);
                     out.print(subjectsJson);
                     break;
 
                 case "submitRegistration":  //vera e propria registrazione di un utente
+                    System.out.println("Siamo su submit Registration");
                     String signedJson = gson.toJson(submitRegistration(request.getParameter("name"), request.getParameter("surname"), request.getParameter("password"), request.getParameter("email"), request.getParameter("role")));
                     System.out.println("STRINGA JSON " + signedJson);
                     out.print(signedJson);
@@ -108,66 +90,45 @@ public class HelloServlet extends HttpServlet {
 
                 case "submitLogin":
 
-                    String result = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
-
-                    String email = request.getParameter("email");
-
-                    //session.setAttribute("email", email);
-                    sessionCookie.setComment(email);
+                    System.out.println("Siamo su submit login");
+                    //ritorna l'id dell'utente se il login è avvenuto con successo
+                    int id = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
+                    String loggedJson;
+                    if(id!=-1){
+                        sessionCookie.setComment(String.valueOf(id));
+                        loggedJson = gson.toJson("isLogged");
+                    }else{
+                         loggedJson = gson.toJson("notLogged");
+                    }
                     response.addCookie(sessionCookie);
-
-                    //session = request.getSession(false);
-                    /*synchronized (s)
-                    //{
-                        s.setAttribute("email", email);
-
-                        User client = userDao.getByEmail((String) s.getAttribute("email"));
-
-                        s.setAttribute("userId", client.getUserID());
-                        s.setAttribute("name", client.getName());
-                        s.setAttribute("role", client.getRole());
-                        System.out.println(s.getAttribute("userId")+"Sessione uteneeeeeeeeeeeeeeeeeeeeeeeeee");
-                    //}*/
-                    // System.out.println(session.getId());
-                    //String email2 = (String) session.getAttribute("email");
-                     //System.out.println(email2+" AAAAAAAAAAA    AAAAAAAA    3333333333333333333333333");
-                   // User client = userDao.getByEmail(email2);
-
-                   /* if (client != null && session!=null) {
-                        session.setAttribute("userId", client.getUserID());
-                        session.setAttribute("name", client.getName());
-                        session.setAttribute("role", client.getRole());
-                        System.out.println("uuuuuuuuu43h52u35h2u5hu23h5u23h5u2h3u5hn23uh52u3");
-                    } else {
-                        System.out.println("Impossibile trovare l'utente corrispondente all'email specificata");
-                    }*/
-
-                    // creo oggetto JSON con oggetto Coppia
-                    String loggedJson = gson.toJson(result);
                     System.out.println("STRINGA JSON " + loggedJson);
                     out.print(loggedJson);
 
                     break;
                 case "getAllAvailabilitiesAvailable":
 
-
+                    System.out.println("Siamo get Alla Availabilities available");
                     ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
                     String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
                     System.out.println("STRINGA JSON " + availabilityAvailableJson);
                     out.print(availabilityAvailableJson);
                     break;
 
-                /*case "pageFormBooking":  //al client torna la pagina di registrazione
-                    rd = ctx.getRequestDispatcher("/formBooking.html");
-                    break;*/
+
                 case "bookingAvailability":
 
-                    System.out.println(session.getAttribute("userId") + " Sessione utente!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("Sono in booking Availability");
                     int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
-                    int sessionUserId = (int) session.getAttribute("userId");
                     Availability a = availabilityDao.getAvailabilityByID(availabilityId);
-                    a.setUserId(sessionUserId);
+
+                    //prendo l'id dalla session cookie
+                    int userId= Integer.parseInt(sessionCookie.getComment());
+                    System.out.println(userId);
                     a.setBooking("attiva");
+                    a.setUserId(userId);
+                    System.out.println("stampa1");
+                    availabilityDao.updateAvailability(a);
+                    System.out.println("stampa1");
                     if(availabilityDao.updateAvailability(a)!=0){
                         String bookedJson = gson.toJson("booked");
                         System.out.println("STRINGA JSON " + bookedJson);
@@ -184,6 +145,13 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("shrek");
 
                     System.out.println(sessionCookie.getComment());
+
+                    break;
+                case "logout":
+                    System.out.println("logout----");
+                    /*cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");*/
 
                     break;
 
@@ -205,18 +173,17 @@ public class HelloServlet extends HttpServlet {
         }
     }
 
-    private String submitLogin(String userEmail, String userPassword, String userRole) {
+    private int submitLogin(String userEmail, String userPassword, String userRole) {
         Service s = new Service();
-        User u = userDao.getByEmail(userEmail);//userDao.getByEmail(userEmail);
-        out.println(u);
+        User u = userDao.getByEmail(userEmail);
         if (Service.checkMD5(u.getPassword(), userPassword)) {
             //LOGGED
             out.println("---------logged");
-            return "isLogged";
+            return u.getUserID();
         } else {
             //NOT LOGGED
             out.println("---------not logged");
-            return "isNotLogged";
+            return -1;
         }
     }
 }
