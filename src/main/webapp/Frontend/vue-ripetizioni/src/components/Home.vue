@@ -1,5 +1,4 @@
 <template>
-
   <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">

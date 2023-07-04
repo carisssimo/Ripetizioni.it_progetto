@@ -77,7 +77,7 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database in delete Teacher");
             }
 
             String query = "DELETE FROM DOCENTE WHERE ID_DOCENTE=?";
@@ -212,7 +212,7 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database getByEmail");
             }
 
             String sql = "SELECT * FROM DOCENTE WHERE EMAIL = ?";

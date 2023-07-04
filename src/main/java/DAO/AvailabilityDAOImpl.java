@@ -458,7 +458,6 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         System.out.println("update Availability--------");
         int result=0;
         if (a1.getBooking() == "disdetta") {
-            a1.setUserId(0);
             add(a1); //aggiungo senza id
         }
         Connection conn1 = null;

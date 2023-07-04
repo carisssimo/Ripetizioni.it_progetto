@@ -8,61 +8,21 @@
       <div style="margin-right: 25px;"><RouterLink to="/"><a class="btn-login btn btn-primary" @click="Click" role="button">logout</a></RouterLink></div>
     </form>
   </nav>
-  <!--</div>-->
 
-  <!--  {{this.teacherSelected}}
-    {{this.subjectSelected}}-->
   <div class="logged-container title-container container">
-    <h1 class="title-main">Scegli la ripe più adatta a te</h1>
-  </div>
-
-  <!--FORM per selezionare orario e materia
-  <div class="form-container-selector container">
-    <form class="form-inline">
-      <label class="my-1 mr-2" for="inlineFormCustomSelectCourse">Materia</label>
-      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2" v-model="subjectSelected">
-        <option selected>Scegli la materia</option>
-        <option v-for="subject in subjects" :key="subject.subjectID" >{{ subject.subjectName }}</option>
-      </select>
-
-      <label class="my-1 mr-2" for="inlineFormCustomSelectTime">Professore</label>
-      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2" v-model="teacherSelected">
-        <option selected>Scegli professore</option>
-        <option v-for="teacher in teachers" :key="teacher.name" >{{ teacher.name }} {{ teacher.surname }}
-        </option>
-      </select>
-
-
-      <button class="btn-login btn btn-primary my-1" type="submit" >Submit</button>
-    </form>
-  </div> -->
-
-  <div class="form-container-selector container">
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">Docente</th>
-        <th scope="col">Corso</th>
-        <th scope="col">Slot Orario</th>
-        <th scope="col"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="availability in availabilities" :key="availability.availabilityID">
-        <!--        <td>{{ availability.teacherId }}</td>-->
-        <td>{{ printTeacherName(availability.teacherId) }}</td>
-        <td>{{ printSubjectName(availability.subjectId) }}</td>
-        <td>{{ availability.dayTime }}</td>
-        <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a></td>
-      </tr>
-
-      </tbody>
-    </table>
-  </div>
+    <h1 class="title-main">Pagina Amministratore</h1>
+  <h1 class="title-main">Bentornato!</h1>
+  <p class="p-start"></p>
+  <RouterLink to="/AddProf"><a class="btn-login btn btn-primary" role="button">+ Nuovo Docente</a></RouterLink>
   <span style="padding: 0 10px;"></span>
-  <div class="button-container container align-items-center">
-  <RouterLink to="/Login"><a class="btn-l btn-login btn btn-success" role="button">Torna indietro</a></RouterLink>
+  <RouterLink to="/Addsub"><a class="btn-l btn-login btn btn-success" role="button">+ Nuovo Corso</a></RouterLink>
+  <span style="padding: 0 10px;"></span>
+  <RouterLink to="/DelProf"><a class="btn-l btn-login btn btn-success" role="button" > - Elimina Docente</a></RouterLink>
+  <span style="padding: 0 10px;"></span>
+  <RouterLink to="/update"><a class="btn-l btn-login btn btn-success" role="button" > - Elimina Corso</a></RouterLink>
   </div>
+
+
 
 
 </template>
@@ -74,7 +34,7 @@ import { availabilityService } from "@/Service/availabilityService";
 import axios from "axios";
 
 export default {
-  name: "SmartBooking",
+  name: "AdminPage",
   data() {
     return {
       loading: false,

@@ -58,11 +58,35 @@ public class HelloServlet extends HttpServlet {
         ArrayList<Subject> subjects = subjectDao.getAll();
         ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
         ArrayList<Availability> availabilities = availabilityDao.getAll();
+        /*PrintWriter ou1 = response.getWriter();
+        String userName = request.getParameter("utente");
+        String sessionID = request.getParameter("sessione");
+        HttpSession s = request.getSession();
+        String jsessionID = s.getId(); // estraggo il session ID
+        System.out.println("JSessionID:" + jsessionID);
+        System.out.println("sessionID ricevuto:" + sessionID);
+        System.out.println("userName ricevuto:" + userName);
+
+        if (userName != null) {
+            s.setAttribute("userName", userName); // salvo dei dati in sessione...
+        }
+        if (sessionID!=null && jsessionID.equals(sessionID)) {
+            //System.out.println("sessione riconosciuta!");
+            out.print("sessione riconosciuta!");
+        } else {
+            //System.out.println(jsessionID);
+            out.print(jsessionID);
+        }*/
 
         Gson gson = new Gson();
 
         if (action != null) {
             switch (action) {
+                case "addAvailability":
+                    System.out.println("ADD-AVAILABILITY");
+                    //Availability availability=new Availability();
+
+                    break;
 
                 case "getAllTeacher":
                     System.out.println("Siamo su getAllTeacher");
@@ -116,7 +140,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "bookingAvailability":
-
+                    System.out.println("booking!!!!!");
                     System.out.println("Sono in booking Availability");
                     int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
                     Availability a = availabilityDao.getAvailabilityByID(availabilityId);
@@ -139,6 +163,7 @@ public class HelloServlet extends HttpServlet {
                         out.print(bookedJson);
                     }
                     break;
+
                 case "getAvailabilitiesOfUser":
                     if(sessionCookie.getComment()!=null) {
                         System.out.println("getAvailabilitiesOfUser");
@@ -149,13 +174,97 @@ public class HelloServlet extends HttpServlet {
                         out.print(userAvailabilitiesBookedJson);
                     }
                     break;
-                case "logout":
-                    System.out.println("logout----");
-                    /*cookie.setValue(null);
-                    cookie.setMaxAge(0);
-                    cookie.setPath("/");*/
+                case "deleteAvailability":
+                    System.out.println("DELETE");
+
+                    int availabilityId2 = Integer.parseInt(request.getParameter("availabilityId"));
+                    Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
+                    //prendo l'id dalla session cookie
+
+                     int userId2= Integer.parseInt(sessionCookie.getComment());
+
+                    System.out.println(userId2);
+                    a2.setBooking("disdetta");
+                    a2.setUserId(userId2);
+                    System.out.println("stampa1d");
+                    availabilityDao.updateAvailability(a2);
+                    System.out.println("stampa1d");
+                    if(availabilityDao.updateAvailability(a2)!=0){
+                        String bookedJson = gson.toJson("booked");
+                        System.out.println("STRINGA JSON " + bookedJson);
+                        out.print(bookedJson);
+                    }else{
+                        String bookedJson = gson.toJson("notBooked");
+                        System.out.println("STRINGA JSON " + bookedJson);
+                        out.print(bookedJson);
+                    }
+                    break;
+
+
+                case "archiveAvailability":
+                    int availabilityId3 = Integer.parseInt(request.getParameter("availabilityId"));
+                    Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
+                    //prendo l'id dalla session cookie
+
+                    int userId3= Integer.parseInt(sessionCookie.getComment());
+
+                    System.out.println(userId3);
+                    a3.setBooking("effettuata");
+                    a3.setUserId(userId3);
+                    System.out.println("stampa1d");
+                    availabilityDao.updateAvailability(a3);
+                    System.out.println("stampa1d");
+                    if(availabilityDao.updateAvailability(a3)!=0){
+                        String bookedJson = gson.toJson("booked");
+                        System.out.println("STRINGA JSON " + bookedJson);
+                        out.print(bookedJson);
+                    }else{
+                        String bookedJson = gson.toJson("notBooked");
+                        System.out.println("STRINGA JSON " + bookedJson);
+                        out.print(bookedJson);
+                    }
+                    break;
+
+                case "getAdmin":
+
+                    User u1=userDao.getByEmail(request.getParameter("email"));
+                    int userId4= Integer.parseInt(sessionCookie.getComment());
+                    String answerJson= gson.toJson(u1.getRole());
+                    System.out.println("STRINGA JSON " + answerJson);
+                    out.print(answerJson);
+
 
                     break;
+                case "addProf":
+                    System.out.println("addprof----");
+                    String addprofdJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
+                    System.out.println("STRINGA JSON " + addprofdJson1);
+                    out.print(addprofdJson1);
+
+                    break;
+                case "addSub":
+                    System.out.println("addsub----");
+                    String addsubdJson1 = gson.toJson(submitSub(request.getParameter("name"), request.getParameter("descp")));
+                    System.out.println("STRINGA JSON " + addsubdJson1);
+                    out.print(addsubdJson1);
+                    break;
+                case "deleteProf":
+                    System.out.println("delete----");
+                    String deleteprofdJson1 = gson.toJson(removeTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
+                    System.out.println("STRINGA JSON " + deleteprofdJson1);
+                    out.print(deleteprofdJson1);
+
+                    break;
+                case "logout":
+                    System.out.println("logout----");
+                    Cookie sessionCookie = new Cookie("session_id", "");
+                    sessionCookie.setMaxAge(0); // Imposta la durata del cookie a 0 per farlo scadere immediatamente
+                    response.addCookie(sessionCookie);
+                    response.sendRedirect("/");
+                    break;
+
+
+
 
                 default:
             }
@@ -172,6 +281,38 @@ public class HelloServlet extends HttpServlet {
             return "isNotSigned";
         } else {
             return "isSigned";
+        }
+    }
+    private String submitTeacher(String name, String surname,String email)
+    {
+        Teacher t=new Teacher(name,surname,email);
+        int row = teacherDao.add(t);
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
+        }
+    }
+    private String submitSub(String name, String desc)
+    {
+        Subject s1= new Subject(name,desc);
+        int row=subjectDao.add(s1);
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
+        }
+    }
+
+    private String removeTeacher(String name, String surname,String email)
+    {
+        Teacher t1=new Teacher(name,surname,email);
+        TeacherDaoImpl td= new TeacherDaoImpl();
+        int row = teacherDao.delete(td.getByEmail(t1.getEmail()).getTeacherId());
+        if (row == 0) {
+            return "notRemoved";
+        } else {
+            return "Removed";
         }
     }
 

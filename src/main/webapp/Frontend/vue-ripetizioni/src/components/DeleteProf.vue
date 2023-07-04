@@ -1,0 +1,87 @@
+<template>
+  <!--titolo e descrizione-->
+  <div class="title-container container">
+    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
+    <p class="p-start">Eliminazione Docente</p>
+  </div>
+
+  <!--FORM-->
+  <div v-if="!isSigned" class="form-container container align-items-center">
+    <form v-on:submit.prevent="onSubmit">
+      <div class=" form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-group-orange form-control" id="name" v-model="name">
+
+      </div>
+      <div class="form-group">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-group-orange form-control" id="surname" v-model="surname">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-group-orange form-control" id="email" v-model="email">
+      </div>
+
+      <button class="btn-login btn btn-primary" @click="add">Rimuovi </button>
+    </form>
+  </div>
+
+
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "DeleteProf",
+  data: function(){
+    return{
+      isSigned:false,
+      name:'',
+      surname:'',
+      email:'',
+
+    }
+  },
+  methods:{
+    add(){
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      const params = {
+        action: 'deleteProf',
+        name:this.name,
+        surname:this.surname,
+        email: this.email,
+      };
+      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "Removed") {
+              console.log(" aggiunto con successo")
+              this.name='';
+              this.surname='';
+              this.email='';
+            } else {
+              alert("problema aggiunta docente");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
+    }
+  }
+}
+</script>
+
+<style scoped>
+.logged-container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border: solid orangered 2px;
+  border-radius: 10px;
+  margin-top: 50px;
+  background-color: white;
+}
+</style>

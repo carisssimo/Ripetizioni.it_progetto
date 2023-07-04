@@ -4,7 +4,7 @@
   <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">
-      <a class="btn-login btn btn-primary" role="button">logout</a>
+     <div style="margin-right: 25px;"><RouterLink to="/"><a class="btn-login btn btn-primary" @click="Click" role="button">logout</a></RouterLink></div>
     </form>
   </nav>
   <!--</div>-->
@@ -82,6 +82,7 @@ export default {
       availabilities: [],
     }
   },
+
   created: async function () {
     try {
       this.loading = true;
@@ -146,7 +147,31 @@ export default {
 
 
 
-    }
+    },
+    Click() {
+      console.log('logout')
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('admin');
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      const params = {
+        action: 'logout',
+      };
+      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "Logout") {
+              console.log(" logout ")
+              this.isLogged = false;
+              localStorage.removeItem('isLogged');
+            } else {
+              alert("failed logout ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
+    },
 
   }
 }

@@ -45,7 +45,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database add Subject");
             }
             String query = "INSERT INTO CORSO (NOME_CORSO, DESCRIZIONE) VALUES (?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
@@ -63,6 +63,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
                 }
             }
         }
+        System.out.println("successfully added to subject");
         return rowsInserted;
     }
 

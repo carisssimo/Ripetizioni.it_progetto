@@ -5,6 +5,11 @@ import Signin from "@/components/Signin.vue";
 import Booking from "@/components/Booking.vue";
 import PersonalPage from "@/components/PersonalPage.vue";
 import SmartBookig from "@/components/SmartBookig.vue";
+import UpdateBooking from "@/components/UpdateBooking.vue";
+import AdminPage from "@/components/AdminPage.vue";
+import AddProf from "@/components/AddProf.vue";
+import DeleteProf from "@/components/DeleteProf.vue";
+import AddSubject from "@/components/AddSubject.vue";
 
 
 const routes = [
@@ -18,6 +23,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login
+    },
+    {
+        path: '/update',
+        name: 'Update',
+        component: UpdateBooking
     },
     {
         path: '/signin',
@@ -38,7 +48,29 @@ const routes = [
         path:'/PersonalPage',
         name: 'PersonalPage',
         component: PersonalPage
+    },
+    {
+        path:'/Admin',
+        name: 'Admin',
+        component: AdminPage
+    },
+    {
+        path:'/AddProf',
+        name: 'addProf',
+        component: AddProf
+    },
+    {
+        path:'/DelProf',
+        name: 'delProf',
+        component: DeleteProf
+    },
+    {
+        path:'/Addsub',
+        name: 'AddSubject',
+        component: AddSubject
     }
+
+
     /*{
         path: '/users/:userId',
         props: true,
