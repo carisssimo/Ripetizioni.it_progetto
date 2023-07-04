@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.System.out;
 
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
@@ -146,7 +147,7 @@ public class HelloServlet extends HttpServlet {
                     Availability a = availabilityDao.getAvailabilityByID(availabilityId);
 
                     //prendo l'id dalla session cookie
-                    int userId= Integer.parseInt(sessionCookie.getComment());
+                    int userId= parseInt(sessionCookie.getComment());
                     System.out.println(userId);
                     a.setBooking("attiva");
                     a.setUserId(userId);
@@ -168,11 +169,22 @@ public class HelloServlet extends HttpServlet {
                     if(sessionCookie.getComment()!=null) {
                         System.out.println("getAvailabilitiesOfUser");
                         System.out.println(sessionCookie.getComment());
-                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(Integer.parseInt(sessionCookie.getComment()));
+                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(parseInt(sessionCookie.getComment()));
                         String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
                         System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
                         out.print(userAvailabilitiesBookedJson);
                     }
+                    break;
+                case "removeAvailability":
+                    /////////////////////////////////////////////////
+                    /////////////////////////////////////////////////
+                    // THIS METHOD REMOVE DISPONIBILITA FROM DB
+                    System.out.println("Removelesson----");
+
+                    System.out.println(request.getParameter("dateAv")+"///////////////////////////");
+                    String remsubdJson = gson.toJson(removeLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("dateAv")));
+                    System.out.println("STRINGA JSON " + remsubdJson);
+                    out.print(remsubdJson);
                     break;
 
                 case "getAvailabilitiesOfUserActive":
@@ -186,17 +198,22 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "deleteAvailability":
+                    /////////////////////////////////////////////////
+                    /////////////////////////////////////////////////
+                    //THIS METHOD IS CALLED BY USER IT DOESNT REMOVE AVAILABILITY FROM DB
                     System.out.println("DELETE");
 
-                    int availabilityId2 = Integer.parseInt(request.getParameter("availabilityId"));
+                    int availabilityId2 = parseInt(request.getParameter("availabilityId"));
                     Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
                     //prendo l'id dalla session cookie
 
-                     int userId2= Integer.parseInt(sessionCookie.getComment());
+                     int userId2= parseInt(sessionCookie.getComment());
 
                     System.out.println(userId2);
                     a2.setBooking("disdetta");
                     a2.setUserId(userId2);
+                    System.out.println("stampa1d");
+                    availabilityDao.updateAvailability(a2);
                     System.out.println("stampa1d");
                     if(availabilityDao.updateAvailability(a2)!=0){
                         String bookedJson = gson.toJson("booked");
@@ -211,11 +228,11 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "archiveAvailability":
-                    int availabilityId3 = Integer.parseInt(request.getParameter("availabilityId"));
+                    int availabilityId3 = parseInt(request.getParameter("availabilityId"));
                     Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
                     //prendo l'id dalla session cookie
 
-                    int userId3= Integer.parseInt(sessionCookie.getComment());
+                    int userId3= parseInt(sessionCookie.getComment());
 
                     System.out.println(userId3);
                     a3.setBooking("effettuata");
@@ -237,7 +254,7 @@ public class HelloServlet extends HttpServlet {
                 case "getAdmin":
 
                     User u1=userDao.getByEmail(request.getParameter("email"));
-                    int userId4= Integer.parseInt(sessionCookie.getComment());
+                    int userId4= parseInt(sessionCookie.getComment());
                     String answerJson= gson.toJson(u1.getRole());
                     System.out.println("STRINGA JSON " + answerJson);
                     out.print(answerJson);
@@ -257,6 +274,21 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + addsubdJson1);
                     out.print(addsubdJson1);
                     break;
+
+                case "RemoveSubject":
+                    System.out.println("removesub----");
+                    String removesubdJson1 = gson.toJson(removeSub(request.getParameter("name"), request.getParameter("descp")));
+                    System.out.println("STRINGA JSON " + removesubdJson1);
+                    out.print(removesubdJson1);
+                    break;
+
+                case "addLesson":
+                    System.out.println("addlesson----");
+                    String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("daytime")));
+                    System.out.println("STRINGA JSON " + addsubdJson4);
+                    out.print(addsubdJson4);
+                    break;
+
                 case "deleteProf":
                     System.out.println("delete----");
                     String deleteprofdJson1 = gson.toJson(removeTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
@@ -278,6 +310,26 @@ public class HelloServlet extends HttpServlet {
                 default:
             }
 
+        }
+    }
+
+    private Object submitLesson(String idProf, String idSub, String daytime) {
+        Availability a1 = new Availability(parseInt(idProf),parseInt(idSub),daytime);
+        int row= availabilityDao.add(a1);
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
+        }
+    }
+    private Object removeLesson(String idProf, String idSub, String daytime) {
+        out.println(idProf+" "+idSub+" "+daytime);
+        Availability a1=availabilityDao.getByTeacherSubjectUser(parseInt(idProf),parseInt(idSub),daytime);
+        int row= availabilityDao.delete(a1.getAvailabilityID());
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
         }
     }
 
@@ -312,6 +364,19 @@ public class HelloServlet extends HttpServlet {
             return "Added";
         }
     }
+    private String removeSub(String name, String desc)
+    {
+        Subject s1= new Subject(name,desc);
+        SubjectDaoImpl sd=new SubjectDaoImpl();
+        s1=sd.getByName(s1.getSubjectName());
+        System.out.println("--_-----RemoveSUB"+s1.getSubjectID());
+        int row=sd.delete(s1.getSubjectID());
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
+        }
+    }
 
     private String removeTeacher(String name, String surname,String email)
     {
@@ -338,4 +403,5 @@ public class HelloServlet extends HttpServlet {
             return -1;
         }
     }
+
 }

@@ -2,25 +2,28 @@
   <!--titolo e descrizione-->
   <div class="title-container container">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <p class="p-start">Creazione nuova materia</p>
+    <p class="p-start">Eliminazione Disponibilità</p>
   </div>
 
   <!--FORM-->
   <div v-if="!isSigned" class="form-container container align-items-center">
     <form v-on:submit.prevent="onSubmit">
       <div class=" form-group">
-        <label for="name">Nome</label>
-        <input type="text" class="form-group-orange form-control" id="name" v-model="name">
+        <label for="name">ID_DOCENTE</label>
+        <input type="text" class="form-group-orange form-control" id="name" v-model="id_prof">
 
       </div>
       <div class="form-group">
-        <label for="surname">Descrizione</label>
-        <input type="text" class="form-group-orange form-control" id="surname" v-model="descp">
+        <label for="surname">ID_CORSO</label>
+        <input type="text" class="form-group-orange form-control" id="surname" v-model="id_sub">
       </div>
 
+      <div class="form-group">
+        <label for="name">GIORNO_ORA</label>
+        <input type="text" class="form-group-orange form-control" v-model="dateAv">
+      </div>
 
-
-      <button class="btn-login btn btn-primary" @click="add">Aggiungi </button>
+      <button class="btn-login btn btn-primary" @click="add">Rimuovi </button>
     </form>
   </div>
 
@@ -32,13 +35,13 @@ import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "AddSubject",
+  name: "RemoveAvailability",
   data: function(){
     return{
-      isSigned:false,
-      name:'',
-      descp:'',
 
+      id_prof:'',
+      id_sub:'',
+      dateAv:'',
 
     }
   },
@@ -46,19 +49,20 @@ export default {
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
-        action: 'addSub',
-        name:this.name,
-        descp:this.descp,
-
+        action: 'removeAvailability',
+        id_prof:this.id_prof,
+        id_sub:this.id_sub,
+        dateAv: this.dateAv,
       };
       axios.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Added") {
-              console.log(" aggiunto con successo")
-              this.name='';
-              this.descp='';
+            if (response.data === "Removed") {
+              console.log("disponibilità rimossa con successo")
+              this.id_prof='';
+              this.id_sub='';
+              this.dateAv='';
             } else {
-              alert("problema aggiunta materia");
+              alert("problema rimozione disponibilità");
             }
 
           })

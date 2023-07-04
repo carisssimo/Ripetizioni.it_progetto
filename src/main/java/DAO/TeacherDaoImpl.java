@@ -220,8 +220,8 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
             statement.setString(1, email);
 
             ResultSet rs = statement.executeQuery();
-
-            t = new Teacher(rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+            rs.next();
+            t = new Teacher(rs.getInt("ID_DOCENTE"),rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
             System.out.println(t);
 
         } catch (SQLException e) {

@@ -74,7 +74,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database inside delete subjectDAO");
             }
 
             String query = "DELETE FROM CORSO WHERE ID_CORSO=?";
@@ -106,7 +106,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database inside getByName");
             }
 
             String sql = "SELECT * FROM CORSO WHERE NOME_CORSO = ?";
@@ -114,8 +114,9 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
             statement.setString(1, subjectName);
 
             ResultSet rs = statement.executeQuery();
+            rs.next();
 
-            s = new Subject(rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
+            s = new Subject(rs.getInt("ID_CORSO"),rs.getString("NOME_CORSO"), rs.getString("DESCRIZIONE"));
             System.out.println(s);
 
         } catch (SQLException e) {
@@ -131,4 +132,5 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
         }
         return s;
     }
+
 }

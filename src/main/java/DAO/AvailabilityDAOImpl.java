@@ -51,7 +51,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             if (a.getUserId() > 0) {
                 String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, ID_UTENTE, GIORNO_ORA, PRENOTAZIONE) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement statement = con.prepareStatement(query);
-
+                System.out.println("ADDING QUERY AVAILABILITY");
                 statement.setInt(1, a.getTeacherId());
                 statement.setInt(2, a.getSubjectId());
                 statement.setInt(3, a.getUserId());
@@ -62,7 +62,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             } else { //aggiunta di una riga in disponibilità fattibile solo da admin (utente può solo fare update se prenota)
                 String query = "INSERT INTO DISPONIBILITA (ID_DOCENTE, ID_CORSO, GIORNO_ORA) VALUES (?, ?, ?)";
                 PreparedStatement statement = con.prepareStatement(query);
-
+                System.out.println("ADDING QUERY AVAILABILITY");
                 statement.setInt(1, a.getTeacherId());
                 statement.setInt(2, a.getSubjectId());
                 statement.setString(3, a.getDayTime());
@@ -92,15 +92,16 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database inside delete AvailabilityDAOIMPL");
             }
 
-            String query = "DELETE FROM DISPONIBILITA WHERE DISPONIBILITA.ID_DISPONIBILITA=?";
+            String query = "DELETE FROM DISPONIBILITA WHERE ID_DISPONIBILITA=?";
             PreparedStatement statement = con.prepareStatement(query);
 
             statement.setInt(1, id);
 
             rowsDeleted = statement.executeUpdate();
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -187,7 +188,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
-                System.out.println("Connected to the database");
+                System.out.println("Connected to the database inside getByTeacherSubjectUser");
             }
 
             String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND ID_CORSO = ? AND GIORNO_ORA = ?";
@@ -198,8 +199,9 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             statement.setString(3, dayTime);
 
             ResultSet rs = statement.executeQuery();
+            rs.next();
 
-            av = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+            av = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
             System.out.println(av);
 
         } catch (SQLException e) {
