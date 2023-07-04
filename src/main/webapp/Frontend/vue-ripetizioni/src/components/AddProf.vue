@@ -28,18 +28,10 @@
   </div>
 
   <!--bottoni di registrazione e accesso per ospiti-->
-  <div class="button-container container align-items-center">
-
-    <div v-if="isSigned">
-      <div class="logged-container title-container container">
-        <h1 class="title-main">Ti sei correttamente registrato!</h1>
-        <p class="p-start">Torna alla Home e poi effettua il login per prenotare una lezione! </p>
-        <p class="p-start"><router-link to="/">Home</router-link> </p>
-      </div>
-    </div>
 
 
-  </div>
+
+
 </template>
 
 <script>

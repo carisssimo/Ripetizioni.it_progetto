@@ -180,8 +180,6 @@ public class HelloServlet extends HttpServlet {
                     /////////////////////////////////////////////////
                     // THIS METHOD REMOVE DISPONIBILITA FROM DB
                     System.out.println("Removelesson----");
-
-                    System.out.println(request.getParameter("dateAv")+"///////////////////////////");
                     String remsubdJson = gson.toJson(removeLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("dateAv")));
                     System.out.println("STRINGA JSON " + remsubdJson);
                     out.print(remsubdJson);
@@ -322,14 +320,14 @@ public class HelloServlet extends HttpServlet {
             return "Added";
         }
     }
-    private Object removeLesson(String idProf, String idSub, String daytime) {
+    private String removeLesson(String idProf, String idSub, String daytime) {
         out.println(idProf+" "+idSub+" "+daytime);
         Availability a1=availabilityDao.getByTeacherSubjectUser(parseInt(idProf),parseInt(idSub),daytime);
         int row= availabilityDao.delete(a1.getAvailabilityID());
         if (row == 0) {
             return "notAdded";
         } else {
-            return "Added";
+            return "Removed";
         }
     }
 
