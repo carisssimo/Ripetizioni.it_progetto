@@ -10,6 +10,9 @@ import AdminPage from "@/components/AdminPage.vue";
 import AddProf from "@/components/AddProf.vue";
 import DeleteProf from "@/components/DeleteProf.vue";
 import AddSubject from "@/components/AddSubject.vue";
+import AddLesson from "@/components/AddLesson.vue";
+import RemoveSubject from "@/components/RemoveSubject.vue";
+import RemoveAvailability from "@/components/RemoveAvailability.vue";
 
 
 const routes = [
@@ -68,7 +71,23 @@ const routes = [
         path:'/Addsub',
         name: 'AddSubject',
         component: AddSubject
+    },
+    {
+        path:'/AddLesson',
+        name: 'AddLesson',
+        component: AddLesson
+    },
+    {
+        path:'/RemoveSubject',
+        name: 'RemoveSubject',
+        component: RemoveSubject
+    },
+    {
+        path:'/RemoveAvailability',
+        name: 'RemoveAvailability',
+        component: RemoveAvailability
     }
+
 
 
     /*{

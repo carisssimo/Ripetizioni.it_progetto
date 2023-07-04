@@ -33,4 +33,6 @@ public class Subject {
                 "Nome corso: " + subjectName + ", \n" +
                 "Descrizione: " + description + ";\n";
     }
+
+
 }

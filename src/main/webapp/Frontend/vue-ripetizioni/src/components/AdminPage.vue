@@ -1,4 +1,5 @@
 <template>
+
   <!--NAVBAR PRINCIPALE-->
   <!--<div class="container-fluid">-->
   <nav class="navbar navbar-light bg-light">
@@ -16,13 +17,15 @@
   <RouterLink to="/AddProf"><a class="btn-login btn btn-primary" role="button">+ Nuovo Docente</a></RouterLink>
   <span style="padding: 0 10px;"></span>
   <RouterLink to="/Addsub"><a class="btn-l btn-login btn btn-success" role="button">+ Nuovo Corso</a></RouterLink>
+    <span style="padding: 0 10px;"></span>
+    <RouterLink to="/AddLesson"><a class="btn-l btn-login btn btn-success" role="button" >+ Nuova Lezione</a></RouterLink>
   <span style="padding: 0 10px;"></span>
-  <RouterLink to="/DelProf"><a class="btn-l btn-login btn btn-success" role="button" > - Elimina Docente</a></RouterLink>
+  <RouterLink to="/DelProf"><a class="btn-l btn-login btn btn-success" role="button" >- Elimina Docente</a></RouterLink>
   <span style="padding: 0 10px;"></span>
-  <RouterLink to="/update"><a class="btn-l btn-login btn btn-success" role="button" > - Elimina Corso</a></RouterLink>
+  <RouterLink to="/RemoveSubject"><a class="btn-l btn-login btn btn-success" role="button" >- Elimina Corso</a></RouterLink>
+    <span style="padding: 0 10px;"></span>
+    <RouterLink to="/RemoveAvailability"><a class="btn-l btn-login btn btn-success" role="button" >- Elimina Lezione</a></RouterLink>
   </div>
-
-
 
 
 </template>
@@ -42,7 +45,9 @@ export default {
       subjects: {},
       availabilities: {},
       teacherSelected: this.teacherSelected,
-      subjectSelected: this.subjectSelected
+      subjectSelected: this.subjectSelected,
+      imageSrc: '/Users/lorenzobettiol/IdeaProjects/Ripetizioni.it_progetto/src/main/webapp/Frontend/vue-ripetizioni/src/images/1600x480-img_3998-v3_348114_0.webp',
+      altText: 'Descrizione dell\'immagine',
     };
   },
   created: async function() {
@@ -138,5 +143,8 @@ export default {
 
 
 <style scoped>
-
+.photo-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
 </style>

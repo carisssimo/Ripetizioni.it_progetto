@@ -2,21 +2,25 @@
   <!--titolo e descrizione-->
   <div class="title-container container">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <p class="p-start">Creazione nuova materia</p>
+    <p class="p-start">Inserimento nuova lezione</p>
   </div>
 
   <!--FORM-->
-  <div v-if="!isSigned" class="form-container container align-items-center">
+  <div class="form-container container align-items-center">
     <form v-on:submit.prevent="onSubmit">
       <div class=" form-group">
-        <label for="name">Nome</label>
-        <input type="text" class="form-group-orange form-control" id="name" v-model="name">
-
+        <label for="name">ID_Docente</label>
+        <input type="text" class="form-group-orange form-control" id="id_prof" v-model="id_prof">
       </div>
       <div class="form-group">
-        <label for="surname">Descrizione</label>
-        <input type="text" class="form-group-orange form-control" id="surname" v-model="descp">
+        <label for="surname">ID_Corso</label>
+        <input type="text" class="form-group-orange form-control" id="id_sub" v-model="id_sub">
       </div>
+      <div class="form-group">
+        <label for="surname">Giorno e orario</label>
+        <input type="text" class="form-group-orange form-control" id="daytime" v-model="daytime">
+      </div>
+
 
 
 
@@ -32,33 +36,33 @@ import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "AddSubject",
+  name: "AddLesson",
   data: function(){
     return{
-      isSigned:false,
-      name:'',
-      descp:'',
-
-
+      id_prof:'',
+      id_sub:'',
+      daytime:''
     }
   },
   methods:{
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
-        action: 'addSub',
-        name:this.name,
-        descp:this.descp,
+        action: 'addLesson',
+        id_prof:this.id_prof,
+        id_sub:this.id_sub,
+        daytime:this.daytime,
 
       };
       axios.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Added") {
-              console.log(" aggiunto con successo")
-              this.name='';
-              this.descp='';
+              console.log("lezione aggiunta con successo")
+              this.id_prof='';
+              this.id_sub='';
+              this.daytime='';
             } else {
-              alert("problema aggiunta materia");
+              alert("problema aggiunta lezione");
             }
 
           })

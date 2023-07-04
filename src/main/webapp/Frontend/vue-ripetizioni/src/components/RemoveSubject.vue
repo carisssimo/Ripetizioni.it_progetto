@@ -2,7 +2,7 @@
   <!--titolo e descrizione-->
   <div class="title-container container">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <p class="p-start">Creazione nuova materia</p>
+    <p class="p-start">Eliminazione Materia</p>
   </div>
 
   <!--FORM-->
@@ -20,7 +20,7 @@
 
 
 
-      <button class="btn-login btn btn-primary" @click="add">Aggiungi </button>
+      <button class="btn-login btn btn-primary" @click="add">Rimuovi </button>
     </form>
   </div>
 
@@ -32,7 +32,7 @@ import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "AddSubject",
+  name: "RemoveSubject",
   data: function(){
     return{
       isSigned:false,
@@ -46,7 +46,7 @@ export default {
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
-        action: 'addSub',
+        action: 'RemoveSubject',
         name:this.name,
         descp:this.descp,
 
