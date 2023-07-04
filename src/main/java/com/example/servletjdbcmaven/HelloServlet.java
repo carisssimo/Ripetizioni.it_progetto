@@ -174,6 +174,17 @@ public class HelloServlet extends HttpServlet {
                         out.print(userAvailabilitiesBookedJson);
                     }
                     break;
+
+                case "getAvailabilitiesOfUserActive":
+                    if(sessionCookie.getComment()!=null) {
+                        System.out.println("getAvailabilitiesOfUserActive");
+                        System.out.println(sessionCookie.getComment());
+                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBookingActive(Integer.parseInt(sessionCookie.getComment()));
+                        String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
+                        System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                        out.print(userAvailabilitiesBookedJson);
+                    }
+                    break;
                 case "deleteAvailability":
                     System.out.println("DELETE");
 
@@ -186,8 +197,6 @@ public class HelloServlet extends HttpServlet {
                     System.out.println(userId2);
                     a2.setBooking("disdetta");
                     a2.setUserId(userId2);
-                    System.out.println("stampa1d");
-                    availabilityDao.updateAvailability(a2);
                     System.out.println("stampa1d");
                     if(availabilityDao.updateAvailability(a2)!=0){
                         String bookedJson = gson.toJson("booked");

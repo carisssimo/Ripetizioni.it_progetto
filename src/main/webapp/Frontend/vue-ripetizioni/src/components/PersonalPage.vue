@@ -53,7 +53,7 @@
         <td>{{ printTeacherName(av.teacherId) }}</td>
         <td>{{ printSubjectName(av.subjectId) }}</td>
         <td>{{ av.dayTime }}</td>
-        <td>{{av.state}}</td>
+        <td>{{av.booking}}</td>
       </tr>
       </tbody>
 

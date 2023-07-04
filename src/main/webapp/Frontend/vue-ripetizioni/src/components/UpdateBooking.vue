@@ -37,12 +37,12 @@
           <td>{{ printSubjectName(availability.subjectId) }}</td>
           <td>{{ availability.dayTime }}</td>
           <td>
-           <!-- <a class="btn-login btn btn-primary" role="button" @click="archiv(availability.availabilityID)">
-              Archivia
-            </a>
-            <span style="padding: 0 10px;"></span>-->
-            <a class="btn-login btn btn-primary" role="button" @click="done(availability.availabilityID)">
+
+            <a class="btn-login btn btn-primary" role="button" @click="delet(availability.availabilityID)">
               Cancella
+            </a>
+            <a class="btn-login btn btn-primary" role="button" @click="archiv(availability.availabilityID)">
+              Effettuata
             </a>
           </td>
 
@@ -78,12 +78,26 @@ export default {
       subjectSelected: ""
     };
   },
+  /*computed:{
+    filteredAvailabilities: function(){
+      let filteredAvailabilities[];
+      let j=0;
+      for (let i = 0; i < this.availabilities.length; i++) {
+        if (this.availabilities[i].booking === "attiva") {
+          console.log(this.availabilities[i]);
+          return this.teachers[i].name;
+        }
+      }
+      return null;
+    }
+
+  },*/
   created: async function () {
     try {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
-      let response3 = await availabilityService.getAvailabilitiesByID();
+      let response3 = await availabilityService.getAvailabilitiesByIDActive(); //TODO:da cambiare solo le prenotazioni attive non quelle disdette
       this.loading = false;
       this.teachers = response.data;
       this.subjects = response2.data;
@@ -139,7 +153,7 @@ export default {
             console.error(error);
           });
     },
-    done(id) {
+    delet(id) {
       console.log(id);
       const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
       const params = {

@@ -50,9 +50,8 @@
         <th scope="col"></th>
       </tr>
       </template>
-      <template #body="{rows}" >
+      <template #body="{ rows }" >
       <tr v-for="row in rows" :key="row.availabilityID">
-<!--        <td>{{ availability.teacherId }}</td>-->
         <td>{{ printTeacherName(row.teacherId) }}</td>
         <td>{{ printSubjectName(row.subjectId) }}</td>
         <td>{{ row.dayTime }}</td>
@@ -147,8 +146,6 @@ export default {
 
             console.error(error);
           });
-
-
 
     }
 

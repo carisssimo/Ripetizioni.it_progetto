@@ -41,6 +41,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
     public int add(Availability a) {
         Connection con = null;
         int rowsInserted = 0;
+        System.out.println("add new availability");
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -458,7 +459,8 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         System.out.println("update Availability--------");
         int result=0;
         if (a1.getBooking() == "disdetta") {
-            add(a1); //aggiungo senza id
+            Availability a2=new Availability(a1.getTeacherId(),a1.getSubjectId(),a1.getDayTime());
+            add(a2); //aggiungo senza id e con stato null(nuova availability)
         }
         Connection conn1 = null;
         try {
@@ -555,4 +557,40 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         return out;
     }
 
+    public ArrayList<Availability> getUserBookingActive(int userID) {
+        {
+            Connection conn1 = null;
+            ArrayList<Availability> out = new ArrayList<>();
+            try {
+                conn1 = DriverManager.getConnection(url1, user, password);
+                if (conn1 != null) {
+                    System.out.println("UserDAO Connected to the database test");
+                }
+                String sql ="SELECT * FROM DISPONIBILITA WHERE ID_UTENTE=? AND PRENOTAZIONE=?";
+                PreparedStatement st = conn1.prepareStatement(sql);
+                st.setInt(1, userID);
+                st.setString(2, "attiva");
+
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                    /*System.out.println(a);*/
+                    out.add(a);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            finally {
+                if (conn1 != null) {
+                    try {
+                        conn1.close();
+                    } catch (SQLException e2) {
+                        System.out.println(e2.getMessage());
+                    }
+                }
+            }
+
+            return out;
+        }
+    }
 }
