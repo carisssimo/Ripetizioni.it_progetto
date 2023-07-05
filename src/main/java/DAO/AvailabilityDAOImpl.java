@@ -189,6 +189,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
                 System.out.println("Connected to the database inside getByTeacherSubjectUser");
+                System.out.println(teacherId+" "+subjectId+" "+dayTime);
             }
 
             String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND ID_CORSO = ? AND GIORNO_ORA = ?";
@@ -199,10 +200,13 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
             statement.setString(3, dayTime);
 
             ResultSet rs = statement.executeQuery();
-            rs.next();
 
-            av = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
-            System.out.println(av);
+            if(rs.next()) {
+                av = new Availability(rs.getInt("ID_DISPONIBILITA"), rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getString("GIORNO_ORA"), rs.getString("PRENOTAZIONE"));
+                System.out.println(av);
+            }
+            else
+                System.out.println("nessun record trovato ///////////");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
