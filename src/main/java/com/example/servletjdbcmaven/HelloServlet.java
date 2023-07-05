@@ -92,6 +92,13 @@ public class HelloServlet extends HttpServlet {
                     //Availability availability=new Availability();
 
                     break;
+                case "getAllAvailabilities":
+                    System.out.println("Siamo su getAllAvailabilities");
+
+                    String availabilitiesJson = gson.toJson(availabilities);
+                    System.out.println("STRINGA JSON " + availabilitiesJson);
+                    out.print(availabilitiesJson);
+                    break;
 
                 case "getAllTeacher":
                     System.out.println("Siamo su getAllTeacher");

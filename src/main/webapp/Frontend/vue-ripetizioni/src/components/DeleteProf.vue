@@ -1,8 +1,48 @@
 <template>
-  <!--titolo e descrizione-->
-  <div class="title-container container">
+  <!--NAVBAR PRINCIPALE-->
+  <!--<div class="container-fluid">-->
+  <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <p class="p-start">Eliminazione Docente</p>
+    <form class="form-inline">
+      <div style="margin-right: 25px;">
+        <RouterLink to="/">
+          <a class="btn-login btn btn-primary" @click="Click" role="button">logout</a>
+        </RouterLink>
+      </div>
+    </form>
+  </nav>
+  <!--  navbar per la navigazione dell'amministratore loggato-->
+
+  <ul class="title-main navbar-ripetizioni nav nav-tabs">
+    <li class="nav-item">
+      <RouterLink to="/Admin"><a class="nav-link " aria-current="page" href="#">Pagina Amministratore</a></RouterLink>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle active" data-toggle="dropdown"  role="button" aria-expanded="false">Docenti</a>
+      <ul class="dropdown-menu">
+        <li><RouterLink to="/AddProf"><a class="dropdown-item" href="#">Aggiungi Docente</a></RouterLink></li>
+        <li><RouterLink to="/DelProf"><a class="dropdown-item" href="#">Elimina Docente</a></RouterLink></li>
+      </ul>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Corsi</a>
+      <ul class="dropdown-menu">
+        <li><RouterLink to="/Addsub"><a class="dropdown-item" href="#">Aggiungi Corso</a></RouterLink></li>
+        <li><RouterLink to="/RemoveSubject"><a class="dropdown-item" href="#">Elimina Corso</a></RouterLink></li>
+      </ul>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Lezioni</a>
+      <ul class="dropdown-menu">
+        <li><RouterLink to="/AddLesson"><a class="dropdown-item" href="#">Aggiungi Lezione</a></RouterLink></li>
+        <li><RouterLink to="/RemoveAvailability"><a class="dropdown-item" href="#">Elimina Lezione</a></RouterLink></li>
+      </ul>
+    </li>
+
+  </ul>
+
+  <div class="logged-container title-container container">
+    <h1 class="title-main">Eliminazione Docente</h1>
   </div>
 
   <!--FORM-->

@@ -27,5 +27,13 @@ export class availabilityService {
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
         return axios.get(dataURL,{params});
     }
+    static getAllAvailabilities() {
+        const params = {
+            action: 'getAllAvailabilities',
+        };
+        let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+        return axios.get(dataURL,{params}); /*libreria utilizzata per effettuare chiamate http async*/
+
+    }
 
 }
