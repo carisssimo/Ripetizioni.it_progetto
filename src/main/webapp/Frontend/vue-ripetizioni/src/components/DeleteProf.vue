@@ -121,7 +121,7 @@ export default {
     }
   },
   methods:{
-    add(){
+    /*add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
         action: 'deleteProf',
@@ -130,8 +130,8 @@ export default {
         email: this.email,
       };
       if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
-            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+        axios.get(url, {params}) /!*prima effettuiamo la http request async*!/
+            .then(response => {         /!*solo una volta eseguita la request passiamo a gestire la risposta*!/
               if (response.data === "Removed") {
                 console.log(" aggiunto con successo")
                 this.name = '';
@@ -147,7 +147,7 @@ export default {
               console.error(error);
             });
       }
-    },
+    },*/
     deleteTeacher(id){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {

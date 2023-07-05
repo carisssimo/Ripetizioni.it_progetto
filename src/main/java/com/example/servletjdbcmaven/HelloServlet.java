@@ -19,7 +19,7 @@ import static java.lang.System.out;
 public class HelloServlet extends HttpServlet {
     HttpSession session;
     private static final TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-    private static final DAO<Subject> subjectDao = new SubjectDaoImpl();
+    private static final SubjectDaoImpl subjectDao = new SubjectDaoImpl();
     private static final DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static final AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
     private static final UserDAOImpl userDao = new UserDAOImpl();
@@ -290,6 +290,13 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + removesubdJson1);
                     out.print(removesubdJson1);
                     break;
+                case "deleteSubject":
+                    System.out.println("delete subject ");
+                    String removesubdJson2 = gson.toJson(removeSub(Integer.parseInt(request.getParameter("subjectId"))));
+                    System.out.println("STRINGA JSON " + removesubdJson2);
+                    out.print(removesubdJson2);
+                    break;
+
 
                 case "addLesson":
                     System.out.println("addlesson----");
@@ -384,6 +391,20 @@ public class HelloServlet extends HttpServlet {
     private String removeSub(String name, String desc)
     {
         Subject s1= new Subject(name,desc);
+        SubjectDaoImpl sd=new SubjectDaoImpl();
+        s1=sd.getByName(s1.getSubjectName());
+        System.out.println("--_-----RemoveSUB"+s1.getSubjectID());
+        int row=sd.delete(s1.getSubjectID());
+        if (row == 0) {
+            return "notAdded";
+        } else {
+            return "Added";
+        }
+    }
+
+    private String removeSub(int id)
+    {
+        Subject s1= subjectDao.getById(id);
         SubjectDaoImpl sd=new SubjectDaoImpl();
         s1=sd.getByName(s1.getSubjectName());
         System.out.println("--_-----RemoveSUB"+s1.getSubjectID());
