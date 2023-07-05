@@ -159,7 +159,11 @@ export default {
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "Removed") {
                 console.log(" eliminato con successo")
-                this.availabilities.splice(params.teacherId, 1);
+                const index = this.teachers.findIndex(teacher => teacher.teacherId === id);
+                if (index !== -1) {
+                  this.teachers.splice(index, 1); // Rimuovi la riga corrispondente dalla lista
+                }
+
                 this.teacherId = '';
               } else {
                 alert("problema eliminazione docente");
