@@ -94,22 +94,24 @@ export default {
         surname:this.surname,
         email: this.email,
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Removed") {
-              console.log(" aggiunto con successo")
-              this.name='';
-              this.surname='';
-              this.email='';
-            } else {
-              alert("problema aggiunta docente");
-            }
+      if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
+        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response.data === "Removed") {
+                console.log(" aggiunto con successo")
+                this.name = '';
+                this.surname = '';
+                this.email = '';
+              } else {
+                alert("problema aggiunta docente");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+      }
     }
   }
 }
