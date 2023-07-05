@@ -42,13 +42,13 @@
         <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua
           città selezionando le date e gli orari che ti fanno più comodo.Prenota la tua
           lezione oppure dai un'occhiata alle lezioni già prenotate!!</p>
-          <RouterLink to="/smartBooking"><a class="btn-login btn btn-primary" role="button">Prenota una lezione</a></RouterLink>
+<!--          <RouterLink to="/smartBooking"><a class="btn-login btn btn-primary" role="button">Prenota una lezione</a></RouterLink>
+        <span style="padding: 0 10px;"></span>-->
+        <RouterLink to="/PersonalPage"><a class="btn-l btn-login btn btn-success" role="button">Inizia</a></RouterLink>
         <span style="padding: 0 10px;"></span>
-        <RouterLink to="/PersonalPage"><a class="btn-l btn-login btn btn-success" role="button">Pagina Utente</a></RouterLink>
+<!--        <RouterLink to="/"><a class="btn-l btn-login btn btn-success" role="button" >Torna alla home</a></RouterLink>
         <span style="padding: 0 10px;"></span>
-        <RouterLink to="/"><a class="btn-l btn-login btn btn-success" role="button" >Torna alla home</a></RouterLink>
-        <span style="padding: 0 10px;"></span>
-        <RouterLink to="/update"><a class="btn-l btn-login btn btn-success" role="button" >Aggiorna la tua Ripe</a></RouterLink>
+        <RouterLink to="/update"><a class="btn-l btn-login btn btn-success" role="button" >Aggiorna la tua Ripe</a></RouterLink>-->
         <div v-if="admin">
           <div :style="{ paddingTop: '20px', paddingBottom: '20px' }"></div>
           <RouterLink to="/Admin"><a class="btn-l btn-login btn btn-success" role="button">Pagina Amministratore</a></RouterLink>

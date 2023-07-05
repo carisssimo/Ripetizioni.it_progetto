@@ -10,11 +10,28 @@
   </nav>
   <!--</div>-->
 
+  <ul class="title-main navbar-ripetizioni nav nav-tabs">
+    <li class="nav-item">
+      <RouterLink to="/PersonalPage"><a class="nav-link " aria-current="page" href="#">Pagina Personale</a></RouterLink>
+    </li>
+    <li class="nav-item">
+      <RouterLink to="/update"><a class="nav-link " href="#">Modifica </a></RouterLink>
+    </li>
+    <li class="nav-item">
+      <RouterLink to="/smartBooking"><a class="nav-link active" href="#">Prenota</a></RouterLink>
+    </li>
+
+  </ul>
+
   <!--  {{this.teacherSelected}}
     {{this.subjectSelected}}-->
   <div class="logged-container title-container container">
     <h1 class="title-main">Scegli la ripe più adatta a te</h1>
   </div>
+
+  <!--  navbar per la navigazione dell'utente loggato-->
+
+
 
   <!--FORM per selezionare orario e materia
   <div class="form-container-selector container">
@@ -60,9 +77,7 @@
     </table>
   </div>
   <span style="padding: 0 10px;"></span>
-  <div class="button-container container align-items-center">
-  <RouterLink to="/Login"><a class="btn-l btn-login btn btn-success" role="button">Torna indietro</a></RouterLink>
-  </div>
+
 
 
 </template>

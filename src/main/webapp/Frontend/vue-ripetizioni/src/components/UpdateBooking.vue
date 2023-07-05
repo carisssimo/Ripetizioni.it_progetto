@@ -14,6 +14,21 @@
   </nav>
   <!-- </div> -->
 
+  <!--  navbar per la navigazione dell'utente loggato-->
+
+  <ul class="title-main navbar-ripetizioni nav nav-tabs">
+    <li class="nav-item">
+      <RouterLink to="/PersonalPage"><a class="nav-link " aria-current="page" href="#">Pagina Personale</a></RouterLink>
+    </li>
+    <li class="nav-item">
+      <RouterLink to="/update"><a class="nav-link active" href="#">Modifica </a></RouterLink>
+    </li>
+    <li class="nav-item">
+      <RouterLink to="/smartBooking"><a class="nav-link" href="#">Prenota</a></RouterLink>
+    </li>
+
+  </ul>
+
   <!-- {{ this.teacherSelected }} {{ this.subjectSelected }} -->
   <div class="logged-container title-container container">
     <h1 class="title-main">Aggiorna la prenotazione o eliminala</h1>

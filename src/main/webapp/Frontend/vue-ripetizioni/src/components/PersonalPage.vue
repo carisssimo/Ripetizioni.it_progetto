@@ -9,33 +9,26 @@
   </nav>
   <!--</div>-->
 
-  {{this.teacherSelected}}
-  {{this.subjectSelected}}
+<!--  navbar per la navigazione dell'utente loggato-->
+
+    <ul class="title-main navbar-ripetizioni nav nav-tabs">
+      <li class="nav-item">
+        <RouterLink to="/PersonalPage"><a class="nav-link active" aria-current="page" href="#">Pagina Personale</a></RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/update"><a class="nav-link" href="#">Modifica </a></RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/smartBooking"><a class="nav-link" href="#">Prenota</a></RouterLink>
+      </li>
+
+    </ul>
+
+
   <div class="logged-container title-container container">
     <h1 class="title-main">Ecco qui il resoconto delle tue prenotazioni!</h1>
   </div>
 
-  <!--FORM per selezionare orario e materia -->
-  <!--
-  <div class="form-container-selector container">
-    <form class="form-inline">
-      <label class="my-1 mr-2" for="inlineFormCustomSelectCourse">Materia</label>
-      <select id="inlineFormCustomSelectCourse" class="custom-select my-1 mr-sm-2" v-model="subjectSelected">
-        <option selected>Scegli la materia</option>
-        <option v-for="subject in subjects" :key="subject.subjectID" >{{ subject.subjectName }}</option>
-      </select>
-
-      <label class="my-1 mr-2" for="inlineFormCustomSelectTime">Professore</label>
-      <select id="inlineFormCustomSelectTime" class="custom-select my-1 mr-sm-2" v-model="teacherSelected">
-        <option selected>Scegli professore</option>
-        <option v-for="teacher in teachers" :key="teacher.name" >{{ teacher.name }} {{ teacher.surname }}
-        </option>
-      </select>
-
-
-      <button class="btn-login btn btn-primary my-1" type="submit" >Submit</button>
-    </form>
-  </div>      -->
 
   <div class="form-container-selector container">
     <table class="table">

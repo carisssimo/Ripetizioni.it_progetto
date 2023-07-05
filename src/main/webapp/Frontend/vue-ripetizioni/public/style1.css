@@ -34,6 +34,12 @@ body{
     font-size:xxx-large;
     font-weight: 700;
 }
+.navbar-ripetizioni{
+    color: orangered;
+    font-size: xx-large;
+    font-weight: 700;
+    padding: 17px;
+}
 
 .p-start{
     font-size: larger;
