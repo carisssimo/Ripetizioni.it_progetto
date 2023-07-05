@@ -123,21 +123,22 @@ export default {
       };
 
 
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "isBooked") {
-              console.log(" prenotato con successo ")
-              this.isLogged = true;
-            } else {
-              alert("prenotazione fallita ");
-            }
+      if(localStorage.getItem("isLogged")==="true") {  //controllo se è effettivamente un utente loggato
+        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response.data === "isBooked") {
+                console.log(" prenotato con successo ")
+                this.isLogged = true;
+              } else {
+                alert("prenotazione fallita ");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
-
+              console.error(error);
+            });
+      }
 
 
     },

@@ -151,23 +151,26 @@ export default {
         availabilityId: id
       };
 
-      axios
-          .get(url, { params })
-          .then(response => {
-            if (response.data === "booked") {
-              console.log("archiviata con successo");
-              const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
-              if (index !== -1) {
-                this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+      if (localStorage.getItem("isLogged") === "true") {
+        axios
+            .get(url, {params})
+            .then(response => {
+              if (response.data === "booked") {
+                console.log("archiviata con successo");
+                const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
+                if (index !== -1) {
+                  this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+                }
+              } else {
+                alert("Archiviazione fallita");
               }
-            } else {
-              alert("Archiviazione fallita");
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      }
     },
+
     delet(id) {
       console.log(id);
       const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";

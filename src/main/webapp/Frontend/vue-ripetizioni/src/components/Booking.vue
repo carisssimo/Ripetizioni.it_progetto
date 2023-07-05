@@ -123,7 +123,7 @@ export default {
       }
       return null;
     },
-    booking(id){
+    booking(id) {
       console.log(id)
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
@@ -132,23 +132,25 @@ export default {
       };
 
 
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "booked") {
-              console.log(" prenotato con successo ")
-              this.isLogged = true;
-            } else {
-              alert("prenotazione fallita ");
-            }
+      if (localStorage.getItem("isLogged") === "true") {
+        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response.data === "booked") {
+                console.log(" prenotato con successo ")
+                this.isLogged = true;
+              } else {
+                alert("prenotazione fallita ");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+
+      }
 
     }
-
   }
 }
 </script>
