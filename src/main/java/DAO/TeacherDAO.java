@@ -6,4 +6,5 @@ public interface TeacherDAO {
     int updateEmail(Teacher t, String email);
 
     Teacher getByEmail(String email);
+    public Teacher getById(int id);
 }

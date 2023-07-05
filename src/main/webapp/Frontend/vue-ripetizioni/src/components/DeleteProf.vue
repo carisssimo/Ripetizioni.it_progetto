@@ -45,7 +45,7 @@
     <h1 class="title-main">Eliminazione Docente</h1>
   </div>
 
-  <!--FORM-->
+<!--  &lt;!&ndash;FORM&ndash;&gt;
   <div v-if="!isSigned" class="form-container container align-items-center">
     <form v-on:submit.prevent="onSubmit">
       <div class=" form-group">
@@ -65,6 +65,28 @@
 
       <button class="btn-login btn btn-primary" @click="add">Rimuovi </button>
     </form>
+  </div>-->
+  <div class="form-container-selector container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Cognome</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="teacher in teachers" :key="teacher.teacherId">
+        <!--        <td>{{ availability.teacherId }}</td>-->
+        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.surname }}</td>
+        <td>{{ teacher.email }}</td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="deleteTeacher(teacher.teacherId)">Elimina</a></td>
+      </tr>
+
+      </tbody>
+    </table>
   </div>
 
 
@@ -72,6 +94,7 @@
 
 <script>
 import axios from "axios";
+import {teacherService} from "@/Service/teachersService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -79,10 +102,22 @@ export default {
   data: function(){
     return{
       isSigned:false,
-      name:'',
+      /*name:'',
       surname:'',
-      email:'',
+      email:'',*/
+      teachers:{}
 
+    }
+  },
+  created: async function() {
+    try {
+      this.loading = true;
+      let response = await teacherService.getAllTeachers();
+      this.loading = false;
+      this.teachers = response.data;
+      console.log(this.teachers);
+    } catch (e) {
+      console.log(e);
     }
   },
   methods:{
@@ -112,18 +147,35 @@ export default {
               console.error(error);
             });
       }
+    },
+    deleteTeacher(id){
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      const params = {
+        action: 'deleteTeacher',
+        teacherId:id
+      };
+      if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
+        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response.data === "Removed") {
+                console.log(" eliminato con successo")
+                this.availabilities.splice(params.teacherId, 1);
+                this.teacherId = '';
+              } else {
+                alert("problema eliminazione docente");
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+            });
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-.logged-container {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  border: solid orangered 2px;
-  border-radius: 10px;
-  margin-top: 50px;
-  background-color: white;
-}
+
 </style>

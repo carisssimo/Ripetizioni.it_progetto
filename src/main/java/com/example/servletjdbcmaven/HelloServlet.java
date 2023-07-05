@@ -18,7 +18,7 @@ import static java.lang.System.out;
 @WebServlet(name = "jdbcServlet", value = "/jdbc-servlet")
 public class HelloServlet extends HttpServlet {
     HttpSession session;
-    private static final DAO<Teacher> teacherDao = new TeacherDaoImpl();
+    private static final TeacherDaoImpl teacherDao = new TeacherDaoImpl();
     private static final DAO<Subject> subjectDao = new SubjectDaoImpl();
     private static final DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static final AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
@@ -305,6 +305,14 @@ public class HelloServlet extends HttpServlet {
                     out.print(deleteprofdJson1);
 
                     break;
+                case "deleteTeacher":
+                    System.out.println("delete teacher");
+                    String deleteprofdJson2= gson.toJson(removeTeacher(Integer.parseInt(request.getParameter("teacherId"))));
+
+                    System.out.println("STRINGA JSON " + deleteprofdJson2);
+                    out.print(deleteprofdJson2);
+
+                    break;
                 case "logout":
                     System.out.println("logout----");
                     Cookie sessionCookie = new Cookie("session_id", "");
@@ -392,6 +400,17 @@ public class HelloServlet extends HttpServlet {
         Teacher t1=new Teacher(name,surname,email);
         TeacherDaoImpl td= new TeacherDaoImpl();
         int row = teacherDao.delete(td.getByEmail(t1.getEmail()).getTeacherId());
+        if (row == 0) {
+            return "notRemoved";
+        } else {
+            return "Removed";
+        }
+    }
+    private String removeTeacher(int id)
+    {
+        Teacher t1=teacherDao.getById(id);
+
+        int row = teacherDao.delete(t1.getTeacherId());
         if (row == 0) {
             return "notRemoved";
         } else {

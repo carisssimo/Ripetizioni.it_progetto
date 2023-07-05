@@ -237,4 +237,36 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
         }
         return t;
     }
+
+    public Teacher getById(int id){
+        Connection con = null;
+        Teacher t = null;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("Connected to the database getByEmail");
+            }
+
+            String sql = "SELECT * FROM DOCENTE WHERE ID_DOCENTE = ?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            t = new Teacher(rs.getInt("ID_DOCENTE"),rs.getString("NOME"), rs.getString("COGNOME"), rs.getString("EMAIL"));
+            System.out.println(t);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+        return t;
+    }
 }

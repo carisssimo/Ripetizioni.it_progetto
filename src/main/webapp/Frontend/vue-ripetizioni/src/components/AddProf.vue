@@ -121,12 +121,5 @@ export default {
 </script>
 
 <style scoped>
-.logged-container {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  border: solid orangered 2px;
-  border-radius: 10px;
-  margin-top: 50px;
-  background-color: white;
-}
+
 </style>
