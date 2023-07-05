@@ -148,8 +148,8 @@ export default {
       console.log(e);
     }
   },
-
   methods: {
+
     printTeacherName(Id) {
       for (let i = 0; i < this.teachers.length; i++) {
         if (this.teachers[i].teacherId === Id) {
@@ -159,6 +159,7 @@ export default {
       }
       return null;
     },
+
     Click() {
       console.log('logout')
       localStorage.removeItem('isLogged');
@@ -172,7 +173,9 @@ export default {
             if (response.data === "Logout") {
               console.log(" logout ")
               this.isLogged = false;
-              localStorage.removeItem('isLogged');
+             //localStorage.removeItem('isLogged');
+              document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              this.$router.push({ name: "Home" });
             } else {
               alert("failed logout ");
             }

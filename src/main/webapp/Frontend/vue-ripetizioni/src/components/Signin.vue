@@ -79,7 +79,7 @@ export default {
         email: this.email,
         role: this.role
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      axios.post(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "isSigned") {
               console.log(" registrato con successo")

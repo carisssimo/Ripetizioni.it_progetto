@@ -45,7 +45,7 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
-        sessionCookie.setMaxAge(60 * 30);
+        sessionCookie.setMaxAge(60);
         sessionCookie.setPath("/");
 
 
