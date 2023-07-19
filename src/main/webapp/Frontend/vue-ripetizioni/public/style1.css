@@ -40,6 +40,10 @@ body{
     font-weight: 700;
     padding: 17px;
 }
+.table_data_slot{
+    border: solid orangered 2px;
+    border-radius: 10px;
+}
 
 .p-start{
     font-size: larger;
