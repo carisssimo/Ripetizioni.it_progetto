@@ -4,11 +4,7 @@
   <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">
-      <div style="margin-right: 25px;">
-        <RouterLink to="/">
-          <a class="btn-login btn btn-primary" @click="Click" role="button">logout</a>
-        </RouterLink>
-      </div>
+      
     </form>
   </nav>
   <!--  navbar per la navigazione dell'amministratore loggato-->

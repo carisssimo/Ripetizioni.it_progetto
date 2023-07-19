@@ -60,7 +60,8 @@
       <tr>
         <th scope="col">Docente</th>
         <th scope="col">Corso</th>
-        <th scope="col">Slot Orario</th>
+        <th scope="col">Giorno</th>
+        <th scope="col">Orario</th>
         <th scope="col"></th>
       </tr>
       </thead>
@@ -69,7 +70,8 @@
         <!--        <td>{{ availability.teacherId }}</td>-->
         <td>{{ printTeacherName(availability.teacherId) }}</td>
         <td>{{ printSubjectName(availability.subjectId) }}</td>
-        <td>{{ availability.dayTime }}</td>
+        <td>{{ printDayDescription(availability.dayId) }}</td>
+        <td>{{ printSlotDescription(availability.slotId) }}</td>
         <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a></td>
       </tr>
 
@@ -87,6 +89,8 @@ import { teacherService } from "@/Service/teachersService";
 import { subjectsService } from "@/Service/subjectsService";
 import { availabilityService } from "@/Service/availabilityService";
 import axios from "axios";
+import {dayService} from "@/Service/dayService";
+import {slotService} from "@/Service/slotService";
 
 export default {
   name: "SmartBooking",
@@ -96,6 +100,8 @@ export default {
       teachers: {},
       subjects: {},
       availabilities: {},
+      days:{},
+      slots:{},
       teacherSelected: this.teacherSelected,
       subjectSelected: this.subjectSelected
     };
@@ -106,13 +112,19 @@ export default {
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
       let response3 = await availabilityService.getAllAvailabilitiesAvailable();
+      let response4 = await dayService.getAllDays();
+      let response5=await slotService.getAllSlots();
       this.loading = false;
       this.teachers = response.data;
       this.subjects = response2.data;
       this.availabilities = response3.data;
+      this.days = response4.data;
+      this.slots=response5.data;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
+      console.log(this.days);
+      console.log(this.slots);
     } catch (e) {
       console.log(e);
     }
@@ -158,6 +170,26 @@ export default {
         if (this.subjects[i].subjectID === Id) {
           console.log(this.subjects[i]);
           return this.subjects[i].subjectName;
+        }
+      }
+      return null;
+    },
+
+    printDayDescription(Id) {
+      for (let i = 0; i < this.days.length; i++) {
+        if (this.days[i].id === Id) {
+          console.log(this.days[i]);
+          return this.days[i].description;
+        }
+      }
+      return null;
+    },
+
+    printSlotDescription(Id) {
+      for (let i = 0; i < this.slots.length; i++) {
+        if (this.slots[i].id === Id) {
+          console.log(this.slots[i]);
+          return this.slots[i].description;
         }
       }
       return null;

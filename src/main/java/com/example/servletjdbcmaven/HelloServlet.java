@@ -22,6 +22,9 @@ public class HelloServlet extends HttpServlet {
     private static final SubjectDaoImpl subjectDao = new SubjectDaoImpl();
     private static final DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static final AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
+
+    private static final DayDAOImpl dayDao = new DayDAOImpl();
+    private static final SlotDAOImpl slotDao = new SlotDAOImpl();
     private static final UserDAOImpl userDao = new UserDAOImpl();
     private String message;
     Cookie sessionCookie = new Cookie("session_id", "123456789");
@@ -63,6 +66,9 @@ public class HelloServlet extends HttpServlet {
         ArrayList<Subject> subjects = subjectDao.getAll();
         ArrayList<SubjectTeacher> associations = subjectTeacherDao.getAll();
         ArrayList<Availability> availabilities = availabilityDao.getAll();
+        ArrayList<Day> days = dayDao.getAll();
+        ArrayList<Slot> slots = slotDao.getAll();
+
         /*PrintWriter ou1 = response.getWriter();
         String userName = request.getParameter("utente");
         String sessionID = request.getParameter("sessione");
@@ -91,6 +97,20 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("ADD-AVAILABILITY");
                     //Availability availability=new Availability();
 
+                    break;
+                case "getAllDays":
+                    System.out.println("Siamo su getAllDays");
+
+                    String daysJson = gson.toJson(days);
+                    System.out.println("STRINGA JSON " + daysJson);
+                    out.print(daysJson);
+                    break;
+                case "getAllSlots":
+                    System.out.println("Siamo su getAllSlots");
+
+                    String slotsJson = gson.toJson(slots);
+                    System.out.println("STRINGA JSON " + slotsJson);
+                    out.print(slotsJson);
                     break;
                 case "getAllAvailabilities":
                     System.out.println("Siamo su getAllAvailabilities");
@@ -143,11 +163,16 @@ public class HelloServlet extends HttpServlet {
                     break;
                 case "getAllAvailabilitiesAvailable":
 
-                    System.out.println("Siamo get Alla Availabilities available");
-                    ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
-                    String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
-                    System.out.println("STRINGA JSON " + availabilityAvailableJson);
-                    out.print(availabilityAvailableJson);
+                    int userId1= parseInt(sessionCookie.getComment());
+                    String userRole=userDao.getById(userId1).getRole();
+                    /*if(userRole.equals("Utente") || userRole.equals("admin")){*/
+
+                        System.out.println("Siamo get Alla Availabilities available");
+                        ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
+                        String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
+                        System.out.println("STRINGA JSON " + availabilityAvailableJson);
+                        out.print(availabilityAvailableJson);
+                    /*};*/
                     break;
 
 
@@ -159,6 +184,7 @@ public class HelloServlet extends HttpServlet {
 
                     //prendo l'id dalla session cookie
                     int userId= parseInt(sessionCookie.getComment());
+
                     System.out.println(userId);
                     a.setBooking("attiva");
                     a.setUserId(userId);
@@ -190,10 +216,11 @@ public class HelloServlet extends HttpServlet {
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////
                     // THIS METHOD REMOVE DISPONIBILITA FROM DB
-                    System.out.println("Removelesson----");
+                    //TODO: DA MODIFIFICARE LA RICERCA TRAMITE DAYTIME
+                    System.out.println("Removelesson----");/*
                     String remsubdJson = gson.toJson(removeLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("dateAv")));
                     System.out.println("STRINGA JSON " + remsubdJson);
-                    out.print(remsubdJson);
+                    out.print(remsubdJson);*/
                     break;
 
                 case "getAvailabilitiesOfUserActive":
@@ -221,8 +248,6 @@ public class HelloServlet extends HttpServlet {
                     System.out.println(userId2);
                     a2.setBooking("disdetta");
                     a2.setUserId(userId2);
-                    System.out.println("stampa1d");
-                    availabilityDao.updateAvailability(a2);
                     System.out.println("stampa1d");
                     if(availabilityDao.updateAvailability(a2)!=0){
                         String bookedJson = gson.toJson("booked");
@@ -300,7 +325,7 @@ public class HelloServlet extends HttpServlet {
 
                 case "addLesson":
                     System.out.println("addlesson----");
-                    String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("daytime")));
+                    String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"),request.getParameter("day"),request.getParameter("time")));
                     System.out.println("STRINGA JSON " + addsubdJson4);
                     out.print(addsubdJson4);
                     break;
@@ -337,8 +362,9 @@ public class HelloServlet extends HttpServlet {
         }
     }
 
-    private Object submitLesson(String idProf, String idSub, String daytime) {
-        Availability a1 = new Availability(parseInt(idProf),parseInt(idSub),daytime);
+    //quando aggiunge una nuova availability(qui chiamata lesson?)non serve la meteria poichè e materie sono collegate al professore
+    private Object submitLesson(String idProf, String idDay,String idSlot) {
+        Availability a1 = new Availability(parseInt(idProf),parseInt(idDay),parseInt(idSlot));
         int row= availabilityDao.add(a1);
         if (row == 0) {
             return "notAdded";
@@ -346,9 +372,9 @@ public class HelloServlet extends HttpServlet {
             return "Added";
         }
     }
-    private String removeLesson(String idProf, String idSub, String daytime) {
-        out.println(idProf+" "+idSub+" "+daytime);
-        Availability a1=availabilityDao.getByTeacherSubjectUser(parseInt(idProf),parseInt(idSub),daytime);
+    private String removeLesson(String idProf, String idSub, String idDay,String idSlot) {
+        out.println(idProf+" "+idSub+" "+idDay+" "+ idSlot);
+        Availability a1=availabilityDao.getByTeacherSubjectUser(parseInt(idProf),parseInt(idSub),parseInt(idDay),parseInt(idSlot));
         int row= availabilityDao.delete(a1.getAvailabilityID());
         if (row == 0) {
             return "notAdded";

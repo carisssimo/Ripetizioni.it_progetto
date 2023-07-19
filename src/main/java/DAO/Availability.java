@@ -10,7 +10,9 @@ public class Availability {
     }
 
     private int userId;
-    private String dayTime;
+    private int dayId;
+
+    private int slotId;
 
     public void setBooking(String booking) {
         this.booking = booking;
@@ -18,26 +20,28 @@ public class Availability {
 
     private String booking;
 
-    public Availability(int teacherId, int subjectId, String dayTime)
+    public Availability(int teacherId, int day, int slot)
     {
         this.teacherId = teacherId;
-        this.subjectId=subjectId;
-        this.dayTime=dayTime;
+        this.dayId =day;
+        this.slotId =slot;
     }
-    public Availability(int teacherId, int subjectId, int userId, String dayTime, String booking) {
+    public Availability(int teacherId, int subjectId, int userId, int day,int slot, String booking) {
         this.teacherId = teacherId;
         this.subjectId = subjectId;
         this.userId = userId;
-        this.dayTime = dayTime;
+        this.dayId = day;
+        this.slotId =slot;
         this.booking = booking;
     }
 
-    public Availability(int availabilityID, int teacherId, int subjectId, int userId, String dayTime, String booking) {
+    public Availability(int availabilityID, int teacherId, int subjectId, int userId, int day,int slot, String booking) {
         this.availabilityID = availabilityID;
         this.teacherId = teacherId;
         this.subjectId = subjectId;
         this.userId = userId;
-        this.dayTime = dayTime;
+        this.dayId = day;
+        this.slotId =slot;
         this.booking = booking;
     }
 
@@ -57,8 +61,12 @@ public class Availability {
         return userId;
     }
 
-    public String getDayTime() {
-        return dayTime;
+    public int getDayId() {
+        return dayId;
+    }
+
+    public int getSlotId() {
+        return slotId;
     }
 
     public String getBooking() {
@@ -70,7 +78,8 @@ public class Availability {
                        "ID docente: " + teacherId + ", \n" +
                        "ID corso: " + subjectId + ", \n" +
                        "ID utente: " + userId + ", \n" +
-                       "Giorno e ora: " + dayTime + ", \n" +
+                       "Giorno: " + dayId + ", \n" +
+                       "Orario: " + slotId + ", \n" +
                        "Stato prenotazione: " + booking + ";\n";
     }
 
