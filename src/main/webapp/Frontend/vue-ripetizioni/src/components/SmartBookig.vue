@@ -5,14 +5,16 @@
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">
 
-      <div style="margin-right: 25px;"><RouterLink to="/"><a class="btn-login btn btn-primary" @click="Click" role="button">logout</a></RouterLink></div>
+      <div style="margin-right: 25px;">
+        <RouterLink to="/"><a class="btn-login btn btn-primary" role="button" @click="Click">logout</a></RouterLink>
+      </div>
     </form>
   </nav>
   <!--</div>-->
 
   <ul class="title-main navbar-ripetizioni nav nav-tabs">
     <li class="nav-item">
-      <RouterLink to="/PersonalPage"><a class="nav-link " aria-current="page" href="#">Pagina Personale</a></RouterLink>
+      <RouterLink to="/PersonalPage"><a aria-current="page" class="nav-link " href="#">Pagina Personale</a></RouterLink>
     </li>
     <li class="nav-item">
       <RouterLink to="/update"><a class="nav-link " href="#">Modifica </a></RouterLink>
@@ -30,7 +32,6 @@
   </div>
 
   <!--  navbar per la navigazione dell'utente loggato-->
-
 
 
   <!--FORM per selezionare orario e materia
@@ -72,7 +73,8 @@
         <td>{{ printSubjectName(availability.subjectId) }}</td>
         <td>{{ printDayDescription(availability.dayId) }}</td>
         <td>{{ printSlotDescription(availability.slotId) }}</td>
-        <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a></td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="booking(availability.availabilityID)">Prenota</a>
+        </td>
       </tr>
 
       </tbody>
@@ -81,13 +83,12 @@
   <span style="padding: 0 10px;"></span>
 
 
-
 </template>
 
 <script>
-import { teacherService } from "@/Service/teachersService";
-import { subjectsService } from "@/Service/subjectsService";
-import { availabilityService } from "@/Service/availabilityService";
+import {teacherService} from "@/Service/teachersService";
+import {subjectsService} from "@/Service/subjectsService";
+import {availabilityService} from "@/Service/availabilityService";
 import axios from "axios";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
@@ -100,26 +101,26 @@ export default {
       teachers: {},
       subjects: {},
       availabilities: {},
-      days:{},
-      slots:{},
+      days: {},
+      slots: {},
       teacherSelected: this.teacherSelected,
       subjectSelected: this.subjectSelected
     };
   },
-  created: async function() {
+  created: async function () {
     try {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
       let response3 = await availabilityService.getAllAvailabilitiesAvailable();
       let response4 = await dayService.getAllDays();
-      let response5=await slotService.getAllSlots();
+      let response5 = await slotService.getAllSlots();
       this.loading = false;
       this.teachers = response.data;
       this.subjects = response2.data;
       this.availabilities = response3.data;
       this.days = response4.data;
-      this.slots=response5.data;
+      this.slots = response5.data;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
