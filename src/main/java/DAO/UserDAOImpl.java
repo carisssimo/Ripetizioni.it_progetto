@@ -146,6 +146,48 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
 
         return u;
     }
+
+    @Override
+    public User getById(int id) {
+        Connection con = null;
+        User u= new User();
+       /* System.out.println(email);*/
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("UserDAO Connected to the database test");
+            }
+
+            String query = "SELECT* FROM UTENTE WHERE ID_UTENTE=?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setString(1, String.valueOf(id));
+
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+
+            u.setUserID(rs.getInt("ID_UTENTE"));
+            u.setName(rs.getString("NOME"));
+            u.setSurname(rs.getString("COGNOME"));
+            u.setEmail(rs.getString("EMAIL"));
+            u.setPassword( rs.getString("PASSWORD"));
+            u.setRole(rs.getString("RUOLO"));
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return u;
+    }
 }
 
 

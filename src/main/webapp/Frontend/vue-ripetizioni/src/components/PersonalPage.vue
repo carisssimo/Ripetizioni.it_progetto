@@ -36,7 +36,8 @@
       <tr>
         <th scope="col">Docente</th>
         <th scope="col">Corso</th>
-        <th scope="col">Slot Orario</th>
+        <th scope="col">Giorno</th>
+        <th scope="col">Orario</th>
         <th scope="col">Stato</th>
         <th scope="col"></th>
       </tr>
