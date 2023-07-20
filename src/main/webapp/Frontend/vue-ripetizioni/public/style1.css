@@ -43,6 +43,8 @@ body{
 .table_data_slot{
     border: solid orangered 2px;
     border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
 }
 
 .p-start{

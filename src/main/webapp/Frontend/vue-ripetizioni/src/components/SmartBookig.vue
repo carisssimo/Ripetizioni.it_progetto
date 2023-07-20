@@ -31,6 +31,9 @@
     <h1 class="title-main">Scegli la ripe più adatta a te</h1>
   </div>
 
+
+  <router-view></router-view>
+
   <!--  navbar per la navigazione dell'utente loggato-->
 
 
@@ -55,7 +58,7 @@
     </form>
   </div> -->
 
-  <div class="form-container-selector container">
+<!--  <div class="form-container-selector container">
     <table class="table">
       <thead>
       <tr>
@@ -68,7 +71,7 @@
       </thead>
       <tbody>
       <tr v-for="availability in availabilities" :key="availability.availabilityID">
-        <!--        <td>{{ availability.teacherId }}</td>-->
+        &lt;!&ndash;        <td>{{ availability.teacherId }}</td>&ndash;&gt;
         <td>{{ printTeacherName(availability.teacherId) }}</td>
         <td>{{ printSubjectName(availability.subjectId) }}</td>
         <td>{{ printDayDescription(availability.dayId) }}</td>
@@ -80,7 +83,7 @@
       </tbody>
     </table>
   </div>
-  <span style="padding: 0 10px;"></span>
+  <span style="padding: 0 10px;"></span>-->
 
 
 </template>
