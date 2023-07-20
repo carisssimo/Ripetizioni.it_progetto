@@ -13,6 +13,7 @@ import AddSubject from "@/components/AddSubject.vue";
 import AddLesson from "@/components/AddLesson.vue";
 import RemoveSubject from "@/components/RemoveSubject.vue";
 import RemoveAvailability from "@/components/RemoveAvailability.vue";
+import SelectSubject from "@/components/SelectSubject.vue";
 
 
 const routes = [
@@ -45,7 +46,17 @@ const routes = [
     {
         path: '/smartBooking',
         name: 'SmartBooking',
-        component: SmartBookig
+        component: SmartBookig,
+        children: [{
+            path: '',
+            component: SelectSubject
+        }, /*{
+            path: 'profile',
+            components: {
+                default: UserProfile,
+                helper: UserProfilePreview
+            }
+        }*/]
     },
     {
         path:'/PersonalPage',

@@ -34,9 +34,9 @@
     <h1 class="title-main">Aggiorna la prenotazione o eliminala</h1>
   </div>
 
+<!--vecchia tabella riutilizzabile se si vuole far vedere un ordinamento differente-->
 
-
-  <div class="form-container-selector container">
+<!--  <div class="form-container-selector container">
     <table class="table">
       <thead>
       <tr>
@@ -64,6 +64,38 @@
       </tr>
       </tbody>
     </table>
+  </div>-->
+
+  <div class="form-container-selector container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Orario</th>
+        <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="slot in slots" :key="slot.id">
+        <td>{{ slot.description }}</td>
+        <td v-for="day in days" :key="day.id" >
+          <div  v-if="existAvailability(day.id, slot.id)==='true'" class="table_data_slot">
+            <ul>
+              <li>{{printTeacherName(getProfessor(day.id, slot.id))}}</li>
+              <li>{{printSubjectName(getSubject(day.id, slot.id))}}</li>
+              <li><a class="btn-login btn btn-primary" role="button" @click="delet(searchAvailability(day.id, slot.id))">
+                Cancella
+              </a></li>
+              <li><a class="btn-login btn btn-primary" role="button" @click="archiv(searchAvailability(day.id, slot.id))">
+                Effettuata
+              </a></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
   </div>
 <!--
   <span style="padding: 0 10px;"></span>
@@ -80,6 +112,8 @@ import { teacherService } from "@/Service/teachersService";
 import { subjectsService } from "@/Service/subjectsService";
 import { availabilityService } from "@/Service/availabilityService";
 import axios from "axios";
+import {dayService} from "@/Service/dayService";
+import {slotService} from "@/Service/slotService";
 
 export default {
   name: "UpdateBooking",
@@ -89,6 +123,8 @@ export default {
       teachers: [],
       subjects: [],
       availabilities: [],
+      days: {},
+      slots: {},
       teacherSelected: "",
       subjectSelected: ""
     };
@@ -113,10 +149,14 @@ export default {
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
       let response3 = await availabilityService.getAvailabilitiesByIDActive(); //TODO:da cambiare solo le prenotazioni attive non quelle disdette
+      let response4 = await dayService.getAllDays();
+      let response5 = await slotService.getAllSlots();
       this.loading = false;
       this.teachers = response.data;
       this.subjects = response2.data;
       this.availabilities = response3.data;
+      this.days = response4.data;
+      this.slots = response5.data;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
@@ -125,6 +165,26 @@ export default {
     }
   },
   methods: {
+    getProfessor(day, slot){
+      for (let i = 0; i < this.availabilities.length; i++) {
+        if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
+          console.log(day)
+          console.log(slot)
+          return this.availabilities[i].teacherId;
+        }
+      }
+
+    },
+    getSubject(day, slot){
+      for (let i = 0; i < this.availabilities.length; i++) {
+        if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
+          console.log(day)
+          console.log(slot)
+          return this.availabilities[i].subjectId;
+        }
+      }
+
+    },
     printTeacherName(Id) {
       for (let i = 0; i < this.teachers.length; i++) {
         if (this.teachers[i].teacherId === Id) {
@@ -143,6 +203,28 @@ export default {
       }
       return null;
     },
+    existAvailability(day, slot) {
+      for (let i = 0; i < this.availabilities.length; i++) {
+        if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
+
+
+          console.log(day)
+          console.log(slot)
+
+          return 'true'
+
+        }
+      }
+    },
+
+    searchAvailability(day, slot) {
+      for (let i = 0; i < this.availabilities.length; i++) {
+        if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
+          return this.availabilities[i].availabilityID
+        }
+      }
+    },
+
     archiv(id) {
       console.log(id);
       const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
