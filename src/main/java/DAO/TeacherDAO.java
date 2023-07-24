@@ -1,5 +1,7 @@
 package DAO;
 
+import java.util.ArrayList;
+
 public interface TeacherDAO {
     int updateName(Teacher t, String name);
     int updateSurname(Teacher t, String Surname);
@@ -7,4 +9,5 @@ public interface TeacherDAO {
 
     Teacher getByEmail(String email);
     public Teacher getById(int id);
+
 }

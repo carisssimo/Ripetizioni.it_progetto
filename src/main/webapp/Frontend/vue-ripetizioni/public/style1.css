@@ -23,6 +23,12 @@ body{
 
 }
 
+.card{
+    margin:20px;
+    border-radius: 10px;
+    border: solid orangered 2px;
+}
+
 .title-main{
     color:black;
     font-size:xxx-large;
