@@ -2,23 +2,39 @@
   <!--FORM-->
   <div >
     <div class="form-container container align-items-center">
-      <form v-on:submit.prevent="onSubmit">
-        <div class=" form-group">
-          <label for="exampleInputEmail1">Seleziona una materia </label>
-          <input id="email" v-model="email" aria-describedby="emailHelp" class="form-group-orange form-control"
-                 required type="email">
-
-        </div>
-
-        <button class="btn-login btn btn-primary" @click="submitForm">Conferma</button>
-      </form>
+      <div class="title-main">1. Seleziona una materia!</div>
+      <select v-model="selected">
+        <option disabled value="">Seleziona una materia</option>
+        <option v-for="subject in subjects" :key="subject.subjectID">{{subject.subjectName}}</option>
+      </select>
+      <RouterLink :to="'/'+this.selected"><a class="btn-l btn-login btn btn-success" role="button">Avanti</a></RouterLink>
     </div>
   </div>
+  {{this.selected}}
 </template>
 
+
+
 <script>
+import {subjectsService} from "@/Service/subjectsService";
+
 export default {
-  name: "SelectSubject"
+  name: "SelectSubject",
+  data() {
+    return{
+      subjects:{},
+      selected:this.selected
+    }
+  },
+  created: async function(){
+    try {
+      let response = await subjectsService.getAllSubjects();
+      this.subjects = response.data;
+      console.log(this.subjects);
+    }catch (e) {
+      console.log(e);
+    }
+  }
 }
 </script>
 

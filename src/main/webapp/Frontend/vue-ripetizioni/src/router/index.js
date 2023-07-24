@@ -14,6 +14,7 @@ import AddLesson from "@/components/AddLesson.vue";
 import RemoveSubject from "@/components/RemoveSubject.vue";
 import RemoveAvailability from "@/components/RemoveAvailability.vue";
 import SelectSubject from "@/components/SelectSubject.vue";
+import SelectTeacher from "@/components/SelectTeacher.vue";
 
 
 const routes = [
@@ -49,14 +50,14 @@ const routes = [
         component: SmartBookig,
         children: [{
             path: '',
-            component: SelectSubject
-        }, /*{
-            path: 'profile',
-            components: {
-                default: UserProfile,
-                helper: UserProfilePreview
-            }
-        }*/]
+            name:'SelectSubject',
+            component: SelectSubject,
+            props: true
+        }, {
+            path: '/:subjectName',
+            name:'SelectTeacher',
+            component: SelectTeacher
+        }]
     },
     {
         path:'/PersonalPage',
