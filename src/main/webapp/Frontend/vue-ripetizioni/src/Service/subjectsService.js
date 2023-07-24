@@ -1,5 +1,5 @@
 import axios from "axios";
-import {teacherService} from "@/Service/teachersService";
+
 
 export class subjectsService {
 
@@ -14,10 +14,8 @@ export class subjectsService {
 
     }
 
-    static async getSubjectsId(subjectName) {
-
-
-        let response2 = await teacherService.getAllTeachers();
+    static async getSubjectId(subjectName) {
+        let response2 = await subjectsService.getAllSubjects();
         let subjects = response2.data;
         for (let i = 0; i < subjects.length; i++) {
             if (subjects[i].subjectName === subjectName) {

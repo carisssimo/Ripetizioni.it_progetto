@@ -20,7 +20,7 @@ public class HelloServlet extends HttpServlet {
     HttpSession session;
     private static final TeacherDaoImpl teacherDao = new TeacherDaoImpl();
     private static final SubjectDaoImpl subjectDao = new SubjectDaoImpl();
-    private static final DAO<SubjectTeacher> subjectTeacherDao = new SubjectTeacherDAOImpl();
+    private static final SubjectTeacherDAOImpl subjectTeacherDao = new SubjectTeacherDAOImpl();
     private static final AvailabilityDAOImpl availabilityDao = new AvailabilityDAOImpl();
 
     private static final DayDAOImpl dayDao = new DayDAOImpl();
@@ -142,6 +142,12 @@ public class HelloServlet extends HttpServlet {
                     String signedJson = gson.toJson(submitRegistration(request.getParameter("name"), request.getParameter("surname"), request.getParameter("password"), request.getParameter("email"), request.getParameter("role")));
                     System.out.println("STRINGA JSON " + signedJson);
                     out.print(signedJson);
+                    break;
+                case "getTeachersBySubject":
+                    System.out.println("Siamo su getTeachersBySubject");
+                    String teachersBySubjectJson=gson.toJson(getTeachersBySubject(request.getParameter("subjectId")));
+                    System.out.println("STRINGA JSON " + teachersBySubjectJson);
+                    out.print(teachersBySubjectJson);
                     break;
 
                 case "submitLogin":
@@ -360,6 +366,12 @@ public class HelloServlet extends HttpServlet {
             }
 
         }
+    }
+
+    private ArrayList<SubjectTeacher> getTeachersBySubject(String subjectId) {
+        System.out.println(subjectId);
+        ArrayList<SubjectTeacher> teacherBySubject=subjectTeacherDao.getAllTeachersBySubjectId(Integer.parseInt(subjectId));
+        return teacherBySubject;
     }
 
     //quando aggiunge una nuova availability(qui chiamata lesson?)non serve la meteria poichè e materie sono collegate al professore

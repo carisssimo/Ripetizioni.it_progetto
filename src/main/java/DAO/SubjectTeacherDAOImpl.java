@@ -177,13 +177,14 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
     public ArrayList<SubjectTeacher> getAllTeachersBySubjectId(int subjectId) {
         Connection conn1 = null;
         ArrayList<SubjectTeacher> out = new ArrayList<>();
+        System.out.println("basedati teachersSubject");
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM DOCENTE WHERE ID_CORSO = ?";
+            String sql = "SELECT * FROM CORSO_DOCENTE WHERE ID_CORSO = ?";
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setInt(1, subjectId);
 
