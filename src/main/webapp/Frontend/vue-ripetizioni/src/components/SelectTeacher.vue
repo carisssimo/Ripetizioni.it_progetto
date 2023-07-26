@@ -13,9 +13,10 @@
         <div class="card-body">
           <h5 class="card-title">{{printTeacherName(teacher.teacherID)}}</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">{{printTeacherEmail(teacher.teacherID)}}</h6>
+          <h6 class="card-subtitle mb-2 text-body-secondary">5/5</h6>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
+          <RouterLink :to="'/'+this.subjectSelected+'/'+teacher.teacherID"><a href="#" class="card-link">Seleziona </a></RouterLink>
+
         </div>
       </div>
     </div>
@@ -32,18 +33,19 @@ export default {
     return{
       subjects:{},
       teachers:{},
-      teachersBySubject:{}
+      teachersBySubject:{},
+      subjectSelected:''
     }
   },
   created: async function(){
     try {
 
       /*al component viene passato il nome della materia dal component precedente*/
-      let subjectSelected= this.$route.params.subjectName;
+      this.subjectSelected= this.$route.params.subjectName;
       let response = await subjectsService.getAllSubjects();
       let response2=await teacherService.getAllTeachers();
       /*vado prima a ricavare l'id del subject'*/
-      let subjectSelectedId=await subjectsService.getSubjectId(subjectSelected);
+      let subjectSelectedId=await subjectsService.getSubjectId(this.subjectSelected);
       /*solo ora chiamo la servlet chiedendo tutti gli insegnati che insegnano quella materia*/
       console.log(subjectSelectedId);
       let response3=await subjectService.getTeachersBySubject(subjectSelectedId);
@@ -51,7 +53,7 @@ export default {
       this.teachers=response2.data;
       this.teachersBySubject=response3.data;
       console.log(this.subjects);
-      console.log(subjectSelected);
+      console.log(this.subjectSelected);
       console.log(this.teachersBySubject);
     }catch (e) {
       console.log(e);

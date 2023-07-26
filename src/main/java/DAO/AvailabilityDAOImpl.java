@@ -235,14 +235,14 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
                 System.out.println("UserDAO Connected to the database test");
             }
 
-            String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ?";
+            String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DOCENTE = ? AND PRENOTAZIONE IS NULL";
             PreparedStatement statement = conn1.prepareStatement(sql);
             statement.setInt(1, teacherId);
 
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                Availability a = new Availability(rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getInt("ID_GIORNO"), rs.getInt("ID_SLOT"), rs.getString("PRENOTAZIONE"));
+                Availability a = new Availability(rs.getInt("ID_DISPONIBILITA"),rs.getInt("ID_DOCENTE"), rs.getInt("ID_CORSO"), rs.getInt("ID_UTENTE"), rs.getInt("ID_GIORNO"), rs.getInt("ID_SLOT"), rs.getString("PRENOTAZIONE"));
                 out.add(a);
             }
         } catch (SQLException e) {
@@ -413,7 +413,7 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
         try {
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("AvailabilityDao inside getAvailability_by_ID Connected to the database test");
+                System.out.println("AvailabilityDao inside getAvailabilityByID Connected to the database test");
             }
 
             String sql = "SELECT * FROM DISPONIBILITA WHERE ID_DISPONIBILITA = ?";
