@@ -186,17 +186,23 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("booking!!!!!");
                     System.out.println("Sono in booking Availability");
                     int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
+                    int subjectId = Integer.parseInt(request.getParameter("subjectId"));
                     Availability a = availabilityDao.getAvailabilityByID(availabilityId);
+
+                    System.out.println(availabilityId);
+                    System.out.println(subjectId);
 
                     //prendo l'id dalla session cookie
                     int userId= parseInt(sessionCookie.getComment());
 
+
                     System.out.println(userId);
                     a.setBooking("attiva");
                     a.setUserId(userId);
+                    a.setSubject(subjectId);
                     System.out.println("stampa1");
-                    availabilityDao.updateAvailability(a);
-                    System.out.println("stampa1");
+                    /*availabilityDao.updateAvailability(a);
+                    System.out.println("stampa1");*/
                     if(availabilityDao.updateAvailability(a)!=0){
                         String bookedJson = gson.toJson("booked");
                         System.out.println("STRINGA JSON " + bookedJson);
@@ -206,6 +212,14 @@ public class HelloServlet extends HttpServlet {
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
                     }
+                    break;
+                case "getAvailabilitiesByProfessor":
+                    System.out.println("Siamo in get AvailabilitiesBProfessor");
+                    int teacherId= Integer.parseInt(request.getParameter("teacherId"));
+                    ArrayList<Availability> availabilitiesByProfessor= availabilityDao.getByTeacherId(teacherId);
+                    String availabilitiesByTeacherJson=gson.toJson(availabilitiesByProfessor);
+                    System.out.println("STRINGA JSON " + availabilitiesByTeacherJson);
+                    out.println(availabilitiesByTeacherJson);
                     break;
 
                 case "getAvailabilitiesOfUser":

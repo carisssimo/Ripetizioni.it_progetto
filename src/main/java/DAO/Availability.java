@@ -83,4 +83,7 @@ public class Availability {
                        "Stato prenotazione: " + booking + ";\n";
     }
 
+    public void setSubject(int subjectId) {
+        this.subjectId=subjectId;
+    }
 }

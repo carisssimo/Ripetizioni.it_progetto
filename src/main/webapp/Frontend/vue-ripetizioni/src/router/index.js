@@ -15,6 +15,7 @@ import RemoveSubject from "@/components/RemoveSubject.vue";
 import RemoveAvailability from "@/components/RemoveAvailability.vue";
 import SelectSubject from "@/components/SelectSubject.vue";
 import SelectTeacher from "@/components/SelectTeacher.vue";
+import BookingTable from "@/components/BookingTable.vue";
 
 
 const routes = [
@@ -57,6 +58,10 @@ const routes = [
             path: '/:subjectName',
             name:'SelectTeacher',
             component: SelectTeacher
+        }, {
+            path: '/:subjectName/:teacherId',
+            name:'BookingTable',
+            component: BookingTable
         }]
     },
     {
