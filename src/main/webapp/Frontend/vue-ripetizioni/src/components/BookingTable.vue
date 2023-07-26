@@ -175,9 +175,12 @@ export default {
       if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
         axios.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-              if (response.data === "isBooked") {
+              if (response.data === "booked") {
                 console.log(" prenotato con successo ")
-                this.isLogged = true;
+                const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
+                if (index !== -1) {
+                  this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+                }
               } else {
                 alert("prenotazione fallita ");
               }
