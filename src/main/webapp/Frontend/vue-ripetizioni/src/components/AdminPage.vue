@@ -43,10 +43,11 @@
   </ul>
 
   <div class="logged-container title-container container">
-    <h1 class="title-main">Ecco la cronologia delle lezioni! incluse quelle prenotate al momento e quelle disponibili</h1>
+    <h1 class="title-main">Ecco la cronologia delle lezioni! Ovvero quelle prenotate attive,quelle disdette e quelle effettuate</h1>
   </div>
 
-    <div class="form-container-selector container">
+  <router-view></router-view>
+<!--    <div class="form-container-selector container">
       <table class="table">
         <thead>
         <tr>
@@ -71,7 +72,7 @@
     <span style="padding: 0 10px;"></span>
     <div class="button-container container align-items-center">
       <RouterLink to="/Login"><a class="btn-l btn-login btn btn-success" role="button">Torna indietro</a></RouterLink>
-    </div>
+    </div>-->
 
 
 
