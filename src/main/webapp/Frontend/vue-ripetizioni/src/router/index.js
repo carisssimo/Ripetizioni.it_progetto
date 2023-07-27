@@ -16,6 +16,7 @@ import RemoveAvailability from "@/components/RemoveAvailability.vue";
 import SelectSubject from "@/components/SelectSubject.vue";
 import SelectTeacher from "@/components/SelectTeacher.vue";
 import BookingTable from "@/components/BookingTable.vue";
+import SelectUser from "@/components/SelectUser.vue";
 
 
 const routes = [
@@ -72,7 +73,12 @@ const routes = [
     {
         path:'/Admin',
         name: 'Admin',
-        component: AdminPage
+        component: AdminPage,
+        children: [{
+            path: '',
+            name:'SelectUser',
+            component: SelectUser
+        }]
     },
     {
         path:'/AddProf',

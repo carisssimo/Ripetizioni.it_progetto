@@ -119,6 +119,13 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + availabilitiesJson);
                     out.print(availabilitiesJson);
                     break;
+                case "getAllUsers":
+                    System.out.println("Siamo su getAllUsers");
+
+                    String usersJson = gson.toJson(userDao.getAll());
+                    System.out.println("STRINGA JSON " + usersJson);
+                    out.print(usersJson);
+                    break;
 
                 case "getAllTeacher":
                     System.out.println("Siamo su getAllTeacher");
