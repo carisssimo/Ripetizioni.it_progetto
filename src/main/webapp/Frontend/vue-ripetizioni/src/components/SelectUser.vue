@@ -16,7 +16,7 @@
           <td>{{ user.userID}}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.surname }}</td>
-          <td><a class="btn-login btn btn-primary" role="button" @click="select(user.userID)">Seleziona</a></td>
+          <router-link :to="'/Admin/'+user.userID"><td><a class="btn-login btn btn-primary" role="button" >Seleziona</a></td></router-link>
         </tr>
 
         </tbody>
