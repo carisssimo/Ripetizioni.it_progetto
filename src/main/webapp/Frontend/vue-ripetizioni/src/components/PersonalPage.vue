@@ -61,32 +61,32 @@
 
   <!--  nuova tabella -->
 
-  <div class="form-container-selector container">
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">Orario</th>
-        <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
+    <div class="form-container-selector container">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Orario</th>
+          <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
 
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="slot in slots" :key="slot.id">
-        <td>{{ slot.description }}</td>
-        <td v-for="day in days" :key="day.id" >
-          <div  v-if="existAvailability(day.id, slot.id)==='true'" class="table_data_slot">
-            <ul>
-              <li>{{printTeacherName(getProfessor(day.id, slot.id))}}</li>
-              <li>{{printSubjectName(getSubject(day.id, slot.id))}}</li>
-              <li>{{getState(day.id, slot.id)}}</li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-      </tbody>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="slot in slots" :key="slot.id">
+          <td>{{ slot.description }}</td>
+          <td v-for="day in days" :key="day.id">
+            <div v-if="existAvailability(day.id,slot.id)==='true'" class="table_data_slot">
+              <ul>
+                <li>{{printTeacherName(getProfessor(day.id,slot.id))}}</li>
+                <li>{{printSubjectName(getSubject(day.id,slot.id))}}</li>
+                <li>{{getState(day.id,slot.id)}}</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        </tbody>
 
-    </table>
-  </div>
+      </table>
+    </div>
 
 </template>
 
@@ -97,6 +97,7 @@ import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
+
 
 
 export default {
@@ -212,7 +213,7 @@ export default {
     },
 
     existAvailability(day, slot) {
-      for (let i = 0; i < this.availabilities.length; i++) {
+      for (let i = 0; i<this.availabilities.length; i++) {
         if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
 
 

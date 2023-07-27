@@ -19,6 +19,15 @@ export class availabilityService {
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
         return axios.get(dataURL,{params});
     }
+    static getAvailabilitiesByID2(userId)
+    {
+        const params = {
+            action: 'getAvailabilitiesOfUserById',
+            userId:userId,
+        };
+        let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+        return axios.get(dataURL,{params});
+    }
     static getAvailabilitiesByIDActive()
     {
         const params = {

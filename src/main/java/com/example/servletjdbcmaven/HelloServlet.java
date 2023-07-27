@@ -239,6 +239,16 @@ public class HelloServlet extends HttpServlet {
                         out.print(userAvailabilitiesBookedJson);
                     }
                     break;
+
+                case "getAvailabilitiesOfUserById":
+                    System.out.println("getAvailabilitiesOfUserById");
+                    ArrayList<Availability> userAvailabilitiesBookedById = availabilityDao.getUserBooking(Integer.parseInt(request.getParameter("userId")));
+                    String userAvailabilitiesBookedByIdJson = gson.toJson(userAvailabilitiesBookedById);
+                    System.out.println("STRINGA JSON " + userAvailabilitiesBookedByIdJson);
+                    out.print(userAvailabilitiesBookedByIdJson);
+
+                    break;
+
                 case "removeAvailability":
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////

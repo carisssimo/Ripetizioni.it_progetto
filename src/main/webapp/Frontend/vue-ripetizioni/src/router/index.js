@@ -17,6 +17,7 @@ import SelectSubject from "@/components/SelectSubject.vue";
 import SelectTeacher from "@/components/SelectTeacher.vue";
 import BookingTable from "@/components/BookingTable.vue";
 import SelectUser from "@/components/SelectUser.vue";
+import UserStory from "@/components/UserStory.vue";
 
 
 const routes = [
@@ -78,6 +79,10 @@ const routes = [
             path: '',
             name:'SelectUser',
             component: SelectUser
+        },{
+            path: '/Admin/:userId',
+            name:'UserStory',
+            component: UserStory
         }]
     },
     {
