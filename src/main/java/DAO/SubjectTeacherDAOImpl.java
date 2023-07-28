@@ -89,6 +89,7 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
 
             rowsDeleted = statement.executeUpdate();
 
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -93,6 +93,7 @@ export default {
               console.log(" aggiunto con successo")
               this.name='';
               this.descp='';
+              alert("materia aggiunta con successo")
             } else {
               alert("problema aggiunta materia");
             }
