@@ -346,12 +346,15 @@ public class HelloServlet extends HttpServlet {
                     out.print(addsubdJson1);
                     break;
 
+                    /*cancellazione subject tramite nome e descrizione*/
                 case "RemoveSubject":
                     System.out.println("removesub----");
                     String removesubdJson1 = gson.toJson(removeSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + removesubdJson1);
                     out.print(removesubdJson1);
                     break;
+
+                   /* cancellazione subject tramite id */
                 case "deleteSubject":
                     System.out.println("delete subject ");
                     String removesubdJson2 = gson.toJson(removeSub(Integer.parseInt(request.getParameter("subjectId"))));
