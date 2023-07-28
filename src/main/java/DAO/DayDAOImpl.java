@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DayDAOImpl implements DAO {
     @Override
-    public ArrayList getAll() {
+    public ArrayList<Day> getAll() {
 
             Connection conn1 = null;
             ArrayList<Day> out = new ArrayList<>();

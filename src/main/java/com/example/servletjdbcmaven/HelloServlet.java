@@ -334,9 +334,9 @@ public class HelloServlet extends HttpServlet {
                     break;
                 case "addProf":
                     System.out.println("addprof----");
-                    String addprofdJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
-                    System.out.println("STRINGA JSON " + addprofdJson1);
-                    out.print(addprofdJson1);
+                    String addProfJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
+                    System.out.println("STRINGA JSON " + addProfJson1);
+                    out.print(addProfJson1);
 
                     break;
                 case "addSub":
@@ -443,10 +443,12 @@ public class HelloServlet extends HttpServlet {
     private String submitTeacher(String name, String surname,String email)
     {
         Teacher t=new Teacher(name,surname,email);
-        int row = teacherDao.add(t);
+        ArrayList<Day> days=dayDao.getAll();
+        int row = teacherDao.addAvailabilitiesToo(t,dayDao.getAll().size(),slotDao.getAll().size());
         if (row == 0) {
             return "notAdded";
         } else {
+
             return "Added";
         }
     }

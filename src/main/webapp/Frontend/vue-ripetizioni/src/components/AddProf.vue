@@ -62,7 +62,11 @@
     </form>
   </div>
 
-  <!--bottoni di registrazione e accesso per ospiti-->
+  <div class="logged-container title-container container">
+    <h1 class="title-main">Attenzione! Alla creazione del docente vengono messi disponibili tutti gli slot per quel docente </h1>
+  </div>
+
+
 
 
 

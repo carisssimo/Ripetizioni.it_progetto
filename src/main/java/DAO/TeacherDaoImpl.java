@@ -37,7 +37,12 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
     }
 
     @Override
-    public int add(Teacher t){
+    public int add(Teacher elem) {
+        return 0;
+    }
+
+    @Override
+    public int addAvailabilitiesToo(Teacher t,int daySize,int slotSize){
         Connection conn1 = null;
         int rowsInserted = 0;
         try{
@@ -54,6 +59,22 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
             statement.setString(3, t.getEmail());
 
             rowsInserted = statement.executeUpdate();
+
+            /*ciclo per l'inserimento a tutte le ore e tutti i giorni'*/
+            Teacher newTeacher=this.getByEmail(t.getEmail());
+            for(int i=1;i<daySize+1;i++) {
+                for(int j=1;j<slotSize+1;j++){
+                    String queryAvailabilities="INSERT INTO DISPONIBILITA(ID_DOCENTE,ID_GIORNO,ID_SLOT) VALUES (?,?,?)";
+                    PreparedStatement statement2 = conn1.prepareStatement(queryAvailabilities);
+                    statement2.setInt(1,newTeacher.getTeacherId());
+                    statement2.setInt(2,i);
+                    statement2.setInt(3,j);
+                    int rowsInserted2 = statement2.executeUpdate();
+                }
+
+            }
+
+
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
