@@ -9,5 +9,6 @@ public interface TeacherDAO {
 
     Teacher getByEmail(String email);
     public Teacher getById(int id);
+    public int addAvailabilitiesToo(Teacher t,int daySize,int slotSize);
 
 }

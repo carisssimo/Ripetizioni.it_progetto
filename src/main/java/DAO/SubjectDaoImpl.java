@@ -82,14 +82,13 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
 
             statement.setString(1, Integer.toString(id));
             rowsInserted = statement.executeUpdate();
-             /*TODO:da testare*/
+
             String querySubjectTeacher = "DELETE FROM CORSO_DOCENTE WHERE ID_CORSO=?";
             PreparedStatement statement2 = con.prepareStatement(querySubjectTeacher);
 
             statement2.setString(1, Integer.toString(id));
             rowsInserted = statement2.executeUpdate();
 
-            /*TODO:da testare*/
 
             String queryAvailabilityAvailable = "DELETE FROM DISPONIBILITA WHERE ID_CORSO=? AND PRENOTAZIONE IS NULL";
             PreparedStatement statement3 = con.prepareStatement(queryAvailabilityAvailable);
