@@ -8,15 +8,15 @@
     <!--FORM-->
     <div v-if="!isLogged">
       <div class="form-container container align-items-center">
-        <form v-on:submit.prevent="onSubmit">
+        <form v-on:submit.prevent="submitForm">
           <div class=" form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="email">Email address</label>
             <input id="email" v-model="email" aria-describedby="emailHelp" class="form-group-orange form-control"
-                   required type="email">
+                   required type="email" autocomplete="family-name">
 
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
+            <label for="password">Password</label>
             <input id="password" v-model="password" class="form-group-orange form-control" required type="password">
           </div>
          <!-- <div class="form-group">
@@ -27,7 +27,7 @@
             </select>
           </div> -->
 
-          <button class="btn-login btn btn-primary" @click="submitForm">Accedi</button>
+          <button class="btn-login btn btn-primary" >Accedi</button>
         </form>
       </div>
 
@@ -139,19 +139,39 @@ export default {
     submitForm() {
       const isLogged = localStorage.getItem('isLogged');
       this.isLogged = isLogged === 'true';
+      console.log(this.email)
 
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      let params = {
         action: 'submitLogin',
         email: this.email,
         password: this.password,
-        role: this.role
+      };
+      let headers = {
+
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods":
+              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers":
+              "Origin, Content-Type, X-Auth-Token",
+          'content-type': 'application/x-www-form-urlencoded'
+
       };
 
 
 
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+      /*axios.post(url, {params},axiosConfig)*/ /*prima effettuiamo la http request async*!*/
+      /*axios.post("https://prova1-cc17e-default-rtdb.europe-west1.firebasedatabase.app/",params)*/
+      /*axios(url, {
+        method: "post",
+        data:{
+          action: 'submitLogin',
+          email: this.email,
+          password: this.password,
+        }
+      },headers)
+          .then(response => {         /!*solo una volta eseguita la request passiamo a gestire la risposta*!/
             if (response.data === "isLogged") {
               console.log(" loggato con successo")
               this.Credential();
@@ -167,6 +187,18 @@ export default {
           .catch(error => {
 
             console.error(error);
+          });*/
+
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body:  JSON.stringify(params)
+      })
+          .then(function(response){
+            return response.json();
+          })
+          .then(function(data){
+            console.log(data)
           });
 
     }
