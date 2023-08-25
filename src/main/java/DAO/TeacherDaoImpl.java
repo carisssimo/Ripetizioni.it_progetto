@@ -108,6 +108,24 @@ public class TeacherDaoImpl implements DAO<Teacher>,TeacherDAO {
 
             rowsDeleted = statement.executeUpdate();
 
+            /*TODO:eliminazione dalla tabella corso docente*/
+            String queryTeacherSubject ="DELETE FROM CORSO_DOCENTE WHERE ID_DOCENTE=?";
+            PreparedStatement statement2=con.prepareStatement(queryTeacherSubject);
+            statement2.setInt(1,id);
+            int rowsDeleted2=statement2.executeUpdate();
+
+            /*TODO:eliminazione di tutte le availabilities a null e modifica di quelle attive in stato docente eliminato*/
+            String queryAvailabilitie="UPDATE FROM DISPONIBILITA SET PRENOTAZIONE=? WHERE ID_DOCENTE=?";
+            PreparedStatement statement3=con.prepareStatement(queryAvailabilitie);
+            statement3.setString(1, "Docente Cancellato");
+            statement3.setInt(2,id);
+            int rowDeleted3=statement3.executeUpdate();
+
+            String queryAvailabilityAvailable = "DELETE FROM DISPONIBILITA WHERE ID_DOCENTE=? AND PRENOTAZIONE IS NULL";
+            PreparedStatement statement4 = con.prepareStatement(queryAvailabilityAvailable);
+            statement4.setString(1, Integer.toString(id));
+            int rowsInserted = statement4.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
