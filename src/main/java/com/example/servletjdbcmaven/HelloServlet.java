@@ -8,9 +8,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.System.out;
@@ -43,6 +46,25 @@ public class HelloServlet extends HttpServlet {
         out.println("Attenzione POST arrivata");
         out.println(request.getParameter("action"));
         out.println(request.getParameter("email"));
+        out.println(request.getAttributeNames());
+        /*JSONObject json=new JSONObject(jsonString);
+        System.out.println(json.toString(4));*/
+        StringBuilder requestBody = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Ora puoi lavorare con il corpo della richiesta (requestBody)
+
+        response.getWriter().write("Dati ricevuti: " + requestBody.toString());
+        out.println(requestBody);
+
         processRequest(request, response);
     }
 
