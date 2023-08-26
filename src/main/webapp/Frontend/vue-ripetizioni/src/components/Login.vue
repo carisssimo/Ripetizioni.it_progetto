@@ -66,6 +66,7 @@
 
 
 import axios from "axios";
+import $ from 'jquery';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -136,18 +137,22 @@ export default {
             console.error(error);
           });
     },
+    submiform1(){
+
+
+    },
     submitForm() {
       const isLogged = localStorage.getItem('isLogged');
       this.isLogged = isLogged === 'true';
       console.log(this.email)
 
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      let params = {
+     /* let params = {
         action: 'submitLogin',
         email: this.email,
         password: this.password,
-      };
-      let headers = {
+      };*/
+      /*let headers = {
 
           'Content-Type': 'application/json;charset=UTF-8',
           "Access-Control-Allow-Origin": "*",
@@ -157,9 +162,9 @@ export default {
               "Origin, Content-Type, X-Auth-Token",
           'content-type': 'application/x-www-form-urlencoded'
 
-      };
+      };*/
 
-
+     
 
       /*axios.post(url, {params},axiosConfig)*/ /*prima effettuiamo la http request async*!*/
       /*axios.post("https://prova1-cc17e-default-rtdb.europe-west1.firebasedatabase.app/",params)*/
@@ -188,8 +193,12 @@ export default {
 
             console.error(error);
           });*/
-
-      fetch(url, {
+            $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
+            function(data){
+              console.log(data)
+            }
+            )
+     /* fetch(url, {
         method: "POST",
         headers: headers,
         body:  JSON.stringify(params)
@@ -199,7 +208,7 @@ export default {
           })
           .then(function(data){
             console.log(data)
-          });
+          });*/
 
     }
   }
