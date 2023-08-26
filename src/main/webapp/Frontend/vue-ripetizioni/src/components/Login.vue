@@ -87,11 +87,11 @@ export default {
   },
   created() {
     // Controlla se esiste un flag di accesso nel localStorage
-    /*TODO:da modificare se la sessione utente lato server è scaduta bisogna modificarla nella localStorage*/
+    /*/!*TODO:da modificare se la sessione utente lato server è scaduta bisogna modificarla nella localStorage*!/
     const isLogged = localStorage.getItem('isLogged');
     this.isLogged = isLogged === 'true';
     const admin= localStorage.getItem('admin');
-    this.admin= admin === 'true';
+    this.admin= admin === 'true';*/
   },
 
   methods: {

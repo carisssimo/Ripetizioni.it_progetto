@@ -106,24 +106,32 @@ export default {
   methods:{
     add(AssociationId){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      $.get(url, {action: 'removeAssociation',
-        id:AssociationId,}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response === "Removed") {
-              console.log("associazione rimossa con successo");
-              alert("associazione rimossa con successo");
-              this.id_prof='';
-              this.id_sub='';
-              this.dateAv='';
-            } else {
-              alert("problema rimozione associazione");
-            }
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        $.get(url, {
+          action: 'removeAssociation',
+          id: AssociationId,
+        }) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response === "Removed") {
+                console.log("associazione rimossa con successo");
+                alert("associazione rimossa con successo");
+                const index = this.associations.findIndex(association => association.subjectTeacherID === AssociationId);
+                if (index !== -1) {
+                  this.associations.splice(index, 1); // Rimuovi la riga corrispondente dalla lista
+                }
+                this.id_prof = '';
+                this.id_sub = '';
+                this.dateAv = '';
+              } else {
+                alert("problema rimozione associazione");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+      }
     },
     printTeacherName(Id) {
       for (let i = 0; i < this.teachers.length; i++) {
