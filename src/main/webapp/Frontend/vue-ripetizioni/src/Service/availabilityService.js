@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import $ from "jquery";
 export class availabilityService {
 
 
@@ -30,11 +30,11 @@ export class availabilityService {
     }
     static getAvailabilitiesByIDActive()
     {
-        const params = {
+        /*const params = {
             action: 'getAvailabilitiesOfUserActive',
-        };
+        };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params});
+        return $.get(dataURL,{action: 'getAvailabilitiesOfUserActive'})
     }
 
     static getAllAvailabilitiesByProfessor(teacherId)

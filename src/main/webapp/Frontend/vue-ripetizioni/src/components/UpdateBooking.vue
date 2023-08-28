@@ -152,11 +152,11 @@ export default {
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
       this.loading = false;
-      this.teachers = response.data;
-      this.subjects = response2.data;
-      this.availabilities = response3.data;
-      this.days = response4.data;
-      this.slots = response5.data;
+      this.teachers = response;
+      this.subjects = response2;
+      this.availabilities = response3;
+      this.days = response4;
+      this.slots = response5;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
@@ -228,16 +228,10 @@ export default {
     archiv(id) {
       console.log(id);
       const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
-      const params = {
-        action: "archiveAvailability",
-        availabilityId: id
-      };
 
-      if (localStorage.getItem("isLogged") === "true") {
-        $
-            .get(url, {params})
+        $.get(url, {action: "archiveAvailability", availabilityId: id})
             .then(response => {
-              if (response.data === "booked") {
+              if (response=== "booked") {
                 console.log("archiviata con successo");
                 const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
                 if (index !== -1) {
@@ -250,21 +244,17 @@ export default {
             .catch(error => {
               console.error(error);
             });
-      }
+
     },
 
     delet(id) {
       console.log(id);
       const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
-      const params = {
-        action: "deleteAvailability",
-        availabilityId: id
-      };
 
-      $
-          .get(url, { params })
+
+      $.get(url, {action: "deleteAvailability", availabilityId: id})
           .then(response => {
-            if (response.data === "booked") {
+            if (response === "booked") {
               console.log("Prenotato con successo");
               const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
               if (index !== -1) {

@@ -65,7 +65,7 @@
 <script>
 
 
-//import axios from "axios";
+import axios from "axios";
 import $ from 'jquery';
 
 export default {
@@ -97,7 +97,7 @@ export default {
         action: 'getAdmin',
         email: this.email,
       };
-      $.get(url, {params}) /*prima effettuiamo la http request async*/
+      axios.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "admin") {
               console.log("Admin")
@@ -120,7 +120,7 @@ export default {
       const params = {
         action: 'logout',
       };
-      $.post(url, {params}) /*prima effettuiamo la http request async*/
+      axios.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Logout") {
               console.log(" logout ")
@@ -137,6 +137,10 @@ export default {
             console.error(error);
           });
     },
+    submiform1(){
+
+
+    },
     submitForm() {
       const isLogged = localStorage.getItem('isLogged');
       this.isLogged = isLogged === 'true';
@@ -144,20 +148,76 @@ export default {
       console.log(this.email)
 
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
-      function(data){
-        
-        console.log(data)
-        if(data==='isLogged')
-        {    
-        self.isLogged = true;
-        console.log("the variable value is "+this.isLogged)
+     /* let params = {
+        action: 'submitLogin',
+        email: this.email,
+        password: this.password,
+      };*/
+      /*let headers = {
+
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods":
+              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers":
+              "Origin, Content-Type, X-Auth-Token",
+          'content-type': 'application/x-www-form-urlencoded'
+
+      };*/
+
+     
+
+      /*axios.post(url, {params},axiosConfig)*/ /*prima effettuiamo la http request async*!*/
+      /*axios.post("https://prova1-cc17e-default-rtdb.europe-west1.firebasedatabase.app/",params)*/
+      /*axios(url, {
+        method: "post",
+        data:{
+          action: 'submitLogin',
+          email: this.email,
+          password: this.password,
         }
-      }
-      ).catch(error => {   
-        console.error(error);
-      });
-      
+      },headers)
+          .then(response => {         /!*solo una volta eseguita la request passiamo a gestire la risposta*!/
+            if (response.data === "isLogged") {
+              console.log(" loggato con successo")
+              this.Credential();
+              this.isLogged = true;
+
+              // Salva il flag di accesso nel localStorage
+              localStorage.setItem('isLogged', 'true');
+            } else {
+              alert("Email o password errati ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });*/
+            $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
+            function(data){
+              console.log(data)
+              if(data==='isLogged')
+              {
+                self.isLogged = true;
+                console.log("the variable value is "+this.isLogged)
+              }
+            }
+            ).catch(error => {
+              console.error(error);
+            });
+     /* fetch(url, {
+        method: "POST",
+        headers: headers,
+        body:  JSON.stringify(params)
+      })
+          .then(function(response){
+            return response.json();
+          })
+          .then(function(data){
+            console.log(data)
+          });*/
+
     }
   }
 }

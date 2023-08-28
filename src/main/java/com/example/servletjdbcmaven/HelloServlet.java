@@ -39,46 +39,12 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        System.out.println();
-        System.out.println("abbiamo ricevuto una get@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-       /* StringBuilder requestBody = new StringBuilder();
-
-       try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        response.getWriter().write("Dati richiesti: " + requestBody.toString());
-        out.println(requestBody);*/
-
         processRequest(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         out.println("Attenzione POST arrivata");
-        out.println(request.getParameter("action"));
-        out.println(request.getParameter("email"));
-        out.println(request.getAttributeNames());
-        /*JSONObject json=new JSONObject(jsonString);
-        System.out.println(json.toString(4));*/
-       /* StringBuilder requestBody = new StringBuilder();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Ora puoi lavorare con il corpo della richiesta (requestBody)
-
-        response.getWriter().write("Dati ricevuti: " + requestBody.toString());
-        out.println(requestBody);*/
 
         processRequest(request, response);
     }
@@ -145,6 +111,7 @@ public class HelloServlet extends HttpServlet {
                     String daysJson = gson.toJson(days);
                     System.out.println("STRINGA JSON " + daysJson);
                     out.print(daysJson);
+                    out.flush();
                     break;
                 case "getAllSlots":
                     System.out.println("Siamo su getAllSlots");
@@ -152,6 +119,7 @@ public class HelloServlet extends HttpServlet {
                     String slotsJson = gson.toJson(slots);
                     System.out.println("STRINGA JSON " + slotsJson);
                     out.print(slotsJson);
+                    out.flush();
                     break;
                 case "getAllAvailabilities":
                     System.out.println("Siamo su getAllAvailabilities");
@@ -159,6 +127,7 @@ public class HelloServlet extends HttpServlet {
                     String availabilitiesJson = gson.toJson(availabilities);
                     System.out.println("STRINGA JSON " + availabilitiesJson);
                     out.print(availabilitiesJson);
+                    out.flush();
                     break;
                 case "getAllUsers":
                     System.out.println("Siamo su getAllUsers");
@@ -166,6 +135,7 @@ public class HelloServlet extends HttpServlet {
                     String usersJson = gson.toJson(userDao.getAll());
                     System.out.println("STRINGA JSON " + usersJson);
                     out.print(usersJson);
+                    out.flush();
                     break;
 
                 case "getAllTeacher":
@@ -174,6 +144,7 @@ public class HelloServlet extends HttpServlet {
                     String teachersJson = gson.toJson(teachers);
                     System.out.println("STRINGA JSON " + teachersJson);
                     out.print(teachersJson);
+                    out.flush();
                     break;
                 case "getAllSubjects":    //al client torna la pagina di login
                     System.out.println("Siamo su getAllSubjects");
@@ -183,6 +154,7 @@ public class HelloServlet extends HttpServlet {
                     String subjectsJson = gson.toJson(subjects);
                     System.out.println("STRINGA JSON " + subjectsJson);
                     out.print(subjectsJson);
+                    out.flush();
                     break;
 
                 case "submitRegistration":  //vera e propria registrazione di un utente
@@ -190,19 +162,21 @@ public class HelloServlet extends HttpServlet {
                     String signedJson = gson.toJson(submitRegistration(request.getParameter("name"), request.getParameter("surname"), request.getParameter("password"), request.getParameter("email"), request.getParameter("role")));
                     System.out.println("STRINGA JSON " + signedJson);
                     out.print(signedJson);
+                    out.flush();
                     break;
                 case "getTeachersBySubject":
                     System.out.println("Siamo su getTeachersBySubject");
                     String teachersBySubjectJson=gson.toJson(getTeachersBySubject(request.getParameter("subjectId")));
                     System.out.println("STRINGA JSON " + teachersBySubjectJson);
                     out.print(teachersBySubjectJson);
+                    out.flush();
                     break;
 
                 case "submitLogin":
-                    try{
+
                     System.out.println("Siamo su submit login");
                     //ritorna l'id dell'utente se il login è avvenuto con successo
-                    int id = submitLogin(request.getParameter("email"), request.getParameter("password"));
+                    int id = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
                     String loggedJson;
                     if(id!=-1){
                         sessionCookie.setComment(String.valueOf(id));
@@ -212,19 +186,8 @@ public class HelloServlet extends HttpServlet {
                     }
                     response.addCookie(sessionCookie);
                     System.out.println("STRINGA JSON " + loggedJson);
-
-
-                       out.print(loggedJson);
-                       out.flush();
-                       response.flushBuffer();
-                   }
-                   catch(Exception e)
-                   {
-                    System.out.println(e);
-                   }
-
+                    out.print(loggedJson);
                     out.flush();
-
 
                     break;
                 case "getAllAvailabilitiesAvailable":
@@ -238,6 +201,7 @@ public class HelloServlet extends HttpServlet {
                         String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
                         System.out.println("STRINGA JSON " + availabilityAvailableJson);
                         out.print(availabilityAvailableJson);
+                        out.flush();
                     /*};*/
                     break;
 
@@ -267,10 +231,12 @@ public class HelloServlet extends HttpServlet {
                         String bookedJson = gson.toJson("booked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }else{
                         String bookedJson = gson.toJson("notBooked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }
                     break;
                 case "getAvailabilitiesByProfessor":
@@ -280,6 +246,7 @@ public class HelloServlet extends HttpServlet {
                     String availabilitiesByTeacherJson=gson.toJson(availabilitiesByProfessor);
                     System.out.println("STRINGA JSON " + availabilitiesByTeacherJson);
                     out.println(availabilitiesByTeacherJson);
+                    out.flush();
                     break;
 
                 case "getAvailabilitiesOfUser":
@@ -290,6 +257,7 @@ public class HelloServlet extends HttpServlet {
                         String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
                         System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
                         out.print(userAvailabilitiesBookedJson);
+                        out.flush();
                     }
                     break;
 
@@ -299,6 +267,7 @@ public class HelloServlet extends HttpServlet {
                     String userAvailabilitiesBookedByIdJson = gson.toJson(userAvailabilitiesBookedById);
                     System.out.println("STRINGA JSON " + userAvailabilitiesBookedByIdJson);
                     out.print(userAvailabilitiesBookedByIdJson);
+                    out.flush();
 
                     break;
 
@@ -321,6 +290,7 @@ public class HelloServlet extends HttpServlet {
                         String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
                         System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
                         out.print(userAvailabilitiesBookedJson);
+                        out.flush();
                     }
                     break;
                 case "deleteAvailability":
@@ -343,24 +313,27 @@ public class HelloServlet extends HttpServlet {
                         String bookedJson = gson.toJson("booked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }else{
                         String bookedJson = gson.toJson("notBooked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }
                     break;
 
 
                 case "archiveAvailability":
+                    System.out.println("siamo su archieveAvailabilietes");
                     int availabilityId3 = parseInt(request.getParameter("availabilityId"));
                     Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
                     //prendo l'id dalla session cookie
 
-                    int userId3= parseInt(sessionCookie.getComment());
+                   /* int userId3= parseInt(sessionCookie.getComment());*/
 
-                    System.out.println(userId3);
+                    /*System.out.println(userId3);*/
                     a3.setBooking("effettuata");
-                    a3.setUserId(userId3);
+                    /*a3.setUserId(userId3);*/
                     System.out.println("stampa1d");
                     availabilityDao.updateAvailability(a3);
                     System.out.println("stampa1d");
@@ -368,10 +341,12 @@ public class HelloServlet extends HttpServlet {
                         String bookedJson = gson.toJson("booked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }else{
                         String bookedJson = gson.toJson("notBooked");
                         System.out.println("STRINGA JSON " + bookedJson);
                         out.print(bookedJson);
+                        out.flush();
                     }
                     break;
 
@@ -446,14 +421,13 @@ public class HelloServlet extends HttpServlet {
                     response.sendRedirect("/");
                     break;
 
+
+
+
                 default:
             }
+
         }
-        else
-        {
-            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY );
-        }
-        response.setContentType("text/html");
     }
 
     private ArrayList<SubjectTeacher> getTeachersBySubject(String subjectId) {
@@ -567,7 +541,7 @@ public class HelloServlet extends HttpServlet {
         }
     }
 
-    private int submitLogin(String userEmail, String userPassword) {
+    private int submitLogin(String userEmail, String userPassword, String userRole) {
         Service s = new Service();
         User u = userDao.getByEmail(userEmail);
         if (Service.checkMD5(u.getPassword(), userPassword)) {

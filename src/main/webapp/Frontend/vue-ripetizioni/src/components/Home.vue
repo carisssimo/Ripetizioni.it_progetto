@@ -161,9 +161,10 @@ export default {
       let response=await teacherService.getAllTeachers();
       let response2=await subjectsService.getAllSubjects();
       this.loading=false;
-      this.teachers=response.data;
-      this.subjects=response2.data;
+      this.teachers=response;
+      this.subjects=response2;
       console.log(this.subjects);
+      console.log(this.teachers);
     }catch(e){
       console.log(e);
     }
