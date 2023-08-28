@@ -62,12 +62,7 @@ public class HelloServlet extends HttpServlet {
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
         PrintWriter out = response.getWriter();
-        /*response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081"); // Sostituisci con l'URL del tuo frontend JavaScript
-        response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Methods","GET,HEAD,DELETE,POST,OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers",
-                "Access-Control-Allow-Headers,Origin,Accept,X-Request-With,Content-Type,Access-Control-Request-Methods,Access-Control-Request-Headers");
-        */
+
         ArrayList<User> users = userDao.getAll();
         ArrayList<Teacher> teachers = teacherDao.getAll();
         ArrayList<Subject> subjects = subjectDao.getAll();

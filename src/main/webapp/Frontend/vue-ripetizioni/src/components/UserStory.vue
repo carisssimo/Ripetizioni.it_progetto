@@ -52,17 +52,17 @@ export default {
       console.log(userId)
       this.loading = true;
       let response = await availabilityService.getAvailabilitiesByID2(userId);
-      this.availabilities = response.data;
+
       let response1 = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
       let response3 = await dayService.getAllDays();
       let response4 = await slotService.getAllSlots();
       this.loading = false;
-      this.teachers = response1.data;
-      this.subjects = response2.data;
+      this.teachers = response1;
+      this.subjects = response2;
       this.availabilities = response.data;
-      this.days = response3.data;
-      this.slots = response4.data;
+      this.days = response3;
+      this.slots = response4;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
