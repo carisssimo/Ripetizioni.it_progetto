@@ -59,11 +59,11 @@ export default {
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
       this.loading = false;
-      this.teachers = response.data;
-      this.subjects = response2.data;
-      this.availabilities = response3.data;
-      this.days = response4.data;
-      this.slots = response5.data;
+      this.teachers = response;
+      this.subjects = response2;
+      this.availabilities = response3;
+      this.days = response4;
+      this.slots = response5;
 
       console.log(this.availabilities);
       console.log(this.subjectSelected);

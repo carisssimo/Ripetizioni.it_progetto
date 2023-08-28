@@ -353,7 +353,7 @@ public class HelloServlet extends HttpServlet {
                 case "getAdmin":
 
                     User u1=userDao.getByEmail(request.getParameter("email"));
-                    int userId4= parseInt(sessionCookie.getComment());
+                   /* int userId4= parseInt(sessionCookie.getComment());*/
                     String answerJson= gson.toJson(u1.getRole());
                     System.out.println("STRINGA JSON " + answerJson);
                     out.print(answerJson);

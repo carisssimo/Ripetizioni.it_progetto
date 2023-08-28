@@ -93,13 +93,14 @@ export default {
     Credential()
     {
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'getAdmin',
         email: this.email,
-      };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      /*axios.get(url, {params}) /!*prima effettuiamo la http request async*!/*/
+      $.get(url,{action: 'getAdmin', email: this.email,})
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "admin") {
+            if (response === "admin") {
               console.log("Admin")
               this.admin = true;
               localStorage.setItem('admin', 'true');
@@ -200,6 +201,7 @@ export default {
               if(data==='isLogged')
               {
                 self.isLogged = true;
+                self.Credential();
                 console.log("the variable value is "+this.isLogged)
               }
             }

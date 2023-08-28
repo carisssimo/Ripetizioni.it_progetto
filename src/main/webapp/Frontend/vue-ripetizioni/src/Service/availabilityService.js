@@ -40,12 +40,13 @@ export class availabilityService {
 
     static getAllAvailabilitiesByProfessor(teacherId)
     {
-        const params = {
+        /*const params = {
             action: 'getAvailabilitiesByProfessor',
             teacherId: teacherId,
-        };
+        };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params});
+
+        return $.get(dataURL,{action: 'getAvailabilitiesByProfessor', teacherId: teacherId,})
     }
     static getAllAvailabilities() {
         const params = {
