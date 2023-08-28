@@ -165,17 +165,17 @@ export default {
     booking(id) {
       console.log(id)
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'bookingAvailability',
         availabilityId: id,
         subjectId:this.subjectSelected,
-      };
+      };*/
 
 
-      if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
-        $.get(url, {params}) /*prima effettuiamo la http request async*/
+      /*if (localStorage.getItem("isLogged") === "true") { */ //controllo se è effettivamente un utente loggato
+        $.get(url, {action: 'bookingAvailability', availabilityId: id, subjectId:this.subjectSelected,}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-              if (response.data === "booked") {
+              if (response === "booked") {
                 console.log(" prenotato con successo ")
                 const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
                 if (index !== -1) {
@@ -187,10 +187,9 @@ export default {
 
             })
             .catch(error => {
-
               console.error(error);
             });
-      }
+     /* }*/
 
 
     },
