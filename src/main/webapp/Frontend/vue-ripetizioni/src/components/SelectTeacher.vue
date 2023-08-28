@@ -49,9 +49,9 @@ export default {
       /*solo ora chiamo la servlet chiedendo tutti gli insegnati che insegnano quella materia*/
       console.log(subjectSelectedId);
       let response3=await subjectService.getTeachersBySubject(subjectSelectedId);
-      this.subjects = response.data;
-      this.teachers=JSON.parse(response2);
-      this.teachersBySubject=JSON.parse(response3);
+      this.subjects = response;
+      this.teachers=response2;
+      this.teachersBySubject=response3;
       console.log(this.subjects);
       console.log(this.subjectSelected);
       console.log(this.teachersBySubject);

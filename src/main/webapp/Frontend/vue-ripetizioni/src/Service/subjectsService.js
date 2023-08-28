@@ -15,7 +15,7 @@ export class subjectsService {
 
     static async getSubjectId(subjectName) {
         let response2 = await subjectsService.getAllSubjects();
-        let subjects = response2.data;
+        let subjects = response2;
         for (let i = 0; i < subjects.length; i++) {
             if (subjects[i].subjectName === subjectName) {
                 console.log(subjects[i]);

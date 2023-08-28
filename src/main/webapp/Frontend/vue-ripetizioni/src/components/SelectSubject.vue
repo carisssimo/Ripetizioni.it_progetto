@@ -29,7 +29,7 @@ export default {
   created: async function(){
     try {
       let response = await subjectsService.getAllSubjects();
-      this.subjects = response.data;
+      this.subjects = response;
       console.log(this.subjects);
     }catch (e) {
       console.log(e);
