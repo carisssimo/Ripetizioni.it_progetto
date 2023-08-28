@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import $ from 'jquery';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -90,7 +90,7 @@ export default {
         id_sub:this.id_sub,
         dateAv: this.dateAv,
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Removed") {
               console.log("disponibilità rimossa con successo")

@@ -39,6 +39,21 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println();
+        System.out.println("abbiamo ricevuto una get@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+       /* StringBuilder requestBody = new StringBuilder();
+
+       try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        response.getWriter().write("Dati richiesti: " + requestBody.toString());
+        out.println(requestBody);*/
+
         processRequest(request, response);
     }
 
@@ -49,7 +64,7 @@ public class HelloServlet extends HttpServlet {
         out.println(request.getAttributeNames());
         /*JSONObject json=new JSONObject(jsonString);
         System.out.println(json.toString(4));*/
-        StringBuilder requestBody = new StringBuilder();
+       /* StringBuilder requestBody = new StringBuilder();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
             String line;
@@ -63,7 +78,7 @@ public class HelloServlet extends HttpServlet {
         // Ora puoi lavorare con il corpo della richiesta (requestBody)
 
         response.getWriter().write("Dati ricevuti: " + requestBody.toString());
-        out.println(requestBody);
+        out.println(requestBody);*/
 
         processRequest(request, response);
     }
@@ -184,10 +199,10 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
-
+                    try{
                     System.out.println("Siamo su submit login");
                     //ritorna l'id dell'utente se il login è avvenuto con successo
-                    int id = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
+                    int id = submitLogin(request.getParameter("email"), request.getParameter("password"));
                     String loggedJson;
                     if(id!=-1){
                         sessionCookie.setComment(String.valueOf(id));
@@ -197,7 +212,19 @@ public class HelloServlet extends HttpServlet {
                     }
                     response.addCookie(sessionCookie);
                     System.out.println("STRINGA JSON " + loggedJson);
-                    out.print(loggedJson);
+
+
+                       out.print(loggedJson);
+                       out.flush();
+                       response.flushBuffer();
+                   }
+                   catch(Exception e)
+                   {
+                    System.out.println(e);
+                   }
+
+                    out.flush();
+
 
                     break;
                 case "getAllAvailabilitiesAvailable":
@@ -419,13 +446,14 @@ public class HelloServlet extends HttpServlet {
                     response.sendRedirect("/");
                     break;
 
-
-
-
                 default:
             }
-
         }
+        else
+        {
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY );
+        }
+        response.setContentType("text/html");
     }
 
     private ArrayList<SubjectTeacher> getTeachersBySubject(String subjectId) {
@@ -539,7 +567,7 @@ public class HelloServlet extends HttpServlet {
         }
     }
 
-    private int submitLogin(String userEmail, String userPassword, String userRole) {
+    private int submitLogin(String userEmail, String userPassword) {
         Service s = new Service();
         User u = userDao.getByEmail(userEmail);
         if (Service.checkMD5(u.getPassword(), userPassword)) {

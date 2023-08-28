@@ -50,30 +50,38 @@ export default {
       console.log(subjectSelectedId);
       let response3=await subjectService.getTeachersBySubject(subjectSelectedId);
       this.subjects = response.data;
-      this.teachers=response2.data;
-      this.teachersBySubject=response3.data;
+      this.teachers=JSON.parse(response2);
+      this.teachersBySubject=JSON.parse(response3);
       console.log(this.subjects);
       console.log(this.subjectSelected);
       console.log(this.teachersBySubject);
+      console.log(this.teachers);
     }catch (e) {
       console.log(e);
     }
   },
   methods: {
+    
     printTeacherName(Id) {
-      for (let i = 0; i < this.teachers.length; i++) {
-        if (this.teachers[i].teacherId === Id) {
-          console.log(this.teachers[i]);
-          return this.teachers[i].name+' '+this.teachers[i].surname;
+      var self=this;
+      var dim =self.teachers.length;
+      console.log("questa è la dim"+dim);
+      for (let i = 0; i < dim; i++) {
+        if (self.teachers[i].teacherId === Id) {
+          console.log(self.teachers[i]);
+          return self.teachers[i].name+' '+self.teachers[i].surname;
         }
       }
       return null;
     },
     printTeacherEmail(Id) {
-      for (let i = 0; i < this.teachers.length; i++) {
-        if (this.teachers[i].teacherId === Id) {
-          console.log(this.teachers[i]);
-          return this.teachers[i].email;
+      var self=this;
+      var dim =self.teachers.length;
+      console.log("questa è la dim"+dim);
+      for (let i = 0; i < dim; i++) {
+        if (self.teachers[i].teacherId === Id) {
+          console.log(self.teachers[i]);
+          return self.teachers[i].email;
         }
       }
       return null;

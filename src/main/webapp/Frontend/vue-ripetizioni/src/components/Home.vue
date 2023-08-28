@@ -144,6 +144,7 @@
 import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",

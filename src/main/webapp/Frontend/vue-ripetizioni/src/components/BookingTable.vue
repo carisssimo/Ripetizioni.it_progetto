@@ -32,7 +32,7 @@ import {subjectsService} from "@/Service/subjectsService";
 import {availabilityService} from "@/Service/availabilityService";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
-import axios from "axios";
+import $ from 'jquery';
 
 export default {
   name: "BookingTable",
@@ -173,7 +173,7 @@ export default {
 
 
       if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "booked") {
                 console.log(" prenotato con successo ")
@@ -202,7 +202,7 @@ export default {
       const params = {
         action: 'logout',
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Logout") {
               console.log(" logout ")

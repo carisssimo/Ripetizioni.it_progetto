@@ -111,7 +111,7 @@
 import { teacherService } from "@/Service/teachersService";
 import { subjectsService } from "@/Service/subjectsService";
 import { availabilityService } from "@/Service/availabilityService";
-import axios from "axios";
+import $ from 'jquery';
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
 
@@ -234,7 +234,7 @@ export default {
       };
 
       if (localStorage.getItem("isLogged") === "true") {
-        axios
+        $
             .get(url, {params})
             .then(response => {
               if (response.data === "booked") {
@@ -261,7 +261,7 @@ export default {
         availabilityId: id
       };
 
-      axios
+      $
           .get(url, { params })
           .then(response => {
             if (response.data === "booked") {

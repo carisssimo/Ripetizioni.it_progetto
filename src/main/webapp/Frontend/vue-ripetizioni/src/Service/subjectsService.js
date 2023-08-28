@@ -1,4 +1,5 @@
 import axios from "axios";
+import $ from 'jquery';
 
 
 export class subjectsService {
@@ -27,12 +28,10 @@ export class subjectsService {
 
     }
     static getTeachersBySubject(subjectSelectedId){
-        const params = {
-            action: 'getTeachersBySubject',
-            subjectId: subjectSelectedId,
-        };
+      
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params}); /*libreria utilizzata per effettuare chiamate http async*/
+        return $.get(dataURL,{action: 'getTeachersBySubject',
+        subjectId: subjectSelectedId}); /*libreria utilizzata per effettuare chiamate http async*/
 
     }
 

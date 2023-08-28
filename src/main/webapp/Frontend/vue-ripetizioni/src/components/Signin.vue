@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import $ from 'jquery';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -61,6 +61,7 @@ export default {
   data: function(){
     return{
       isSigned:false,
+      action: '',
       name:'',
       surname:'',
       password:'',
@@ -71,15 +72,19 @@ export default {
   methods:{
     signinForm(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+     /* const params = {
         action: 'submitRegistration',
         name:this.name,
         surname:this.surname,
         password: this.password,
         email: this.email,
         role: this.role
-      };
-      axios.post(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      $.post(url, {action:'submitRegistration', name:this.name,
+        surname:this.surname,
+        password: this.password,
+        email: this.email,
+        role: this.role}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "isSigned") {
               console.log(" registrato con successo")

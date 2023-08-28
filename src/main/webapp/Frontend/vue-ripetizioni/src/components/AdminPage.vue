@@ -84,7 +84,7 @@
 import { teacherService } from "@/Service/teachersService";
 import { subjectsService } from "@/Service/subjectsService";
 import { availabilityService } from "@/Service/availabilityService";
-import axios from "axios";
+import $ from 'jquery';
 
 export default {
   name: "AdminPage",
@@ -149,8 +149,8 @@ export default {
       console.log(e);
     }
   },
-  methods: {
 
+  methods: {
     printTeacherName(Id) {
       for (let i = 0; i < this.teachers.length; i++) {
         if (this.teachers[i].teacherId === Id) {
@@ -160,7 +160,6 @@ export default {
       }
       return null;
     },
-
     Click() {
       console.log('logout')
       localStorage.removeItem('isLogged');
@@ -169,14 +168,12 @@ export default {
       const params = {
         action: 'logout',
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Logout") {
               console.log(" logout ")
               this.isLogged = false;
-             //localStorage.removeItem('isLogged');
-              document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              this.$router.push({ name: "Home" });
+              localStorage.removeItem('isLogged');
             } else {
               alert("failed logout ");
             }
@@ -205,7 +202,7 @@ export default {
         availabilityId: id
       };
 
-      axios
+      $
           .get(url, { params })
           .then(response => {
             if (response.data === "booked") {

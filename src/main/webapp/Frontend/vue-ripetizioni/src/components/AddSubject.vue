@@ -64,7 +64,8 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
+import $ from 'jquery';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -87,7 +88,7 @@ export default {
         descp:this.descp,
 
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Added") {
               console.log(" aggiunto con successo")

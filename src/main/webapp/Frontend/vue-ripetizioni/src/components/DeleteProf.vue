@@ -93,7 +93,8 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
+import $ from 'jquery';
 import {teacherService} from "@/Service/teachersService";
 
 export default {
@@ -148,6 +149,11 @@ export default {
             });
       }
     },*/
+   /* $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
+            function(data){
+              console.log(data)
+            }
+            )*/
     deleteTeacher(id){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       const params = {
@@ -155,7 +161,7 @@ export default {
         teacherId:id
       };
       if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "Removed") {
                 console.log(" eliminato con successo")

@@ -92,7 +92,7 @@
 
 <script>
 import {availabilityService} from "@/Service/availabilityService";
-import axios from "axios";
+import $ from 'jquery';
 import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {dayService} from "@/Service/dayService";
@@ -237,7 +237,7 @@ export default {
 
 
       if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "isBooked") {
                 console.log(" prenotato con successo ")
@@ -263,7 +263,7 @@ export default {
       const params = {
         action: 'logout',
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Logout") {
               console.log(" logout ")

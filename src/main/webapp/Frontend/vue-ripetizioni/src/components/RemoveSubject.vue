@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import $ from 'jquery';
 import {subjectsService} from "@/Service/subjectsService";
 
 export default {
@@ -120,7 +120,7 @@ export default {
         descp:this.descp,*/
 
       };
-      axios.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response.data === "Added") {
               console.log(" aggiunto con successo")
@@ -143,7 +143,7 @@ export default {
         subjectId:id
       };
       if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "Added") {
                 console.log(" eliminato con successo")

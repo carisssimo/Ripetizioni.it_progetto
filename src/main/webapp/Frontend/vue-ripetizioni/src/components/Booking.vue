@@ -69,7 +69,7 @@
 import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {availabilityService} from "@/Service/availabilityService";
-import axios from "axios";
+import $ from 'jquery';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -133,7 +133,7 @@ export default {
 
 
       if (localStorage.getItem("isLogged") === "true") {
-        axios.get(url, {params}) /*prima effettuiamo la http request async*/
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response.data === "booked") {
                 console.log(" prenotato con successo ")

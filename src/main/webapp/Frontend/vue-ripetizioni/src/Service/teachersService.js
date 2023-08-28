@@ -1,4 +1,5 @@
-import axios from "axios";
+//import axios from "axios";
+import $ from 'jquery';
 
 export class teacherService {
 
@@ -11,11 +12,9 @@ export class teacherService {
                 "Access-Control-Allow-Origin": "*",
             }
         };*/
-        const params = {
-            action: 'getAllTeacher',
-        };
+        
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params});
+        return $.get(dataURL,{action: 'getAllTeacher'});
 
         /*const params = {
             action: 'getAllTeacher',
