@@ -71,6 +71,7 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
     public int delete(int id) {
         Connection con = null;
         int rowsInserted=0;
+        int rowsInserted2=0;
         try {
             con = DriverManager.getConnection(url1, user, password);
             if (con != null) {
@@ -87,19 +88,19 @@ public class SubjectDaoImpl implements DAO<Subject>, SubjectDAO {
             PreparedStatement statement2 = con.prepareStatement(querySubjectTeacher);
 
             statement2.setString(1, Integer.toString(id));
-            rowsInserted = statement2.executeUpdate();
+            rowsInserted2 = statement2.executeUpdate();
 
 
             String queryAvailabilityAvailable = "DELETE FROM DISPONIBILITA WHERE ID_CORSO=? AND PRENOTAZIONE IS NULL";
             PreparedStatement statement3 = con.prepareStatement(queryAvailabilityAvailable);
             statement3.setString(1, Integer.toString(id));
-            rowsInserted = statement3.executeUpdate();
+            rowsInserted2 = statement3.executeUpdate();
 
             String queryAvailability = " UPDATE DISPONIBILITA SET PRENOTAZIONE = ?  WHERE ID_CORSO = ?";
             PreparedStatement statement4 = con.prepareStatement(queryAvailability);
             statement4.setString(1, "Corso Cancellato");
             statement4.setString(2, Integer.toString(id));
-            rowsInserted = statement4.executeUpdate();
+            rowsInserted2 = statement4.executeUpdate();
 
 
         } catch (SQLException e) {

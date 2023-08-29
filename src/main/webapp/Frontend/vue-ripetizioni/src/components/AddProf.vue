@@ -106,6 +106,7 @@ export default {
                 this.name = '';
                 this.surname = '';
                 this.email = '';
+                alert("docente aggiunto con successo");
               } else {
                 alert("problema aggiunta docente");
               }

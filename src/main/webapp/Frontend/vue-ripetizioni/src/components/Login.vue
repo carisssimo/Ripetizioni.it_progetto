@@ -204,6 +204,9 @@ export default {
                 self.Credential();
                 console.log("the variable value is "+this.isLogged)
               }
+              else{
+                alert("password o email errati")
+              }
             }
             ).catch(error => {
               console.error(error);

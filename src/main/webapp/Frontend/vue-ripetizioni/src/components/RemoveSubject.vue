@@ -105,7 +105,7 @@ export default {
       this.loading = true;
       let response = await subjectsService.getAllSubjects();
       this.loading = false;
-      this.subjects = response.data;
+      this.subjects = response;
       console.log(this.subjects);
     } catch (e) {
       console.log(e);
@@ -138,14 +138,14 @@ export default {
     },
     deleteSubject(id){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'deleteSubject',
         subjectId:id
-      };
-      if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        $.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+     /* if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
+        $.get(url, {action: 'deleteSubject',subjectId:id}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-              if (response.data === "Added") {
+              if (response === "Added") {
                 console.log(" eliminato con successo")
                 const index = this.subjects.findIndex(subject => subject.subjectID === id);
                 if (index !== -1) {
@@ -162,7 +162,7 @@ export default {
 
               console.error(error);
             });
-      }
+      /*}*/
     }
   }
 }

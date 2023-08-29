@@ -82,15 +82,15 @@ export default {
   methods:{
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'addSub',
         name:this.name,
         descp:this.descp,
 
-      };
-      $.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      $.get(url, {action: 'addSub', name:this.name, descp:this.descp,}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Added") {
+            if (response === "Added") {
               console.log(" aggiunto con successo")
               this.name='';
               this.descp='';

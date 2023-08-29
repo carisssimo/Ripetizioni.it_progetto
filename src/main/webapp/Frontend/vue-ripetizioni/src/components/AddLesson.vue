@@ -83,16 +83,16 @@ export default {
   methods:{
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+     /* const params = {
         action: 'addLesson',
         id_prof:this.id_prof,
         id_sub:this.id_sub,
         daytime:this.daytime,
 
-      };
-      $.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      $.get(url, {action: 'addLesson', id_prof:this.id_prof, id_sub:this.id_sub, daytime:this.daytime,}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Added") {
+            if (response === "Added") {
               console.log("lezione aggiunta con successo")
               this.id_prof='';
               this.id_sub='';
