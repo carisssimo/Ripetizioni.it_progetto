@@ -115,7 +115,7 @@ export default {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
       this.loading = false;
-      this.teachers = response.data;
+      this.teachers = response;
       console.log(this.teachers);
     } catch (e) {
       console.log(e);
@@ -156,14 +156,14 @@ export default {
             )*/
     deleteTeacher(id){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'deleteTeacher',
         teacherId:id
-      };
-      if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        $.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      /*if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
+        $.get(url, {action: 'deleteTeacher', teacherId:id}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-              if (response.data === "Removed") {
+              if (response === "Removed") {
                 console.log(" eliminato con successo")
                 const index = this.teachers.findIndex(teacher => teacher.teacherId === id);
                 if (index !== -1) {
@@ -180,7 +180,7 @@ export default {
 
               console.error(error);
             });
-      }
+      /*}*/
     }
   }
 }

@@ -81,9 +81,9 @@
 </template>
 
 <script>
-import { teacherService } from "@/Service/teachersService";
+/*import { teacherService } from "@/Service/teachersService";
 import { subjectsService } from "@/Service/subjectsService";
-import { availabilityService } from "@/Service/availabilityService";
+import { availabilityService } from "@/Service/availabilityService";*/
 import $ from 'jquery';
 
 export default {
@@ -132,7 +132,7 @@ export default {
       ],
     };
   },
-  created: async function() {
+  /*created: async function() {
     try {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
@@ -148,7 +148,7 @@ export default {
     } catch (e) {
       console.log(e);
     }
-  },
+  },*/
 
   methods: {
     printTeacherName(Id) {

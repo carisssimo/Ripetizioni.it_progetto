@@ -92,16 +92,16 @@ export default {
   methods:{
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
+      /*const params = {
         action: 'addProf',
         name:this.name,
         surname:this.surname,
         email: this.email,
-      };
-      if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {
-        $.get(url, {params}) /*prima effettuiamo la http request async*/
+      };*/
+      /*if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
+        $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email,}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-              if (response.data === "Added") {
+              if (response === "Added") {
                 console.log(" aggiunto con successo")
                 this.name = '';
                 this.surname = '';
@@ -115,7 +115,7 @@ export default {
 
               console.error(error);
             });
-      }
+      /*}*/
     }
   }
 }
