@@ -68,6 +68,9 @@
 import axios from "axios";
 import $ from 'jquery';
 
+
+//import {cookieService} from "@/Service/cookieService"
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Login',
@@ -90,6 +93,7 @@ export default {
   },
 
   methods: {
+    
     Credential()
     {
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
@@ -191,6 +195,7 @@ export default {
 
             console.error(error);
           });*/
+
             $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
             function(data){
               console.log(data)
@@ -199,6 +204,7 @@ export default {
                 self.isLogged = true;
                 self.Credential();
                 console.log("the variable value is "+this.isLogged)
+                localStorage.setItem("email",this.email)
               }
               else{
                 alert("password o email errati")
@@ -207,7 +213,10 @@ export default {
             ).catch(error => {
               console.error(error);
             });
+            
+            self.$cookies.set("user_session","25j_7Sl6xDq2Kc3ym0fmrSSk2xV2XkUkX"),
             self.Credential();
+            
      /* fetch(url, {
         method: "POST",
         headers: headers,

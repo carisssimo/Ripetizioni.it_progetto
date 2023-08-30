@@ -5,4 +5,5 @@ import VueCookies from 'vue-cookies';
 import SmartTable from 'vuejs-smart-table';
 import jQuery from 'jquery';
 
-createApp(App).use(VueCookies).use(router).use(SmartTable).use(jQuery).mount('#app')
+createApp(App).use(VueCookies).use(router).use(SmartTable).use(require('vue-cookies'))
+.use(jQuery).mount('#app')

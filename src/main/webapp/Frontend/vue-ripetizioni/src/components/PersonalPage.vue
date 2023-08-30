@@ -97,6 +97,7 @@ import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
+//import {cookieService} from "@/Service/cookieService"
 
 
 
@@ -149,6 +150,7 @@ export default {
       }
 
     },
+    
     getSubject(day, slot){
       for (let i = 0; i < this.availabilities.length; i++) {
         if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
@@ -255,11 +257,13 @@ export default {
 
 
     },
+  
     Click() {
       console.log('logout')
       localStorage.removeItem('isLogged');
       localStorage.removeItem('admin');
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      //cookieService.delete(localStorage.getItem('email'));
       const params = {
         action: 'logout',
       };

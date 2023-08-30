@@ -30,6 +30,7 @@ public class HelloServlet extends HttpServlet {
     boolean sessioneAttiva=false;
     int id_sessione=0;
     Cookie sessionCookie = new Cookie("session_id", "0x567324562");
+    Cookie c=null;
 
 
     public void init() {
@@ -53,11 +54,10 @@ public class HelloServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
-        sessionCookie.setMaxAge(60);
-        sessionCookie.setPath("/");
-        if(sessioneAttiva==true)
+
+        if(c!=null)
         {
-            System.out.println("================= L'id sessione è"+id_sessione);
+            System.out.println("================= L'id sessione è"+c.getComment());
         }
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -72,26 +72,6 @@ public class HelloServlet extends HttpServlet {
         ArrayList<Day> days = dayDao.getAll();
         ArrayList<Slot> slots = slotDao.getAll();
         HttpSession s;
-
-        /*PrintWriter ou1 = response.getWriter();
-        String userName = request.getParameter("utente");
-        String sessionID = request.getParameter("sessione");
-        HttpSession s = request.getSession();
-        String jsessionID = s.getId(); // estraggo il session ID
-        System.out.println("JSessionID:" + jsessionID);
-        System.out.println("sessionID ricevuto:" + sessionID);
-        System.out.println("userName ricevuto:" + userName);
-
-        if (userName != null) {
-            s.setAttribute("userName", userName); // salvo dei dati in sessione...
-        }
-        if (sessionID!=null && jsessionID.equals(sessionID)) {
-            //System.out.println("sessione riconosciuta!");
-            out.print("sessione riconosciuta!");
-        } else {
-            //System.out.println(jsessionID);
-            out.print(jsessionID);
-        }*/
 
         Gson gson = new Gson();
 
@@ -192,7 +172,13 @@ public class HelloServlet extends HttpServlet {
                     }else{
                          loggedJson = gson.toJson("notLogged");
                     }
-                    response.addCookie(sessionCookie);
+                    c = new Cookie("token",request.getParameter("email") );
+                    c.setComment(request.getParameter("email"));
+                    c.setMaxAge(3600);
+                    response.addCookie(c);
+                    System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+                    System.out.println(c.getComment());
+
                     System.out.println("STRINGA JSON " + loggedJson);
                     out.print(loggedJson);
                     out.flush();
@@ -224,7 +210,8 @@ public class HelloServlet extends HttpServlet {
 
                     System.out.println(availabilityId);
                     System.out.println(subjectId);
-
+                    System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+                    System.out.println(c.getComment());
                     //prendo l'id dalla session cookie
                     int userId= parseInt(sessionCookie.getComment());
 
