@@ -86,7 +86,7 @@ export default {
         email: this.email,
         role: this.role}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "isSigned") {
+            if (response=== "isSigned") {
               console.log(" registrato con successo")
               this.isSigned = true;
             } else {

@@ -11,5 +11,7 @@ public interface SubjectTeacherDAO {
 
     ArrayList<SubjectTeacher> getAllSubjectsByTeacherId(int teacherId);
 
+    SubjectTeacher getSubjectTeacherById(int subjectTeacherId );
+
 
 }
