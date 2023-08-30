@@ -154,6 +154,17 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
 
+                case "getAllAssociations":    //al client torna la pagina di login
+                    System.out.println("Siamo su getAllAssociations");
+
+
+                    // creo oggetto JSON con oggetto Coppia
+                    String associationsJson = gson.toJson(associations);
+                    System.out.println("STRINGA JSON " + associationsJson);
+                    out.print(associationsJson);
+                    out.flush();
+                    break;
+
                 case "submitRegistration":  //vera e propria registrazione di un utente
                     System.out.println("Siamo su submit Registration");
                     String signedJson = gson.toJson(submitRegistration(request.getParameter("name"), request.getParameter("surname"), request.getParameter("password"), request.getParameter("email"), request.getParameter("role")));
@@ -388,6 +399,13 @@ public class HelloServlet extends HttpServlet {
                     out.print(removesubdJson2);
                     break;
 
+                case "removeAssociation":
+                    System.out.println("delete association ");
+                    String removeAssociationJson = gson.toJson(removeAssociation(Integer.parseInt(request.getParameter("id"))));
+                    System.out.println("STRINGA JSON " + removeAssociationJson);
+                    out.print(removeAssociationJson);
+                    break;
+
 
                 case "addLesson":
                     System.out.println("addlesson----");
@@ -438,6 +456,15 @@ public class HelloServlet extends HttpServlet {
                 default:
             }
 
+        }
+    }
+
+    private Object removeAssociation(int id) {
+        int row=subjectTeacherDao.delete(id);
+        if(row==0){
+            return "notRemoved";
+        }else{
+            return "Removed";
         }
     }
 

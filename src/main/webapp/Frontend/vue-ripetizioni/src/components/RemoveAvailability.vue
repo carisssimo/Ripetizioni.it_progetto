@@ -52,9 +52,9 @@
       </thead>
       <tbody>
       <tr v-for="association in associations" :key="association.subjectTeacherID">
-        <td>{{ association.teacherID }}</td>
-        <td>{{ association.subjectID }}</td>
-        <td><a class="btn-login btn btn-primary" role="button" @click="deleteSubject(association.subjectTeacherID)">Elimina</a></td>
+        <td>{{ printTeacherName(association.teacherID) }}</td>
+        <td>{{ printSubjectName(association.subjectID) }}</td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="add(association.subjectTeacherID)">Elimina</a></td>
       </tr>
 
       </tbody>
@@ -66,8 +66,9 @@
 
 <script>
 import $ from 'jquery';
-/*import {subjectsService} from "@/Service/subjectsService";*/
+import {subjectsService} from "@/Service/subjectsService";
 import {associationService} from "@/Service/associationService";
+import {teacherService} from "@/Service/teachersService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -78,7 +79,9 @@ export default {
       id_prof:'',
       id_sub:'',
       dateAv:'',
-      associations:{}
+      associations:{},
+      teachers:{},
+      subjects:{}
 
     }
   },
@@ -86,31 +89,34 @@ export default {
     try {
       this.loading = true;
       let response = await associationService.getAllAssociations();
+      let response2=await teacherService.getAllTeachers();
+      let response3=await subjectsService.getAllSubjects();
+
       this.loading = false;
       this.associations = response;
+      this.teachers=response2;
+      this.subjects=response3;
       console.log(this.associations);
+      console.log(this.subjects);
+      console.log(this.teachers);
     } catch (e) {
       console.log(e);
     }
   },
   methods:{
-    add(){
+    add(AssociationId){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      const params = {
-        action: 'removeAvailability',
-        id_prof:this.id_prof,
-        id_sub:this.id_sub,
-        dateAv: this.dateAv,
-      };
-      $.get(url, {params}) /*prima effettuiamo la http request async*/
+      $.get(url, {action: 'removeAssociation',
+        id:AssociationId,}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Removed") {
-              console.log("disponibilità rimossa con successo")
+            if (response === "Removed") {
+              console.log("associazione rimossa con successo");
+              alert("associazione rimossa con successo");
               this.id_prof='';
               this.id_sub='';
               this.dateAv='';
             } else {
-              alert("problema rimozione disponibilità");
+              alert("problema rimozione associazione");
             }
 
           })
@@ -118,7 +124,25 @@ export default {
 
             console.error(error);
           });
-    }
+    },
+    printTeacherName(Id) {
+      for (let i = 0; i < this.teachers.length; i++) {
+        if (this.teachers[i].teacherId === Id) {
+          console.log(this.teachers[i]);
+          return this.teachers[i].name;
+        }
+      }
+      return null;
+    },
+    printSubjectName(Id) {
+      for (let i = 0; i < this.subjects.length; i++) {
+        if (this.subjects[i].subjectID === Id) {
+          console.log(this.subjects[i]);
+          return this.subjects[i].subjectName;
+        }
+      }
+      return null;
+    },
   }
 }
 </script>

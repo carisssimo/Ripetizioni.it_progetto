@@ -7,7 +7,7 @@ export class associationService {
 
 
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return $.get(dataURL,{action: 'getAllTeacher'});
+        return $.get(dataURL,{action: 'getAllAssociations'});
 
 
     }
