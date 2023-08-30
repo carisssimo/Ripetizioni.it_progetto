@@ -138,10 +138,6 @@ export default {
             console.error(error);
           });
     },
-    submiform1(){
-
-
-    },
     submitForm() {
       const isLogged = localStorage.getItem('isLogged');
       this.isLogged = isLogged === 'true';
@@ -211,6 +207,7 @@ export default {
             ).catch(error => {
               console.error(error);
             });
+            self.Credential();
      /* fetch(url, {
         method: "POST",
         headers: headers,

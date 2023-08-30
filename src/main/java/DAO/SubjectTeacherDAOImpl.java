@@ -71,7 +71,39 @@ public class SubjectTeacherDAOImpl implements DAO<SubjectTeacher>,SubjectTeacher
 
         return rowsInserted;
     }
+    public int deleteFromTeacher(int id_teacher)
+    {
+        Connection con = null;
+        int rowsDeleted = 0;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("DELETE FROM TEACHER INSIDE SUBJECT TEACHER");
+            }
 
+            String query = "DELETE FROM CORSO_DOCENTE WHERE ID_DOCENTE = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setInt(1, id_teacher);
+
+            rowsDeleted = statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return rowsDeleted;
+    }
     @Override
     public int delete(int id) {
         Connection con = null;

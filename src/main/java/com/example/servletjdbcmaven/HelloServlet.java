@@ -27,7 +27,9 @@ public class HelloServlet extends HttpServlet {
     private static final SlotDAOImpl slotDao = new SlotDAOImpl();
     private static final UserDAOImpl userDao = new UserDAOImpl();
     private String message;
-    Cookie sessionCookie = new Cookie("session_id", "123456789");
+    boolean sessioneAttiva=false;
+    int id_sessione=0;
+    Cookie sessionCookie = new Cookie("session_id", "0x567324562");
 
 
     public void init() {
@@ -53,8 +55,10 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("application/json");
         sessionCookie.setMaxAge(60);
         sessionCookie.setPath("/");
-
-
+        if(sessioneAttiva==true)
+        {
+            System.out.println("================= L'id sessione è"+id_sessione);
+        }
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
         String action = request.getParameter("action");
@@ -67,6 +71,7 @@ public class HelloServlet extends HttpServlet {
         ArrayList<Availability> availabilities = availabilityDao.getAll();
         ArrayList<Day> days = dayDao.getAll();
         ArrayList<Slot> slots = slotDao.getAll();
+        HttpSession s;
 
         /*PrintWriter ou1 = response.getWriter();
         String userName = request.getParameter("utente");
@@ -180,6 +185,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + loggedJson);
                     out.print(loggedJson);
                     out.flush();
+
 
                     break;
                 case "getAllAvailabilitiesAvailable":
@@ -404,8 +410,15 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "deleteTeacher":
+                    /////////
+                    //  *****************************************
+                    //  *                                       *
+                    //  * USE THIS FOR FRONT END IMPLEMENTATION *
+                    //  *                                       *
+                    //  *****************************************
                     System.out.println("delete teacher");
-                    String deleteprofdJson2= gson.toJson(removeTeacher(Integer.parseInt(request.getParameter("teacherId"))));
+                    removeTeacher(Integer.parseInt(request.getParameter("teacherId")));
+                    String deleteprofdJson2= gson.toJson("Removed");
 
                     System.out.println("STRINGA JSON " + deleteprofdJson2);
                     out.print(deleteprofdJson2);
@@ -478,6 +491,7 @@ public class HelloServlet extends HttpServlet {
         } else {
             return "isSigned";
         }
+
     }
     private String submitTeacher(String name, String surname,String email)
     {
@@ -543,6 +557,10 @@ public class HelloServlet extends HttpServlet {
     private String removeTeacher(int id)
     {
         Teacher t1=teacherDao.getById(id);
+        SubjectTeacherDAOImpl sTi =new SubjectTeacherDAOImpl();
+        AvailabilityDAOImpl aDi= new AvailabilityDAOImpl();
+        System.out.println("le righe rimosse sono :"+aDi.deleteFromTeacher(id));
+        System.out.println("le righe rimosse sono :"+sTi.deleteFromTeacher(id));
 
         int row = teacherDao.delete(t1.getTeacherId());
         if (row == 0) {

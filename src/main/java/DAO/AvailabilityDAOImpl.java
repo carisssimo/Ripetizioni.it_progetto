@@ -36,7 +36,39 @@ public class AvailabilityDAOImpl implements DAO<Availability>,AvailabilityDAO {
 
         return out;
     }
+    public int deleteFromTeacher(int id_teacher)
+    {
+        Connection con = null;
+        int rowsDeleted = 0;
+        try {
+            con = DriverManager.getConnection(url1, user, password);
+            if (con != null) {
+                System.out.println("DELETE FROM TEACHER AVAILABILITY");
+            }
 
+            String query = "DELETE FROM DISPONIBILITA WHERE ID_DOCENTE = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setInt(1, id_teacher);
+
+            rowsDeleted = statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+
+        return rowsDeleted;
+    }
     @Override
     public int add(Availability a) {
         Connection con = null;
