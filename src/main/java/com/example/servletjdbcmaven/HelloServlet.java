@@ -8,12 +8,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import org.json.JSONObject;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.System.out;
@@ -392,6 +389,12 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("STRINGA JSON " + addsubdJson4);
                     out.print(addsubdJson4);
                     break;
+                case "addAssociation":
+                    System.out.println("addAssociation----");
+                    String addAssociationJson4 = gson.toJson(submitAssociation(request.getParameter("id_prof"),request.getParameter("id_sub")));
+                    System.out.println("STRINGA JSON " + addAssociationJson4);
+                    out.print(addAssociationJson4);
+                    break;
 
                 case "deleteProf":
                     System.out.println("delete----");
@@ -423,6 +426,19 @@ public class HelloServlet extends HttpServlet {
             }
 
         }
+    }
+
+    private Object submitAssociation(String idProf, String idSub) {
+        out.println(idProf);
+        out.println(idSub);
+        SubjectTeacher association= new SubjectTeacher(Integer.parseInt(idProf),Integer.parseInt(idSub));
+        int row=subjectTeacherDao.add(association);
+        if(row==0){
+            return "notAdded";
+        }else{
+            return "Added";
+        }
+
     }
 
     private ArrayList<SubjectTeacher> getTeachersBySubject(String subjectId) {

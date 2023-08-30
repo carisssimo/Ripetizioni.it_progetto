@@ -3,7 +3,6 @@ import $ from 'jquery';
 
 export class teacherService {
 
-    static teachers = []
 
     static getAllTeachers() {
         /*const axiosConfig = {
@@ -39,6 +38,19 @@ export class teacherService {
             .catch(error => {
                 console.error('Si è verificato un errore:', error);
             });*/
+    }
+    static async getTeacherId(teacherName) {
+        let response2 = await teacherService.getAllTeachers();
+        let teachers = response2;
+        console.log(teachers)
+        for (let i = 0; i < teachers.length; i++) {
+            if (teachers[i].name === teacherName) {
+                console.log(teachers[i]);
+                return teachers[i].teacherId;
+            }
+        }
+        return null;
+
     }
 
 }

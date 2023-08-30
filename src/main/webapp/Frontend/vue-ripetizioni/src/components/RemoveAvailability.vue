@@ -38,29 +38,27 @@
   </ul>
 
   <div class="logged-container title-container container">
-    <h1 class="title-main">Eliminazione disponibilità</h1>
+    <h1 class="title-main">Eliminazione associazione corso-docente</h1>
   </div>
 
-  <!--FORM-->
-  <div v-if="!isSigned" class="form-container container align-items-center">
-    <form v-on:submit.prevent="onSubmit">
-      <div class=" form-group">
-        <label for="name">ID_DOCENTE</label>
-        <input type="text" class="form-group-orange form-control" id="name" v-model="id_prof">
+  <div class="form-container-selector container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Professore</th>
+        <th scope="col">Corso</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="association in associations" :key="association.subjectTeacherID">
+        <td>{{ association.teacherID }}</td>
+        <td>{{ association.subjectID }}</td>
+        <td><a class="btn-login btn btn-primary" role="button" @click="deleteSubject(association.subjectTeacherID)">Elimina</a></td>
+      </tr>
 
-      </div>
-      <div class="form-group">
-        <label for="surname">ID_CORSO</label>
-        <input type="text" class="form-group-orange form-control" id="surname" v-model="id_sub">
-      </div>
-
-      <div class="form-group">
-        <label for="name">GIORNO_ORA</label>
-        <input type="text" class="form-group-orange form-control" v-model="dateAv">
-      </div>
-
-      <button class="btn-login btn btn-primary" @click="add">Rimuovi </button>
-    </form>
+      </tbody>
+    </table>
   </div>
 
 
@@ -68,6 +66,8 @@
 
 <script>
 import $ from 'jquery';
+/*import {subjectsService} from "@/Service/subjectsService";*/
+import {associationService} from "@/Service/associationService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -78,7 +78,19 @@ export default {
       id_prof:'',
       id_sub:'',
       dateAv:'',
+      associations:{}
 
+    }
+  },
+  created: async function() {
+    try {
+      this.loading = true;
+      let response = await associationService.getAllAssociations();
+      this.loading = false;
+      this.associations = response;
+      console.log(this.associations);
+    } catch (e) {
+      console.log(e);
     }
   },
   methods:{
