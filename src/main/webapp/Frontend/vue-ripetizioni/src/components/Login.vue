@@ -80,7 +80,9 @@ export default {
       password: '',
       role: '',
       isLogged: false,
+      altreInfo:'',
       admin:false,
+      sessione:'sessione inesistente',
     };
   },
   created() {
@@ -142,12 +144,27 @@ export default {
             console.error(error);
           });
     },
+    getInfo(a){
+                var self = this;
+                if (self.sessione==='sessione inesistente')
+                    $.post('http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet', {action: 'getSession', email:a}, function (data) {
+                        self.sessione = data;
+                        console.log(self.sessione);
+                    });
+                else
+                    $.post(this.link, {utente: this.account, sessione: this.sessione},
+                        function (data) {
+                            self.altreInfo = data;
+                            console.log(self.sessione);
+                        });
+                },
     submitForm() {
       const isLogged = localStorage.getItem('isLogged');
       this.isLogged = isLogged === 'true';
       var self=this;
+      var a= this.email;
       console.log(this.email)
-
+      this.getInfo(a);
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
      /* let params = {
         action: 'submitLogin',
@@ -214,7 +231,7 @@ export default {
               console.error(error);
             });
             
-            self.$cookies.set("user_session","25j_7Sl6xDq2Kc3ym0fmrSSk2xV2XkUkX"),
+            self.$cookies.set("user_session",this.email),
             self.Credential();
             
      /* fetch(url, {
