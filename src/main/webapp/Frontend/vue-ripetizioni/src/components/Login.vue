@@ -149,13 +149,11 @@ export default {
                 if (self.sessione==='sessione inesistente')
                     $.post('http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet', {action: 'getSession', email:a}, function (data) {
                         self.sessione = data;
-                        console.log(self.sessione);
-                    });
+                    })
                 else
                     $.post(this.link, {utente: this.account, sessione: this.sessione},
                         function (data) {
                             self.altreInfo = data;
-                            console.log(self.sessione);
                         });
                 },
     submitForm() {
