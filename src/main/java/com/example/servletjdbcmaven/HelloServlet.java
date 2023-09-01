@@ -28,6 +28,7 @@ public class HelloServlet extends HttpServlet {
     private static final UserDAOImpl userDao = new UserDAOImpl();
     private String message;
     boolean sessioneAttiva=false;
+    String jsessionID=null;
     int id_sessione=0;
     Cookie sessionCookie =null;
    // Cookie c=null;
@@ -44,8 +45,6 @@ public class HelloServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         out.println("Attenzione POST arrivata");
-
-
         processRequest(request, response);
     }
 
@@ -57,7 +56,15 @@ public class HelloServlet extends HttpServlet {
 
         if(sessionCookie!=null)
         {
-            System.out.println("================= L'id sessione è"+sessionCookie.getComment());
+            System.out.println("================= L'id sessione è "+sessionCookie.getComment());
+        }
+        if(jsessionID==null)
+        {
+            System.out.println("================= la sessione utente non è attiva");
+        }
+        else
+        {
+            System.out.println("================= la sessione utente è attiva, ha ID:"+jsessionID);
         }
         request.setCharacterEncoding("UTF-8"); // per essere robusti rispetto a caratteri speciali (', etc)
         ServletContext ctx = getServletContext();
@@ -77,6 +84,26 @@ public class HelloServlet extends HttpServlet {
 
         if (action != null) {
             switch (action) {
+                case "getSession":
+                    PrintWriter out1 = response.getWriter();
+                    String userName = request.getParameter("email");
+                    String sessionID = request.getParameter("sessione");
+                    HttpSession s1 = request.getSession();
+                    jsessionID = s1.getId(); // estraggo il session ID
+                    System.out.println("JSessionID:" + jsessionID);
+                    System.out.println("sessionID ricevuto:" + sessionID);
+                    System.out.println("userName ricevuto:" + userName);
+                    if (userName != null) {
+                        s1.setAttribute("userName", userName); // salvo dei dati in sessione...
+                    }
+                    if (sessionID!=null && jsessionID.equals(sessionID)) {
+                        //System.out.println("sessione riconosciuta!");
+                        out.print("sessione riconosciuta!");
+                    } else {
+                        //System.out.println(jsessionID);
+                        out.print(jsessionID);
+                    }
+                    break;
                 case "addAvailability":
                     System.out.println("ADD-AVAILABILITY");
                     //Availability availability=new Availability();
