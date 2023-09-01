@@ -104,11 +104,7 @@ public class HelloServlet extends HttpServlet {
                         out.print(jsessionID);
                     }
                     break;
-                case "addAvailability":
-                    System.out.println("ADD-AVAILABILITY");
-                    //Availability availability=new Availability();
 
-                    break;
                 case "getAllDays":
                     System.out.println("Siamo su getAllDays");
 
@@ -134,6 +130,7 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getAllUsers":
+                    //TODO:aggiunta controlli
                     System.out.println("Siamo su getAllUsers");
 
                     String usersJson = gson.toJson(userDao.getAll());
@@ -151,6 +148,7 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getAllSubjects":    //al client torna la pagina di login
+                    //TODO:aggiunta controlli
                     System.out.println("Siamo su getAllSubjects");
 
 
@@ -162,6 +160,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAllAssociations":    //al client torna la pagina di login
+                    //TODO:aggiunta controlli
                     System.out.println("Siamo su getAllAssociations");
 
 
@@ -180,6 +179,7 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getTeachersBySubject":
+                    //TODO:aggiunta controlli
                     System.out.println("Siamo su getTeachersBySubject");
                     String teachersBySubjectJson=gson.toJson(getTeachersBySubject(request.getParameter("subjectId")));
                     System.out.println("STRINGA JSON " + teachersBySubjectJson);
@@ -213,6 +213,7 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "getAllAvailabilitiesAvailable":
+                    //TODO:aggiunta controlli
 
                     int userId1= parseInt(sessionCookie.getComment());
                     String userRole=userDao.getById(userId1).getRole();
@@ -229,6 +230,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "bookingAvailability":
+                    //TODO:aggiunta controlli
                     System.out.println("booking!!!!!");
                     System.out.println("Sono in booking Availability");
                     int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
@@ -263,6 +265,7 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "getAvailabilitiesByProfessor":
+                    //TODO:aggiunta controlli
                     System.out.println("Siamo in get AvailabilitiesBProfessor");
                     int teacherId= Integer.parseInt(request.getParameter("teacherId"));
                     ArrayList<Availability> availabilitiesByProfessor= availabilityDao.getByTeacherId(teacherId);
@@ -273,6 +276,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUser":
+                    //TODO:aggiunta controlli
                     if(sessionCookie.getComment()!=null) {
                         System.out.println("getAvailabilitiesOfUser");
                         System.out.println(sessionCookie.getComment());
@@ -285,6 +289,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUserById":
+                    //TODO:aggiunta controlli
                     System.out.println("getAvailabilitiesOfUserById");
                     ArrayList<Availability> userAvailabilitiesBookedById = availabilityDao.getUserBooking(Integer.parseInt(request.getParameter("userId")));
                     String userAvailabilitiesBookedByIdJson = gson.toJson(userAvailabilitiesBookedById);
@@ -294,16 +299,6 @@ public class HelloServlet extends HttpServlet {
 
                     break;
 
-                case "removeAvailability":
-                    /////////////////////////////////////////////////
-                    /////////////////////////////////////////////////
-                    // THIS METHOD REMOVE DISPONIBILITA FROM DB
-                    //TODO: DA MODIFIFICARE LA RICERCA TRAMITE DAYTIME
-                    System.out.println("Removelesson----");/*
-                    String remsubdJson = gson.toJson(removeLesson(request.getParameter("id_prof"), request.getParameter("id_sub"),request.getParameter("dateAv")));
-                    System.out.println("STRINGA JSON " + remsubdJson);
-                    out.print(remsubdJson);*/
-                    break;
 
                 case "getAvailabilitiesOfUserActive":
                     if(sessionCookie.getComment()!=null) {
@@ -317,6 +312,7 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "deleteAvailability":
+                    //TODO:aggiunta controlli
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////
                     //THIS METHOD IS CALLED BY USER IT DOESNT REMOVE AVAILABILITY FROM DB
@@ -347,6 +343,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "archiveAvailability":
+                    //TODO:aggiunta controlli
                     System.out.println("siamo su archieveAvailabilietes");
                     int availabilityId3 = parseInt(request.getParameter("availabilityId"));
                     Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
@@ -384,6 +381,7 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "addProf":
+                    //TODO:aggiunta controlli
                     System.out.println("addprof----");
                     String addProfJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
                     System.out.println("STRINGA JSON " + addProfJson1);
@@ -391,6 +389,7 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "addSub":
+                    //TODO:aggiunta controlli
                     System.out.println("addsub----");
                     String addsubdJson1 = gson.toJson(submitSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + addsubdJson1);
@@ -399,6 +398,7 @@ public class HelloServlet extends HttpServlet {
 
                     /*cancellazione subject tramite nome e descrizione*/
                 case "RemoveSubject":
+                    //TODO:aggiunta controlli
                     System.out.println("removesub----");
                     String removesubdJson1 = gson.toJson(removeSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + removesubdJson1);
@@ -407,6 +407,7 @@ public class HelloServlet extends HttpServlet {
 
                    /* cancellazione subject tramite id */
                 case "deleteSubject":
+                    //TODO:aggiunta controlli
                     System.out.println("delete subject ");
                     String removesubdJson2 = gson.toJson(removeSub(Integer.parseInt(request.getParameter("subjectId"))));
                     System.out.println("STRINGA JSON " + removesubdJson2);
@@ -414,6 +415,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "removeAssociation":
+                    //TODO:aggiunta controlli
                     System.out.println("delete association ");
                     String removeAssociationJson = gson.toJson(removeAssociation(Integer.parseInt(request.getParameter("id"))));
                     System.out.println("STRINGA JSON " + removeAssociationJson);
@@ -422,12 +424,14 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "addLesson":
+                    //TODO:aggiunta controlli
                     System.out.println("addlesson----");
                     String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"),request.getParameter("day"),request.getParameter("time")));
                     System.out.println("STRINGA JSON " + addsubdJson4);
                     out.print(addsubdJson4);
                     break;
                 case "addAssociation":
+                    //TODO:aggiunta controlli
                     System.out.println("addAssociation----");
                     String addAssociationJson4 = gson.toJson(submitAssociation(request.getParameter("id_prof"),request.getParameter("id_sub")));
                     System.out.println("STRINGA JSON " + addAssociationJson4);
@@ -435,6 +439,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "deleteProf":
+                    //TODO:aggiunta controlli
                     System.out.println("delete----");
                     String deleteprofdJson1 = gson.toJson(removeTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
                     System.out.println("STRINGA JSON " + deleteprofdJson1);
@@ -448,6 +453,7 @@ public class HelloServlet extends HttpServlet {
                     //  * USE THIS FOR FRONT END IMPLEMENTATION *
                     //  *                                       *
                     //  *****************************************
+                    //TODO:aggiunta controlli
                     System.out.println("delete teacher");
                     removeTeacher(Integer.parseInt(request.getParameter("teacherId")));
                     String deleteprofdJson2= gson.toJson("Removed");
