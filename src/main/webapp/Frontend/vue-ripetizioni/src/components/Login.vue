@@ -205,6 +205,7 @@ export default {
                 self.Credential();
                 console.log("the variable value is "+this.isLogged)
                 localStorage.setItem("email",this.email)
+                localStorage.setItem('isLogged', 'true');
               }
               else{
                 alert("password o email errati")

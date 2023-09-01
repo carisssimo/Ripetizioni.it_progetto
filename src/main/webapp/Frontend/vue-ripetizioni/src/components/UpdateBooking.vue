@@ -148,13 +148,16 @@ export default {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
-      let response3 = await availabilityService.getAvailabilitiesByIDActive(); //TODO:da cambiare solo le prenotazioni attive non quelle disdette
+      if(localStorage.getItem("isLogged")==='true') {
+        let response3 = await availabilityService.getAvailabilitiesByIDActive();
+        this.availabilities = response3;
+      }
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
       this.loading = false;
       this.teachers = response;
       this.subjects = response2;
-      this.availabilities = response3;
+
       this.days = response4;
       this.slots = response5;
       console.log(this.teachers);
@@ -226,12 +229,14 @@ export default {
     },
 
     archiv(id) {
-      console.log(id);
-      const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
+      if(localStorage.getItem("isLogged")==='true') {
+        console.log(id);
+        const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
+
 
         $.get(url, {action: "archiveAvailability", availabilityId: id})
             .then(response => {
-              if (response=== "booked") {
+              if (response === "booked") {
                 console.log("archiviata con successo");
                 const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
                 if (index !== -1) {
@@ -244,29 +249,31 @@ export default {
             .catch(error => {
               console.error(error);
             });
-
+      }
     },
 
     delet(id) {
-      console.log(id);
-      const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
+      if(localStorage.getItem("isLogged")==='true') {
+        console.log(id);
+        const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
 
 
-      $.get(url, {action: "deleteAvailability", availabilityId: id})
-          .then(response => {
-            if (response === "booked") {
-              console.log("Prenotato con successo");
-              const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
-              if (index !== -1) {
-                this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+        $.get(url, {action: "deleteAvailability", availabilityId: id})
+            .then(response => {
+              if (response === "booked") {
+                console.log("Prenotato con successo");
+                const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
+                if (index !== -1) {
+                  this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+                }
+              } else {
+                alert("Prenotazione fallita");
               }
-            } else {
-              alert("Prenotazione fallita");
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      }
     },
    /* Click() {
       console.log('logout')

@@ -119,8 +119,13 @@ export default {
   created: async function () {
     try {
       this.loading = true;
-      let response = await availabilityService.getAvailabilitiesByID();
-      this.availabilities = response.data;
+      if(localStorage.getItem("isLogged")==='true'){
+        let response = await availabilityService.getAvailabilitiesByID();
+        this.availabilities = response.data;
+        console.log(response.data);
+      }else{
+        alert("non sei loggato")
+      }
       let response1 = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
       let response3 = await dayService.getAllDays();
@@ -128,13 +133,11 @@ export default {
       this.loading = false;
       this.teachers = response1;
       this.subjects = response2;
-      this.availabilities = response.data;
       this.days = response3;
       this.slots = response4;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
-      console.log(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -262,6 +265,7 @@ export default {
       console.log('logout')
       localStorage.removeItem('isLogged');
       localStorage.removeItem('admin');
+      localStorage.removeItem('email');
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       //cookieService.delete(localStorage.getItem('email'));
       const params = {
