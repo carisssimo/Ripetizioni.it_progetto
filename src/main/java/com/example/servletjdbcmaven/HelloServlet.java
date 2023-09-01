@@ -276,7 +276,15 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUser":
+                    /*Cookie[] cookies=request.getCookies();
+                    String sessionEmail=cookies[0].getComment();
+                    System.out.println("email dello user loggato------"+sessionEmail);
                     //TODO:aggiunta controlli
+                    for ( int i=0; i<cookies.length; i++) {
+                        Cookie cookie = cookies[i];
+                        System.out.println("cookie values"+cookies[i].getName()+' '+cookies[i].getComment()+' '+cookies[i].getValue());
+                    }*/
+
                     if(sessionCookie.getComment()!=null) {
                         System.out.println("getAvailabilitiesOfUser");
                         System.out.println(sessionCookie.getComment());
