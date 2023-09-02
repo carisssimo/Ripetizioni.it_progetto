@@ -33,6 +33,7 @@ import {availabilityService} from "@/Service/availabilityService";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
 import $ from 'jquery';
+import router from "@/router";
 
 export default {
   name: "BookingTable",
@@ -193,11 +194,15 @@ export default {
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "booked") {
                 console.log(" prenotato con successo ")
+                alert("prenotazione effettuata")
                 const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
                 if (index !== -1) {
                   this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
                 }
-              } else {
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }else {
                 alert("prenotazione fallita ");
               }
 

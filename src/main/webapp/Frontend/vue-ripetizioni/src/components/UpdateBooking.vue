@@ -276,6 +276,9 @@ export default {
                 if (index !== -1) {
                   this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
                 }
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
               } else {
                 alert("Archiviazione fallita");
               }
@@ -300,6 +303,9 @@ export default {
                 if (index !== -1) {
                   this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
                 }
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
               } else {
                 alert("Prenotazione fallita");
               }
