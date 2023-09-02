@@ -1,5 +1,6 @@
 import axios from "axios";
 import $ from "jquery";
+import Cookie from "vue-cookies";
 
 export class availabilityService {
 
@@ -15,8 +16,12 @@ export class availabilityService {
     }
 
     static getAvailabilitiesByID() {
+        console.log("EMAIL"+localStorage.getItem("email"))
+        let g=Cookie.get(localStorage.getItem("email"));
+        console.log('prova '+g)
         const params = {
             action: 'getAvailabilitiesOfUser',
+            token: Cookie.get(localStorage.getItem("email"))
         };
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
         return axios.get(dataURL, {params});

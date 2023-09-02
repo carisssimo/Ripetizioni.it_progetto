@@ -151,6 +151,9 @@ export default {
         let response3 = await availabilityService.getAvailabilitiesByIDActive();
         this.availabilities = response3;
       }
+    else{
+        alert("non sei loggato")
+      }
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
       this.loading = false;

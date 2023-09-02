@@ -28,12 +28,12 @@ public class HelloServlet extends HttpServlet {
     private static final SlotDAOImpl slotDao = new SlotDAOImpl();
     private static final UserDAOImpl userDao = new UserDAOImpl();
     private String message;
-    boolean sessioneAttiva=false;
+
     String jsessionID=null;
     int id_sessione=0;
     Cookie sessionCookie =null;
    // Cookie c=null;
-
+    int timeSessionMinutes=25;
 
     public void init() {
         message = "Hello World!";
@@ -46,7 +46,19 @@ public class HelloServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         out.println("Attenzione POST arrivata");
-        PrintWriter out1 = response.getWriter();
+        String username = request.getParameter("email");
+
+        String token = UUID.randomUUID().toString();
+
+        // Salva il token di sessione nell'utente
+
+
+        // Imposta il cookie di sessione
+        response.addCookie(new Cookie("session_token", token));
+
+        // Ridirige l'utente alla pagina principale
+
+        /*PrintWriter out1 = response.getWriter();
         String userName = request.getParameter("email");
         String sessionID = request.getParameter("sessione");
         HttpSession s1 = request.getSession();
@@ -63,7 +75,7 @@ public class HelloServlet extends HttpServlet {
         } else {
             //System.out.println(jsessionID);
             out.print(jsessionID);
-        }
+        }*/
         processRequest(request, response);
     }
 
@@ -207,34 +219,34 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
+                    //isLoggen-token-time
+                    ArrayList<Object> customResponse=new ArrayList<>();
+                    System.out.println("9999999999999999 siamo SU SUBMIT LOGIN");
                     int id = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
-                    String loggedJson;
+                    String loggedJson=null;
 
-
-                    /*Cookie sessionIdCookie = new Cookie("JSESSIONID", UUID.randomUUID().toString());
-                    sessionIdCookie.setMaxAge(60 * 60 * 24); // Validità di 24 ore
-
-                    // Invia il cookie al client
-                    response.addCookie(sessionIdCookie);
-
-                    // Imposta l'ID di sessione nella risposta
-                    response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());*/
-
-                    // Imposta la variabile di sessione
-                    request.getSession().setAttribute("isLogged", true);
+                    //request.getSession().setAttribute("isLogged", true);
 
                     sessionCookie = new Cookie("JSESSIONID", UUID.randomUUID().toString());
-                    String comment =request.getParameter("email");
-                    sessionCookie.setComment(comment);
+                    sessionCookie.setComment(String.valueOf(id));
+                    String token=sessionCookie.getValue();
+
                     System.out.println("?????????????? L'email risulta essere "+request.getParameter("email"));
-                    System.out.println("?????????????? IL commento del cookie e "+sessionCookie);
+                    System.out.println("?????????????? IL commento del cookie e "+sessionCookie.getComment());
+                    System.out.println("?????????????? il token è "+token);
                     //response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());
-                    sessionCookie.setMaxAge(3600);
+                    sessionCookie.setMaxAge(timeSessionMinutes*60);
                     response.addCookie(sessionCookie);
+
+
                     System.out.println(sessionCookie.getComment());
                     if(id!=-1){
                         sessionCookie.setComment(String.valueOf(id));
-                        loggedJson = gson.toJson("isLogged");
+                        customResponse.add("isLogged");
+                        customResponse.add(token);
+                        customResponse.add(timeSessionMinutes);
+                        loggedJson = gson.toJson(customResponse);
+
                     }else{
                         loggedJson = gson.toJson("notLogged");
                     }
@@ -313,13 +325,21 @@ public class HelloServlet extends HttpServlet {
                         Cookie cookie = cookies[i];
                         System.out.println("cookie values"+cookies[i].getName()+' '+cookies[i].getComment()+' '+cookies[i].getValue());
                     }*/
-
-                    if(sessionCookie.getComment()!=null) {
-                        System.out.println("getAvailabilitiesOfUser");
-                        System.out.println(sessionCookie.getComment());
-                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(parseInt(sessionCookie.getComment()));
-                        String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
-                        System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                    if(sessionCookie.getValue().equals(request.getParameter("token")))
+                    {
+                            if(sessionCookie.getComment()!=null ) {
+                                System.out.println("getAvailabilitiesOfUser");
+                                System.out.println(sessionCookie.getComment());
+                                ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBooking(parseInt(sessionCookie.getComment()));
+                                String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
+                                System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                                out.print(userAvailabilitiesBookedJson);
+                                out.flush();
+                                }
+                    }
+                    else
+                    {
+                        String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
                         out.print(userAvailabilitiesBookedJson);
                         out.flush();
                     }

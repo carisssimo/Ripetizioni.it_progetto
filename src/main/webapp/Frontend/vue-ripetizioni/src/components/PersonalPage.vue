@@ -97,6 +97,7 @@ import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
+import router from "@/router";
 //import {cookieService} from "@/Service/cookieService"
 
 
@@ -123,8 +124,10 @@ export default {
         let response = await availabilityService.getAvailabilitiesByID();
         this.availabilities = response.data;
         console.log(response.data);
+        
       }else{
         alert("non sei loggato")
+        router.push("/")
       }
       let response1 = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
