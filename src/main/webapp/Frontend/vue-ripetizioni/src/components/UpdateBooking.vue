@@ -113,6 +113,7 @@ import { availabilityService } from "@/Service/availabilityService";
 import $ from 'jquery';
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
+import router from "@/router";
 
 export default {
   name: "UpdateBooking",
@@ -149,10 +150,16 @@ export default {
       let response2 = await subjectsService.getAllSubjects();
       if(localStorage.getItem("isLogged")==='true') {
         let response3 = await availabilityService.getAvailabilitiesByIDActive();
-        this.availabilities = response3;
+        if(response3==='invaliSession'){
+          alert("sessioneInvalida")
+          router.push("/")
+        }else {
+          this.availabilities = response3;
+        }
       }
-    else{
+     else{
         alert("non sei loggato")
+        router.push("/")
       }
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();

@@ -122,8 +122,13 @@ export default {
       this.loading = true;
       if(localStorage.getItem("isLogged")==='true'){
         let response = await availabilityService.getAvailabilitiesByID();
-        this.availabilities = response.data;
-        console.log(response.data);
+        if(response==='invalidSession'){
+          alert("non sei loggato")
+          router.push("/")
+        }else {
+          this.availabilities = response.data;
+          console.log(response.data);
+        }
         
       }else{
         alert("non sei loggato")
