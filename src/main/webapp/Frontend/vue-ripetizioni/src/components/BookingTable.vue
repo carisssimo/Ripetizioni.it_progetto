@@ -34,6 +34,7 @@ import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
 import $ from 'jquery';
 import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   name: "BookingTable",
@@ -190,7 +191,7 @@ export default {
 
 
       if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
-        $.get(url, {action: 'bookingAvailability', availabilityId: id, subjectId:this.subjectSelected,}) /*prima effettuiamo la http request async*/
+        $.get(url, {action: 'bookingAvailability', availabilityId: id, subjectId:this.subjectSelected,token:Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "booked") {
                 console.log(" prenotato con successo ")

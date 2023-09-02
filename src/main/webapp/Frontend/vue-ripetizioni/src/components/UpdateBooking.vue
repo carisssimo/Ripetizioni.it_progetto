@@ -114,6 +114,7 @@ import $ from 'jquery';
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
 import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   name: "UpdateBooking",
@@ -150,7 +151,7 @@ export default {
       let response2 = await subjectsService.getAllSubjects();
       if(localStorage.getItem("isLogged")==='true') {
         let response3 = await availabilityService.getAvailabilitiesByIDActive();
-        if(response3==='invaliSession'){
+        if(response3==='invalidSession'){
           alert("sessioneInvalida")
           router.push("/")
         }else {
@@ -268,7 +269,7 @@ export default {
         const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
 
 
-        $.get(url, {action: "archiveAvailability", availabilityId: id})
+        $.get(url, {action: "archiveAvailability", availabilityId: id,token:Cookie.get(localStorage.getItem("email"))})
             .then(response => {
               if (response === "booked") {
                 console.log("archiviata con successo");
@@ -295,7 +296,7 @@ export default {
         const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
 
 
-        $.get(url, {action: "deleteAvailability", availabilityId: id})
+        $.get(url, {action: "deleteAvailability", availabilityId: id,token:Cookie.get(localStorage.getItem("email"))})
             .then(response => {
               if (response === "booked") {
                 console.log("Prenotato con successo");

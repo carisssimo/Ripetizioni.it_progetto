@@ -111,7 +111,7 @@ export default {
       loading: false,
       teachers: {},
       subjects: {},
-      availabilities: [],
+      availabilities: {},
       slots: {},
       days: {}
     }
@@ -122,11 +122,11 @@ export default {
       this.loading = true;
       if(localStorage.getItem("isLogged")==='true'){
         let response = await availabilityService.getAvailabilitiesByID();
-        if(response==='invalidSession'){
+        if(response[0]==='invalidSession'){
           alert("sessione invalida")
           router.push("/")
         }else {
-          this.availabilities = response.data;
+          this.availabilities = response;
           console.log(response.data);
         }
         

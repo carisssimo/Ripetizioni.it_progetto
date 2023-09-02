@@ -19,12 +19,13 @@ export class availabilityService {
         console.log("EMAIL"+localStorage.getItem("email"))
         let g=Cookie.get(localStorage.getItem("email"));
         console.log('prova '+g)
-        const params = {
+        /*const params = {
             action: 'getAvailabilitiesOfUser',
             token: Cookie.get(localStorage.getItem("email"))
-        };
+        };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL, {params});
+        return $.get(dataURL, {action: 'getAvailabilitiesOfUser',
+            token: Cookie.get(localStorage.getItem("email"))});
     }
 
     static getAvailabilitiesByID2(userId) {
@@ -41,7 +42,7 @@ export class availabilityService {
             action: 'getAvailabilitiesOfUserActive',
         };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return $.get(dataURL, {action: 'getAvailabilitiesOfUserActive'})
+        return $.get(dataURL, {action: 'getAvailabilitiesOfUserActive',token:Cookie.get(localStorage.getItem("email"))})
     }
 
     static getAllAvailabilitiesByProfessor(teacherId) {
