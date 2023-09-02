@@ -796,6 +796,8 @@ public class HelloServlet extends HttpServlet {
         User user=userDao.getById(id);
         if(user.getRole()=="admin")
             return true;
+
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$"+user.getRole());;
         return false;
 
     }
