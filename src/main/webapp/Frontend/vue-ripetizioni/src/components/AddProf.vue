@@ -127,7 +127,8 @@ export default {
         surname:this.surname,
         email: this.email,
       };*/
-      /*if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
+
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
         $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email,}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
@@ -145,7 +146,7 @@ export default {
 
               console.error(error);
             });
-      /*}*/
+      }
     }
   }
 }

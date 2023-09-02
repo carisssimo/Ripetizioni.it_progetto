@@ -44,6 +44,7 @@ export default {
       availabilities: {},
       days: {},
       slots: {},
+      availabilitiesActive:{},
       teacherSelected: '',
       subjectSelected: '',
     };
@@ -58,6 +59,11 @@ export default {
       let response3 = await availabilityService.getAllAvailabilitiesByProfessor(this.teacherSelected);
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
+
+      if(localStorage.getItem("isLogged")==='true') {
+        let response6 = await availabilityService.getAvailabilitiesByIDActive()
+        this.availabilitiesActive=response6;
+      }
       this.loading = false;
       this.teachers = response;
       this.subjects = response2;
@@ -148,14 +154,24 @@ export default {
     },
 
     existAvailability(day, slot) {
-      for (let i = 0; i < this.availabilities.length; i++) {
-        if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot) {
-
-
-          console.log(day)
-          console.log(slot)
-
-          return 'true'
+      if(localStorage.getItem("isLogged")==='true') {
+        /*ciclo per le disponibilità se esiste o meno*/
+        for (let i = 0; i < this.availabilities.length; i++) {
+          let flag = 0;
+          if (this.availabilities[i].dayId === day && this.availabilities[i].slotId === slot && this.availabilitiesActive) {
+            for (let j = 0; j < this.availabilitiesActive.length; j++) {
+              if (this.availabilitiesActive[j].dayId === day && this.availabilitiesActive[j].slotId == slot) {
+                flag = 1
+              }
+            }
+            console.log(day)
+            console.log(slot)
+            if (flag === 0) {
+              return 'true'
+            } else {
+              return 'false'
+            }
+          }
 
         }
       }
@@ -172,7 +188,7 @@ export default {
       };*/
 
 
-      /*if (localStorage.getItem("isLogged") === "true") { */ //controllo se è effettivamente un utente loggato
+      if (localStorage.getItem("isLogged") === "true") {  //controllo se è effettivamente un utente loggato
         $.get(url, {action: 'bookingAvailability', availabilityId: id, subjectId:this.subjectSelected,}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "booked") {
@@ -189,7 +205,7 @@ export default {
             .catch(error => {
               console.error(error);
             });
-     /* }*/
+      }
 
 
     },

@@ -141,22 +141,29 @@ export default {
         daytime:this.daytime,
 
       };*/
-      $.get(url, {action: 'addLesson', id_prof:this.id_prof, id_sub:this.id_sub, daytime:this.daytime,}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response === "Added") {
-              console.log("lezione aggiunta con successo")
-              this.id_prof='';
-              this.id_sub='';
-              this.daytime='';
-            } else {
-              alert("problema aggiunta lezione");
-            }
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        $.get(url, {
+          action: 'addLesson',
+          id_prof: this.id_prof,
+          id_sub: this.id_sub,
+          daytime: this.daytime,
+        }) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response === "Added") {
+                console.log("lezione aggiunta con successo")
+                this.id_prof = '';
+                this.id_sub = '';
+                this.daytime = '';
+              } else {
+                alert("problema aggiunta lezione");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+      }
     },
     async onSubmit() {
       console.log(this.selectedTeacher);

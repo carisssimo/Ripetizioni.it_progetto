@@ -117,22 +117,24 @@ export default {
         descp:this.descp,
 
       };*/
-      $.get(url, {action: 'addSub', name:this.name, descp:this.descp,}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response === "Added") {
-              console.log(" aggiunto con successo")
-              this.name='';
-              this.descp='';
-              alert("materia aggiunta con successo")
-            } else {
-              alert("problema aggiunta materia");
-            }
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        $.get(url, {action: 'addSub', name: this.name, descp: this.descp,}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response === "Added") {
+                console.log(" aggiunto con successo")
+                this.name = '';
+                this.descp = '';
+                alert("materia aggiunta con successo")
+              } else {
+                alert("problema aggiunta materia");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+      }
     }
   }
 }

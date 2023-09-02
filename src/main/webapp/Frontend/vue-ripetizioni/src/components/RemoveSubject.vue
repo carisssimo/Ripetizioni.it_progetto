@@ -149,21 +149,23 @@ export default {
         descp:this.descp,*/
 
       };
-      $.get(url, {params}) /*prima effettuiamo la http request async*/
-          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
-            if (response.data === "Added") {
-              console.log(" aggiunto con successo")
-              this.name='';
-              this.descp='';
-            } else {
-              alert("problema aggiunta materia");
-            }
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        $.get(url, {params}) /*prima effettuiamo la http request async*/
+            .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+              if (response.data === "Added") {
+                console.log(" aggiunto con successo")
+                this.name = '';
+                this.descp = '';
+              } else {
+                alert("problema aggiunta materia");
+              }
 
-          })
-          .catch(error => {
+            })
+            .catch(error => {
 
-            console.error(error);
-          });
+              console.error(error);
+            });
+      }
     },
     deleteSubject(id){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
@@ -176,6 +178,7 @@ export default {
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
                 console.log(" eliminato con successo")
+                alert("corso eliminato con successo")
                 const index = this.subjects.findIndex(subject => subject.subjectID === id);
                 if (index !== -1) {
                   this.subjects.splice(index, 1); // Rimuovi la riga corrispondente dalla lista

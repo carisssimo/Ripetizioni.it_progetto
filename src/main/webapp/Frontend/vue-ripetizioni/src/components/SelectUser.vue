@@ -38,8 +38,10 @@ export default {
   },
   created: async function(){
     try{
-      let response=await userService.getAllUsers();
-      this.users=response.data ;
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        let response = await userService.getAllUsers();
+        this.users = response.data;
+      }
       console.log(this.users);
 
     }catch(e){
