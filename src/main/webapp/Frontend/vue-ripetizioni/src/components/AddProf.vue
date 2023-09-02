@@ -80,6 +80,8 @@
 <script>
 //import axios from "axios";
 import $ from 'jquery';
+import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -129,7 +131,7 @@ export default {
       };*/
 
       if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
-        $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email,}) /*prima effettuiamo la http request async*/
+        $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email, token:Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
                 console.log(" aggiunto con successo")
@@ -137,7 +139,10 @@ export default {
                 this.surname = '';
                 this.email = '';
                 alert("docente aggiunto con successo");
-              } else {
+              } else if(response==='notAdmin'){
+                alert("sessione invalida oppure non sei loggato come utente")
+                router.push("/")
+              } else{
                 alert("problema aggiunta docente");
               }
 

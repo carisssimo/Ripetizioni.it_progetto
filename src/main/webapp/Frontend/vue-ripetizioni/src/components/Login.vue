@@ -157,7 +157,7 @@ export default {
                 localStorage.setItem("email",self.email)
                 // SETTING VUE COOCKIES
                 //var expireIn = 1/1440*response[2];
-                Cookie.set(self.email, response[1], "1m");  
+                Cookie.set(self.email, response[1]);
                 let string='macon@h.com'
                 let risultato=string.replace(/@/g,'%40')
                 console.log(risultato)

@@ -161,7 +161,11 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getAllUsers":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 && isAdmin(Integer.parseInt(sessionCookie.getComment())))
+                    System.out.println("Siamo su getAllUsers");
+                    System.out.println(sessionCookie.getValue());
+                    System.out.println(request.getParameter("token"));
+                    System.out.println(sessionCookie.getComment());
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/ && isAdmin(Integer.parseInt(sessionCookie.getComment())))
                     {
                         System.out.println("Siamo su getAllUsers");
                         String usersJson = gson.toJson(userDao.getAll());
@@ -195,7 +199,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAllAssociations":    //al client torna la pagina di login
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 )
+                    if(sessionCookie.getValue().equals(request.getParameter("token"))/* && sessionCookie.getMaxAge()>0*/ )
                     {
                         System.out.println("Siamo su getAllAssociations");
                         String associationsJson = gson.toJson(associations);
@@ -244,7 +248,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("?????????????? IL commento del cookie e "+sessionCookie.getComment());
                     System.out.println("?????????????? il token è "+token);
                     //response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());
-                    sessionCookie.setMaxAge(10);
+                    /*sessionCookie.setMaxAge(3600);*/
                     response.addCookie(sessionCookie);
 
 
@@ -287,7 +291,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
                     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/)
                     {
                         System.out.println("booking!!!!!");
                         System.out.println("Sono in booking Availability");
@@ -343,7 +347,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUser":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/)
                     {
                             if(sessionCookie.getComment()!=null ) {
                                 System.out.println("getAvailabilitiesOfUser");
@@ -365,7 +369,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUserById":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/)
                     {
                     System.out.println("getAvailabilitiesOfUserById");
                     ArrayList<Availability> userAvailabilitiesBookedById = availabilityDao.getUserBooking(Integer.parseInt(request.getParameter("userId")));
@@ -386,7 +390,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "getAvailabilitiesOfUserActive":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/)
                     {
                         if(sessionCookie.getComment()!=null) {
                             System.out.println("getAvailabilitiesOfUserActive");
@@ -410,7 +414,7 @@ public class HelloServlet extends HttpServlet {
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////
                     //THIS METHOD IS CALLED BY USER IT DOESNT REMOVE AVAILABILITY FROM DB
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 && isAdmin(Integer.parseInt(sessionCookie.getComment()))) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/ && isAdmin(Integer.parseInt(sessionCookie.getComment()))) {
                         System.out.println("DELETE");
                         int availabilityId2 = parseInt(request.getParameter("availabilityId"));
                         Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
@@ -443,7 +447,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "archiveAvailability":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/)
                     {
                         System.out.println("siamo su archieveAvailabilietes");
                         int availabilityId3 = parseInt(request.getParameter("availabilityId"));
@@ -489,7 +493,11 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "addProf":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    System.out.println("addprof----");
+                    System.out.println(sessionCookie.getValue());
+                    System.out.println(request.getParameter("token"));
+                    System.out.println(sessionCookie.getComment());
+                    if(sessionCookie.getValue().equals(request.getParameter("token"))/* && sessionCookie.getMaxAge()>0*/ && isAdmin(Integer.parseInt(sessionCookie.getComment()))) {
                         System.out.println("addprof----");
                         String addProfJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
                         System.out.println("STRINGA JSON " + addProfJson1);
@@ -504,7 +512,7 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "addSub":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("addsub----");
                     String addsubdJson1 = gson.toJson(submitSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + addsubdJson1);
@@ -520,7 +528,7 @@ public class HelloServlet extends HttpServlet {
 
                     /*cancellazione subject tramite nome e descrizione*/
                 case "RemoveSubject":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("removesub----");
                     String removesubdJson1 = gson.toJson(removeSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + removesubdJson1);
@@ -536,7 +544,7 @@ public class HelloServlet extends HttpServlet {
 
                    /* cancellazione subject tramite id */
                 case "deleteSubject":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("delete subject ");
                     String removesubdJson2 = gson.toJson(removeSub(Integer.parseInt(request.getParameter("subjectId"))));
                     System.out.println("STRINGA JSON " + removesubdJson2);
@@ -551,7 +559,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "removeAssociation":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("delete association ");
                     String removeAssociationJson = gson.toJson(removeAssociation(Integer.parseInt(request.getParameter("id"))));
                     System.out.println("STRINGA JSON " + removeAssociationJson);
@@ -567,7 +575,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "addLesson":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("addlesson----");
                     String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"),request.getParameter("day"),request.getParameter("time")));
                     System.out.println("STRINGA JSON " + addsubdJson4);
@@ -582,7 +590,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "addAssociation":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                         System.out.println("addAssociation----");
                         String addAssociationJson4 = gson.toJson(submitAssociation(request.getParameter("id_prof"), request.getParameter("id_sub")));
                         System.out.println("STRINGA JSON " + addAssociationJson4);
@@ -597,7 +605,7 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "deleteProf":
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token"))/* && sessionCookie.getMaxAge()>0*/) {
                     System.out.println("delete----");
                     String deleteprofdJson1 = gson.toJson(removeTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
                     System.out.println("STRINGA JSON " + deleteprofdJson1);
@@ -618,7 +626,7 @@ public class HelloServlet extends HttpServlet {
                     //  * USE THIS FOR FRONT END IMPLEMENTATION *
                     //  *                                       *
                     //  *****************************************
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/) {
                     System.out.println("delete teacher");
                     removeTeacher(Integer.parseInt(request.getParameter("teacherId")));
                     String deleteprofdJson2= gson.toJson("Removed");
@@ -788,10 +796,15 @@ public class HelloServlet extends HttpServlet {
 
     private boolean isAdmin(int id)
     {
-        UserDAOImpl userDAO= new UserDAOImpl();
+       /* UserDAOImpl userDAO= new UserDAOImpl();*/
         User user=userDao.getById(id);
-        if(user.getRole()=="admin")
+        out.println(user);
+        if(user.getRole().equals("admin")){
+
+            out.println("è admin");
             return true;
+        }
+        out.println(user.getRole());
         return false;
 
     }
