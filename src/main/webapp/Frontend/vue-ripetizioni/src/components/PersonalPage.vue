@@ -123,7 +123,7 @@ export default {
       if(localStorage.getItem("isLogged")==='true'){
         let response = await availabilityService.getAvailabilitiesByID();
         if(response==='invalidSession'){
-          alert("non sei loggato")
+          alert("sessione invalida")
           router.push("/")
         }else {
           this.availabilities = response.data;

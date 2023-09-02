@@ -139,8 +139,6 @@ export default {
                         });
                 },
     submitForm() {
-      const isLogged = localStorage.getItem('isLogged');
-      this.isLogged = isLogged === 'true';
       var self=this;
       //var a= this.email;
       //console.log(this.email)
