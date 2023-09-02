@@ -161,13 +161,20 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getAllUsers":
-                    //TODO:aggiunta controlli
-                    System.out.println("Siamo su getAllUsers");
-
-                    String usersJson = gson.toJson(userDao.getAll());
-                    System.out.println("STRINGA JSON " + usersJson);
-                    out.print(usersJson);
-                    out.flush();
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 && isAdmin(Integer.parseInt(sessionCookie.getComment())))
+                    {
+                        System.out.println("Siamo su getAllUsers");
+                        String usersJson = gson.toJson(userDao.getAll());
+                        System.out.println("STRINGA JSON " + usersJson);
+                        out.print(usersJson);
+                        out.flush();
+                    }
+                    else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        out.flush();
+                    }
                     break;
 
                 case "getAllTeacher":
@@ -179,11 +186,8 @@ public class HelloServlet extends HttpServlet {
                     out.flush();
                     break;
                 case "getAllSubjects":    //al client torna la pagina di login
-                    //TODO:aggiunta controlli
+
                     System.out.println("Siamo su getAllSubjects");
-
-
-                    // creo oggetto JSON con oggetto Coppia
                     String subjectsJson = gson.toJson(subjects);
                     System.out.println("STRINGA JSON " + subjectsJson);
                     out.print(subjectsJson);
@@ -191,15 +195,20 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAllAssociations":    //al client torna la pagina di login
-                    //TODO:aggiunta controlli
-                    System.out.println("Siamo su getAllAssociations");
-
-
-                    // creo oggetto JSON con oggetto Coppia
-                    String associationsJson = gson.toJson(associations);
-                    System.out.println("STRINGA JSON " + associationsJson);
-                    out.print(associationsJson);
-                    out.flush();
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 )
+                    {
+                        System.out.println("Siamo su getAllAssociations");
+                        String associationsJson = gson.toJson(associations);
+                        System.out.println("STRINGA JSON " + associationsJson);
+                        out.print(associationsJson);
+                        out.flush();
+                    }
+                    else
+                    {
+                        String alertJson = gson.toJson("invalidSession");
+                        out.print(alertJson);
+                        out.flush();
+                    }
                     break;
 
                 case "submitRegistration":  //vera e propria registrazione di un utente
@@ -398,31 +407,36 @@ public class HelloServlet extends HttpServlet {
                     }
                     break;
                 case "deleteAvailability":
-                    //TODO:aggiunta controlli
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////
                     //THIS METHOD IS CALLED BY USER IT DOESNT REMOVE AVAILABILITY FROM DB
-                    System.out.println("DELETE");
-
-                    int availabilityId2 = parseInt(request.getParameter("availabilityId"));
-                    Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
-                    //prendo l'id dalla session cookie
-
-                     int userId2= parseInt(sessionCookie.getComment());
-
-                    System.out.println(userId2);
-                    a2.setBooking("disdetta");
-                    a2.setUserId(userId2);
-                    System.out.println("stampa1d");
-                    if(availabilityDao.updateAvailability(a2)!=0){
-                        String bookedJson = gson.toJson("booked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
-                        out.flush();
-                    }else{
-                        String bookedJson = gson.toJson("notBooked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0 && isAdmin(Integer.parseInt(sessionCookie.getComment()))) {
+                        System.out.println("DELETE");
+                        int availabilityId2 = parseInt(request.getParameter("availabilityId"));
+                        Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
+                        //prendo l'id dalla session cookie
+                        int userId2= parseInt(sessionCookie.getComment());
+                        System.out.println(userId2);
+                        a2.setBooking("disdetta");
+                        a2.setUserId(userId2);
+                        System.out.println("stampa1d");
+                        if(availabilityDao.updateAvailability(a2)!=0){
+                            String bookedJson = gson.toJson("booked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }else{
+                            String bookedJson = gson.toJson("notBooked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }
+                    }
+                    else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
                         out.flush();
                     }
                     break;
@@ -475,69 +489,126 @@ public class HelloServlet extends HttpServlet {
 
                     break;
                 case "addProf":
-                    //TODO:aggiunta controlli
-                    System.out.println("addprof----");
-                    String addProfJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
-                    System.out.println("STRINGA JSON " + addProfJson1);
-                    out.print(addProfJson1);
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                        System.out.println("addprof----");
+                        String addProfJson1 = gson.toJson(submitTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
+                        System.out.println("STRINGA JSON " + addProfJson1);
+                        out.print(addProfJson1);
+                    }else
+                        {
+                            String alertJson = gson.toJson("notAdmin");
+                            out.print(alertJson);
+                            System.out.println("notAdmin");
+                            out.flush();
+                        }
 
                     break;
                 case "addSub":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("addsub----");
                     String addsubdJson1 = gson.toJson(submitSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + addsubdJson1);
                     out.print(addsubdJson1);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
                     break;
 
                     /*cancellazione subject tramite nome e descrizione*/
                 case "RemoveSubject":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("removesub----");
                     String removesubdJson1 = gson.toJson(removeSub(request.getParameter("name"), request.getParameter("descp")));
                     System.out.println("STRINGA JSON " + removesubdJson1);
                     out.print(removesubdJson1);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
                     break;
 
                    /* cancellazione subject tramite id */
                 case "deleteSubject":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("delete subject ");
                     String removesubdJson2 = gson.toJson(removeSub(Integer.parseInt(request.getParameter("subjectId"))));
                     System.out.println("STRINGA JSON " + removesubdJson2);
                     out.print(removesubdJson2);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
                     break;
 
                 case "removeAssociation":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("delete association ");
                     String removeAssociationJson = gson.toJson(removeAssociation(Integer.parseInt(request.getParameter("id"))));
                     System.out.println("STRINGA JSON " + removeAssociationJson);
                     out.print(removeAssociationJson);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
                     break;
 
 
                 case "addLesson":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("addlesson----");
                     String addsubdJson4 = gson.toJson(submitLesson(request.getParameter("id_prof"),request.getParameter("day"),request.getParameter("time")));
                     System.out.println("STRINGA JSON " + addsubdJson4);
                     out.print(addsubdJson4);
-                    break;
-                case "addAssociation":
-                    //TODO:aggiunta controlli
-                    System.out.println("addAssociation----");
-                    String addAssociationJson4 = gson.toJson(submitAssociation(request.getParameter("id_prof"),request.getParameter("id_sub")));
-                    System.out.println("STRINGA JSON " + addAssociationJson4);
-                    out.print(addAssociationJson4);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
                     break;
 
+                case "addAssociation":
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
+                        System.out.println("addAssociation----");
+                        String addAssociationJson4 = gson.toJson(submitAssociation(request.getParameter("id_prof"), request.getParameter("id_sub")));
+                        System.out.println("STRINGA JSON " + addAssociationJson4);
+                        out.print(addAssociationJson4);
+                    }else {
+                            String alertJson = gson.toJson("notAdmin");
+                            out.print(alertJson);
+                            System.out.println("notAdmin");
+                            out.flush();
+                        }
+                    break;
+
+
                 case "deleteProf":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("delete----");
                     String deleteprofdJson1 = gson.toJson(removeTeacher(request.getParameter("name"), request.getParameter("surname"), request.getParameter("email")));
                     System.out.println("STRINGA JSON " + deleteprofdJson1);
                     out.print(deleteprofdJson1);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
 
                     break;
                 case "deleteTeacher":
@@ -547,13 +618,20 @@ public class HelloServlet extends HttpServlet {
                     //  * USE THIS FOR FRONT END IMPLEMENTATION *
                     //  *                                       *
                     //  *****************************************
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0) {
                     System.out.println("delete teacher");
                     removeTeacher(Integer.parseInt(request.getParameter("teacherId")));
                     String deleteprofdJson2= gson.toJson("Removed");
 
                     System.out.println("STRINGA JSON " + deleteprofdJson2);
                     out.print(deleteprofdJson2);
+                    }else
+                    {
+                        String alertJson = gson.toJson("notAdmin");
+                        out.print(alertJson);
+                        System.out.println("notAdmin");
+                        out.flush();
+                    }
 
                     break;
                 case "logout":
@@ -710,7 +788,10 @@ public class HelloServlet extends HttpServlet {
 
     private boolean isAdmin(int id)
     {
-
+        UserDAOImpl userDAO= new UserDAOImpl();
+        User user=userDao.getById(id);
+        if(user.getRole()=="admin")
+            return true;
         return false;
 
     }
