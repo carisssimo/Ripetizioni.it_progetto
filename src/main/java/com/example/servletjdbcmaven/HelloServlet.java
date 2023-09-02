@@ -235,7 +235,7 @@ public class HelloServlet extends HttpServlet {
                     System.out.println("?????????????? IL commento del cookie e "+sessionCookie.getComment());
                     System.out.println("?????????????? il token è "+token);
                     //response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());
-                    sessionCookie.setMaxAge(timeSessionMinutes*60);
+                    sessionCookie.setMaxAge(10);
                     response.addCookie(sessionCookie);
 
 
@@ -271,39 +271,56 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "bookingAvailability":
-                    //TODO:aggiunta controlli
-                    System.out.println("booking!!!!!");
-                    System.out.println("Sono in booking Availability");
-                    int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
-                    int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-                    Availability a = availabilityDao.getAvailabilityByID(availabilityId);
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println(sessionCookie.getMaxAge());
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    {
+                        System.out.println("booking!!!!!");
+                        System.out.println("Sono in booking Availability");
+                        int availabilityId = Integer.parseInt(request.getParameter("availabilityId"));
+                        int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+                        Availability a = availabilityDao.getAvailabilityByID(availabilityId);
 
-                    System.out.println(availabilityId);
-                    System.out.println(subjectId);
-                    System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
-                    System.out.println(sessionCookie.getComment());
-                    //prendo l'id dalla session cookie
-                    int userId= parseInt(sessionCookie.getComment());
+                        System.out.println(availabilityId);
+                        System.out.println(subjectId);
+                        System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+                        System.out.println(sessionCookie.getComment());
+                        //prendo l'id dalla session cookie
+                        int userId= parseInt(sessionCookie.getComment());
 
 
-                    System.out.println(userId);
-                    a.setBooking("attiva");
-                    a.setUserId(userId);
-                    a.setSubject(subjectId);
-                    System.out.println("stampa1");
-                    /*availabilityDao.updateAvailability(a);
-                    System.out.println("stampa1");*/
-                    if(availabilityDao.updateAvailability(a)!=0){
-                        String bookedJson = gson.toJson("booked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
-                        out.flush();
-                    }else{
-                        String bookedJson = gson.toJson("notBooked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
-                        out.flush();
+                        System.out.println(userId);
+                        a.setBooking("attiva");
+                        a.setUserId(userId);
+                        a.setSubject(subjectId);
+                        System.out.println("stampa1");
+                        /*availabilityDao.updateAvailability(a);
+                        System.out.println("stampa1");*/
+                        if(availabilityDao.updateAvailability(a)!=0){
+                            String bookedJson = gson.toJson("booked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }else {
+                            String bookedJson = gson.toJson("notBooked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }
                     }
+                    else
+                        {
+                            System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+                            String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
+                            System.out.println("invalidSession");
+                            out.print(userAvailabilitiesBookedJson);
+                            out.flush();
+                        }
                     break;
                 case "getAvailabilitiesByProfessor":
                     //TODO:aggiunta controlli
@@ -317,15 +334,7 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "getAvailabilitiesOfUser":
-                    /*Cookie[] cookies=request.getCookies();
-                    String sessionEmail=cookies[0].getComment();
-                    System.out.println("email dello user loggato------"+sessionEmail);
-                    //TODO:aggiunta controlli
-                    for ( int i=0; i<cookies.length; i++) {
-                        Cookie cookie = cookies[i];
-                        System.out.println("cookie values"+cookies[i].getName()+' '+cookies[i].getComment()+' '+cookies[i].getValue());
-                    }*/
-                    if(sessionCookie.getValue().equals(request.getParameter("token")))
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
                     {
                             if(sessionCookie.getComment()!=null ) {
                                 System.out.println("getAvailabilitiesOfUser");
@@ -341,30 +350,50 @@ public class HelloServlet extends HttpServlet {
                     {
                         String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
                         out.print(userAvailabilitiesBookedJson);
+                        System.out.println("invalidSession");
                         out.flush();
                     }
                     break;
 
                 case "getAvailabilitiesOfUserById":
-                    //TODO:aggiunta controlli
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    {
                     System.out.println("getAvailabilitiesOfUserById");
                     ArrayList<Availability> userAvailabilitiesBookedById = availabilityDao.getUserBooking(Integer.parseInt(request.getParameter("userId")));
                     String userAvailabilitiesBookedByIdJson = gson.toJson(userAvailabilitiesBookedById);
                     System.out.println("STRINGA JSON " + userAvailabilitiesBookedByIdJson);
                     out.print(userAvailabilitiesBookedByIdJson);
                     out.flush();
+                    }
+                    else
+                    {
+                        String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
+                        out.print(userAvailabilitiesBookedJson);
+                        System.out.println("invalidSession");
+                        out.flush();
+                    }
 
                     break;
 
 
                 case "getAvailabilitiesOfUserActive":
-                    if(sessionCookie.getComment()!=null) {
-                        System.out.println("getAvailabilitiesOfUserActive");
-                        System.out.println(sessionCookie.getComment());
-                        ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBookingActive(Integer.parseInt(sessionCookie.getComment()));
-                        String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
-                        System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    {
+                        if(sessionCookie.getComment()!=null) {
+                            System.out.println("getAvailabilitiesOfUserActive");
+                            System.out.println(sessionCookie.getComment());
+                            ArrayList<Availability> userAvailabilitiesBooked = availabilityDao.getUserBookingActive(Integer.parseInt(sessionCookie.getComment()));
+                            String userAvailabilitiesBookedJson = gson.toJson(userAvailabilitiesBooked);
+                            System.out.println("STRINGA JSON " + userAvailabilitiesBookedJson);
+                            out.print(userAvailabilitiesBookedJson);
+                            out.flush();
+                        }
+                    }
+                    else
+                    {
+                        String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
                         out.print(userAvailabilitiesBookedJson);
+                        System.out.println("invalidSession");
                         out.flush();
                     }
                     break;
@@ -400,29 +429,37 @@ public class HelloServlet extends HttpServlet {
 
 
                 case "archiveAvailability":
-                    //TODO:aggiunta controlli
-                    System.out.println("siamo su archieveAvailabilietes");
-                    int availabilityId3 = parseInt(request.getParameter("availabilityId"));
-                    Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
-                    //prendo l'id dalla session cookie
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) && sessionCookie.getMaxAge()>0)
+                    {
+                        System.out.println("siamo su archieveAvailabilietes");
+                        int availabilityId3 = parseInt(request.getParameter("availabilityId"));
+                        Availability a3 = availabilityDao.getAvailabilityByID(availabilityId3);
+                        //prendo l'id dalla session cookie
 
-                   /* int userId3= parseInt(sessionCookie.getComment());*/
+                       /* int userId3= parseInt(sessionCookie.getComment());*/
 
-                    /*System.out.println(userId3);*/
-                    a3.setBooking("effettuata");
-                    /*a3.setUserId(userId3);*/
-                    System.out.println("stampa1d");
-                    availabilityDao.updateAvailability(a3);
-                    System.out.println("stampa1d");
-                    if(availabilityDao.updateAvailability(a3)!=0){
-                        String bookedJson = gson.toJson("booked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
-                        out.flush();
-                    }else{
-                        String bookedJson = gson.toJson("notBooked");
-                        System.out.println("STRINGA JSON " + bookedJson);
-                        out.print(bookedJson);
+                        /*System.out.println(userId3);*/
+                        a3.setBooking("effettuata");
+                        /*a3.setUserId(userId3);*/
+                        System.out.println("stampa1d");
+                        availabilityDao.updateAvailability(a3);
+                        System.out.println("stampa1d");
+                        if(availabilityDao.updateAvailability(a3)!=0){
+                            String bookedJson = gson.toJson("booked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }else{
+                            String bookedJson = gson.toJson("notBooked");
+                            System.out.println("STRINGA JSON " + bookedJson);
+                            out.print(bookedJson);
+                            out.flush();
+                        }
+                    }
+                    else
+                    {
+                        String userAvailabilitiesBookedJson = gson.toJson("invalidSession");
+                        out.print(userAvailabilitiesBookedJson);
                         out.flush();
                     }
                     break;
@@ -669,6 +706,13 @@ public class HelloServlet extends HttpServlet {
         } else {
             return "Removed";
         }
+    }
+
+    private boolean isAdmin(int id)
+    {
+
+        return false;
+
     }
 
     private int submitLogin(String userEmail, String userPassword, String userRole) {
