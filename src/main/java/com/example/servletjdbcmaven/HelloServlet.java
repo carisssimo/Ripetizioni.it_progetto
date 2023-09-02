@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.System.out;
@@ -45,6 +46,24 @@ public class HelloServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         out.println("Attenzione POST arrivata");
+        PrintWriter out1 = response.getWriter();
+        String userName = request.getParameter("email");
+        String sessionID = request.getParameter("sessione");
+        HttpSession s1 = request.getSession();
+        jsessionID = s1.getId(); // estraggo il session ID
+        System.out.println("JSessionID:" + jsessionID);
+        System.out.println("sessionID ricevuto:" + sessionID);
+        System.out.println("userName ricevuto:" + userName);
+        if (userName != null) {
+            s1.setAttribute("userName", userName); // salvo dei dati in sessione...
+        }
+        if (sessionID!=null && jsessionID.equals(sessionID)) {
+            //System.out.println("sessione riconosciuta!");
+            out.print("sessione riconosciuta!");
+        } else {
+            //System.out.println(jsessionID);
+            out.print(jsessionID);
+        }
         processRequest(request, response);
     }
 
@@ -188,17 +207,30 @@ public class HelloServlet extends HttpServlet {
                     break;
 
                 case "submitLogin":
-
-                    System.out.println("Siamo su submit login");
-                    //ritorna l'id dell'utente se il login è avvenuto con successo
                     int id = submitLogin(request.getParameter("email"), request.getParameter("password"), request.getParameter("role"));
                     String loggedJson;
 
-                    sessionCookie = new Cookie("token",request.getParameter("email") );
-                    sessionCookie.setComment(request.getParameter("email"));
+
+                    /*Cookie sessionIdCookie = new Cookie("JSESSIONID", UUID.randomUUID().toString());
+                    sessionIdCookie.setMaxAge(60 * 60 * 24); // Validità di 24 ore
+
+                    // Invia il cookie al client
+                    response.addCookie(sessionIdCookie);
+
+                    // Imposta l'ID di sessione nella risposta
+                    response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());*/
+
+                    // Imposta la variabile di sessione
+                    request.getSession().setAttribute("isLogged", true);
+
+                    sessionCookie = new Cookie("JSESSIONID", UUID.randomUUID().toString());
+                    String comment =request.getParameter("email");
+                    sessionCookie.setComment(comment);
+                    System.out.println("?????????????? L'email risulta essere "+request.getParameter("email"));
+                    System.out.println("?????????????? IL commento del cookie e "+sessionCookie);
+                    //response.setHeader("Set-Cookie", "JSESSIONID=" + sessionIdCookie.getValue());
                     sessionCookie.setMaxAge(3600);
                     response.addCookie(sessionCookie);
-                    System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
                     System.out.println(sessionCookie.getComment());
                     if(id!=-1){
                         sessionCookie.setComment(String.valueOf(id));
@@ -216,15 +248,12 @@ public class HelloServlet extends HttpServlet {
 
                     int userId1= parseInt(sessionCookie.getComment());
                     String userRole=userDao.getById(userId1).getRole();
-                    /*if(userRole.equals("Utente") || userRole.equals("admin")){*/
-
-                        System.out.println("Siamo get Alla Availabilities available");
-                        ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
-                        String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
-                        System.out.println("STRINGA JSON " + availabilityAvailableJson);
-                        out.print(availabilityAvailableJson);
-                        out.flush();
-                    /*};*/
+                    System.out.println("Siamo get Alla Availabilities available");
+                    ArrayList<Availability> availabilitiesAvailable = availabilityDao.getAllAvailabilityAvailable();
+                    String availabilityAvailableJson = gson.toJson(availabilitiesAvailable);
+                    System.out.println("STRINGA JSON " + availabilityAvailableJson);
+                    out.print(availabilityAvailableJson);
+                    out.flush();
                     break;
 
 
@@ -463,11 +492,8 @@ public class HelloServlet extends HttpServlet {
                     response.addCookie(sessionCookie);
                     response.sendRedirect("/");
                     break;
-
-
-
-
                 default:
+                    break;
             }
 
         }

@@ -4,7 +4,11 @@
   <nav class="navbar navbar-light bg-light">
     <h1 class="title-ripetizioni">Ripetizioni.it</h1>
     <form class="form-inline">
-
+      <div style="margin-right: 25px;">
+        <router-link to="/">
+          <a class="btn-login btn btn-primary" @click="Click" role="button">logout</a>
+        </router-link>
+      </div>
     </form>
   </nav>
   <!--  navbar per la navigazione dell'amministratore loggato-->
@@ -104,6 +108,31 @@ export default {
     }
   },
   methods:{
+    Click() {
+      console.log('logout')
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('admin');
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      //cookieService.delete(localStorage.getItem('email'));
+      const params = {
+        action: 'logout',
+      };
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "Logout") {
+              console.log(" logout ")
+              this.isLogged = false;
+              localStorage.removeItem('isLogged');
+            } else {
+              alert("failed logout ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
+    },
     add(AssociationId){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       $.get(url, {action: 'removeAssociation',
