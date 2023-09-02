@@ -164,10 +164,15 @@ export default {
               }
               else{
                 alert("password o email errati")
+                this.email=""
+              this.password=""
               }
             }
             ).catch(error => {
               console.error(error);
+              alert("email o password errati")
+              this.email=""
+              this.password=""
             });
             
             //self.$cookies.set("user_session",this.email),
