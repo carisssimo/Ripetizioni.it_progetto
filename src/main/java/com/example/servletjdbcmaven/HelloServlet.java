@@ -255,8 +255,8 @@ public class HelloServlet extends HttpServlet {
 
                     System.out.println(sessionCookie.getComment());
                     if(id!=-1){
-                        /*Timer timer = new Timer();
-                        TimerTask task = new TimerTask() {
+                        Timer timer = new Timer();
+                        /*TimerTask task = new TimerTask() {
                             @Override
                             public void run() {
                                 sessionCookie = new Cookie("session_id", "");
@@ -264,8 +264,16 @@ public class HelloServlet extends HttpServlet {
                                 response.addCookie(sessionCookie);
                                 System.out.println("DRINGGGGGGGGGGGG");
                             }
-                        };
-                        timer.scheduleAtFixedRate(task, 0, 60000 * 1);*/
+                        };*/
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                sessionCookie = new Cookie("session_id", "");
+                                sessionCookie.setMaxAge(0); // Imposta la durata del cookie a 0 per farlo scadere immediatamente
+                                response.addCookie(sessionCookie);
+                                System.out.println("DRINGGGGGGGGGGGG");
+                            }
+                        }, 60000 * 1);
                         sessionCookie.setComment(String.valueOf(id));
                         customResponse.add("isLogged");
                         customResponse.add(token);
