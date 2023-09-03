@@ -255,17 +255,17 @@ public class HelloServlet extends HttpServlet {
 
                     System.out.println(sessionCookie.getComment());
                     if(id!=-1){
-                        Timer timer = new Timer();
+                        /*Timer timer = new Timer();
                         TimerTask task = new TimerTask() {
                             @Override
                             public void run() {
-                                Cookie sessionCookie = new Cookie("session_id", "");
+                                sessionCookie = new Cookie("session_id", "");
                                 sessionCookie.setMaxAge(0); // Imposta la durata del cookie a 0 per farlo scadere immediatamente
                                 response.addCookie(sessionCookie);
                                 System.out.println("DRINGGGGGGGGGGGG");
                             }
                         };
-                        timer.scheduleAtFixedRate(task, 0, 60000 * 1);
+                        timer.scheduleAtFixedRate(task, 0, 60000 * 1);*/
                         sessionCookie.setComment(String.valueOf(id));
                         customResponse.add("isLogged");
                         customResponse.add(token);
@@ -426,7 +426,7 @@ public class HelloServlet extends HttpServlet {
                     /////////////////////////////////////////////////
                     /////////////////////////////////////////////////
                     //THIS METHOD IS CALLED BY USER IT DOESNT REMOVE AVAILABILITY FROM DB
-                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/ && isAdmin(Integer.parseInt(sessionCookie.getComment()))) {
+                    if(sessionCookie.getValue().equals(request.getParameter("token")) /*&& sessionCookie.getMaxAge()>0*/ ) {
                         System.out.println("DELETE");
                         int availabilityId2 = parseInt(request.getParameter("availabilityId"));
                         Availability a2 = availabilityDao.getAvailabilityByID(availabilityId2);
