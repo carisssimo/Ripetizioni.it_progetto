@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <h3>3. Seleziona lo slot orario: </h3>
+    <h3>Ripetizioni attive, disdette, effettuate</h3>
     <div class="container-table">
       <table class="table table-bordered bg-light mx-1 mt-5">
         <thead>
