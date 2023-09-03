@@ -32,6 +32,7 @@ export class availabilityService {
         const params = {
             action: 'getAvailabilitiesOfUserById',
             userId: userId,
+            token:Cookie.get(localStorage.getItem("email"))
         };
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
         return axios.get(dataURL, {params});
