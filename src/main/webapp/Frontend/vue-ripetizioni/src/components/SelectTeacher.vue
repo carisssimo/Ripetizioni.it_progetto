@@ -1,22 +1,38 @@
 <template>
 <!--  meglio utilizzare le card in questo caso forse-->
   <!--FORM-->
-  <div >
-    <div class="form-container container align-items-center">
-      <div class="title-main">2. Seleziona l'insegnante!</div>
-<!--      <select v-model="selectedTeacher">
-        <option disabled value=""> Seleziona un insegnante</option>
-        <option v-for="subject in subjects" :key="subject.subjectID">{{subject.subjectName}}</option>
-
-      </select>-->
-      <div v-for="teacher in teachersBySubject" :key="teacher.teacherID" class="card" style="width: 18rem;">
+  <div class="form-container container rounded py-4 mt-4">
+    <div class="container-btn-group">
+      <div class="btn-group btn-group-justified" role="group">
+        <div class="btn-group" role="group">
+          <RouterLink :to="'/'+this.selected">
+            <a class="btn-l btn-login btn btn-success" role="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </a>
+          </RouterLink>
+        </div>
+        <div class="btn-group" role="group">
+          <RouterLink :to="'/'+this.selected">
+            <a class="btn-l btn-login btn btn-success" role="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
+    <h3>2. Seleziona l'insegnante: </h3>
+    <div class="container d-flex justify-content-center">
+      <div v-for="teacher in teachersBySubject" :key="teacher.teacherID" class="card shadow" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">{{printTeacherName(teacher.teacherID)}}</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">{{printTeacherEmail(teacher.teacherID)}}</h6>
           <h6 class="card-subtitle mb-2 text-body-secondary">5/5</h6>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <RouterLink :to="'/'+this.subjectSelected+'/'+teacher.teacherID"><a href="#" class="card-link">Seleziona </a></RouterLink>
-
+          <RouterLink :to="'/'+this.subjectSelected+'/'+teacher.teacherID"><a href="#" class="btn btn-primary" style="background-color: orangered; border: none;">Seleziona </a></RouterLink>
         </div>
       </div>
     </div>
@@ -91,5 +107,8 @@ export default {
 </script>
 
 <style scoped>
-
+.container-btn-group{
+  display: inline-block;
+  float: right;
+}
 </style>
