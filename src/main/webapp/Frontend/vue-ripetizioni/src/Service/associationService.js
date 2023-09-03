@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Cookie from "vue-cookies";
 
 export class associationService {
 
@@ -7,7 +8,7 @@ export class associationService {
 
 
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return $.get(dataURL,{action: 'getAllAssociations'});
+        return $.get(dataURL,{action: 'getAllAssociations',token: Cookie.get(localStorage.getItem("email"))});
 
 
     }

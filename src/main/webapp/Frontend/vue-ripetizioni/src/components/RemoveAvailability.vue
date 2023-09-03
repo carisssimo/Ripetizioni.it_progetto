@@ -73,6 +73,8 @@ import $ from 'jquery';
 import {subjectsService} from "@/Service/subjectsService";
 import {associationService} from "@/Service/associationService";
 import {teacherService} from "@/Service/teachersService";
+import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -93,11 +95,17 @@ export default {
     try {
       this.loading = true;
       let response = await associationService.getAllAssociations();
+      if(response==='notAdmin'){
+        alert("sessione invalida")
+        router.push("/")
+      }else{
+        this.associations = response;
+      }
       let response2=await teacherService.getAllTeachers();
       let response3=await subjectsService.getAllSubjects();
 
       this.loading = false;
-      this.associations = response;
+
       this.teachers=response2;
       this.subjects=response3;
       console.log(this.associations);
@@ -139,6 +147,7 @@ export default {
         $.get(url, {
           action: 'removeAssociation',
           id: AssociationId,
+          token: Cookie.get(localStorage.getItem("email"))
         }) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Removed") {
@@ -151,7 +160,11 @@ export default {
                 this.id_prof = '';
                 this.id_sub = '';
                 this.dateAv = '';
-              } else {
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }
+              else {
                 alert("problema rimozione associazione");
               }
 

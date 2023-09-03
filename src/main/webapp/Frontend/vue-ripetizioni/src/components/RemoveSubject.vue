@@ -90,6 +90,8 @@
 <script>
 import $ from 'jquery';
 import {subjectsService} from "@/Service/subjectsService";
+import Cookie from "vue-cookies";
+import router from "@/router";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -174,7 +176,7 @@ export default {
         subjectId:id
       };*/
      /* if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
-        $.get(url, {action: 'deleteSubject',subjectId:id}) /*prima effettuiamo la http request async*/
+        $.get(url, {action: 'deleteSubject',subjectId:id,token: Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
                 console.log(" eliminato con successo")
@@ -185,7 +187,11 @@ export default {
                 }
 
                 this.teacherId = '';
-              } else {
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }
+              else {
                 alert("problema eliminazione corso");
               }
 

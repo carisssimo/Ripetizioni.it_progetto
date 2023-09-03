@@ -96,6 +96,8 @@
 //import axios from "axios";
 import $ from 'jquery';
 import {teacherService} from "@/Service/teachersService";
+import Cookie from "vue-cookies";
+import router from "@/router";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -163,7 +165,7 @@ export default {
         teacherId:id
       };*/
       if(localStorage.getItem("isLogged")==="true"&&localStorage.getItem("admin")==="true") {
-        $.get(url, {action: 'deleteTeacher', teacherId:id}) /*prima effettuiamo la http request async*/
+        $.get(url, {action: 'deleteTeacher', teacherId:id,token: Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Removed") {
                 console.log(" eliminato con successo")
@@ -173,9 +175,12 @@ export default {
                 }
 
                 this.teacherId = '';
-              } else {
-                alert("problema eliminazione docente");
-              }
+              } else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }else {
+                  alert("problema eliminazione docente");
+                }
 
             })
             .catch(error => {

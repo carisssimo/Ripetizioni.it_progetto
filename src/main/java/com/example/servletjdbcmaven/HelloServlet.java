@@ -52,10 +52,6 @@ public class HelloServlet extends HttpServlet {
 
         // Salva il token di sessione nell'utente
 
-
-
-
-        ////loreee
         // Imposta il cookie di sessione
         response.addCookie(new Cookie("session_token", token));
 
