@@ -83,8 +83,11 @@
 
 <script>
 
+
 import axios from "axios";
 import $ from 'jquery';
+import Cookie from 'vue-cookies'
+
 
 //import {cookieService} from "@/Service/cookieService"
 
@@ -97,16 +100,19 @@ export default {
       password: '',
       role: '',
       isLogged: false,
+      altreInfo:'',
       admin:false,
+      sessione:'sessione inesistente',
+
     };
   },
   created() {
     // Controlla se esiste un flag di accesso nel localStorage
-    /*TODO:da modificare se la sessione utente lato server è scaduta bisogna modificarla nella localStorage*/
+    /*/!*TODO:da modificare se la sessione utente lato server è scaduta bisogna modificarla nella localStorage*!/
     const isLogged = localStorage.getItem('isLogged');
     this.isLogged = isLogged === 'true';
     const admin= localStorage.getItem('admin');
-    this.admin= admin === 'true';
+    this.admin= admin === 'true';*/
   },
 
   methods: {
@@ -114,11 +120,6 @@ export default {
     Credential()
     {
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      /*const params = {
-        action: 'getAdmin',
-        email: this.email,
-      };*/
-      /*axios.get(url, {params}) /!*prima effettuiamo la http request async*!/*/
       $.get(url,{action: 'getAdmin', email: this.email,})
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response === "admin") {
@@ -159,96 +160,59 @@ export default {
             console.error(error);
           });
     },
+    getInfo(a){
+                var self = this;
+                if (self.sessione==='sessione inesistente')
+                    $.post('http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet', {action: 'getSession', email:a}, function (data) {
+                        self.sessione = data;
+
+                    })
+                else
+                    $.post(this.link, {utente: this.account, sessione: this.sessione},
+                        function (data) {
+                            self.altreInfo = data;
+                        });
+                },
     submitForm() {
-      const isLogged = localStorage.getItem('isLogged');
-      this.isLogged = isLogged === 'true';
       var self=this;
-      console.log(this.email)
-
+      //var a= this.email;
+      //console.log(this.email)
+      //this.getInfo(a);
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-     /* let params = {
-        action: 'submitLogin',
-        email: this.email,
-        password: this.password,
-      };*/
-      /*let headers = {
-
-          'Content-Type': 'application/json;charset=UTF-8',
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token",
-          'content-type': 'application/x-www-form-urlencoded'
-
-      };*/
-
-     
-
-      /*axios.post(url, {params},axiosConfig)*/ /*prima effettuiamo la http request async*!*/
-      /*axios.post("https://prova1-cc17e-default-rtdb.europe-west1.firebasedatabase.app/",params)*/
-      /*axios(url, {
-        method: "post",
-        data:{
-          action: 'submitLogin',
-          email: this.email,
-          password: this.password,
-        }
-      },headers)
-          .then(response => {         /!*solo una volta eseguita la request passiamo a gestire la risposta*!/
-            if (response.data === "isLogged") {
-              console.log(" loggato con successo")
-              this.Credential();
-              this.isLogged = true;
-
-              // Salva il flag di accesso nel localStorage
-              localStorage.setItem('isLogged', 'true');
-            } else {
-              alert("Email o password errati ");
-            }
-
-          })
-          .catch(error => {
-
-            console.error(error);
-          });*/
-
             $.post(url,{action: 'submitLogin',email: this.email,password: this.password},
-            function(data){
-              console.log(data)
-              if(data==='isLogged')
+            function(response){
+              console.log(response)
+              if(response[0] =='isLogged' )
               {
+                console.log(response.$cookies)
+                console.log("data is"+response)
                 self.isLogged = true;
+                localStorage.setItem('isLogged',true);
                 self.Credential();
-                console.log("the variable value is "+this.isLogged)
-                localStorage.setItem("email",this.email)
+                localStorage.setItem("email",self.email)
+                // SETTING VUE COOCKIES
+                //var expireIn = 1/1440*response[2];
+                Cookie.set(self.email, response[1],response[2]);
+                let string='macon@h.com'
+                let risultato=string.replace(/@/g,'%40')
+                console.log(risultato)
               }
               else{
                 alert("password o email errati")
+                this.email=""
+              this.password=""
               }
             }
             ).catch(error => {
               console.error(error);
+              alert("email o password errati")
+              this.email=""
+              this.password=""
             });
-            
-            self.$cookies.set("user_session","25j_7Sl6xDq2Kc3ym0fmrSSk2xV2XkUkX"),
-            self.Credential();
-            
-     /* fetch(url, {
-        method: "POST",
-        headers: headers,
-        body:  JSON.stringify(params)
-      })
-          .then(function(response){
-            return response.json();
-          })
-          .then(function(data){
-            console.log(data)
-          });*/
-
-    }
-  }
+    },
+    },
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

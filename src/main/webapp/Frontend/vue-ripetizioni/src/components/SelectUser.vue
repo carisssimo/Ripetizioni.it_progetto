@@ -47,6 +47,7 @@
 
 <script>
 import {userService} from "@/Service/userService";
+import router from "@/router";
 
 export default {
   name: "SelectUser",
@@ -57,8 +58,14 @@ export default {
   },
   created: async function(){
     try{
-      let response=await userService.getAllUsers();
-      this.users=response.data ;
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem("admin")==='true') {
+        let response = await userService.getAllUsers();
+        if(response.data==='notAdmin'){
+          alert("sessione invalida")
+          router.push("/")
+        }
+        this.users = response.data;
+      }
       console.log(this.users);
 
     }catch(e){

@@ -133,6 +133,7 @@ public class UserDAOImpl implements DAO<User>,UserDAO{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            u.setUserID(-1);
         }
         finally {
             if (con != null) {

@@ -74,7 +74,11 @@ export default {
       let userId= this.$route.params.userId;
       console.log(userId)
       this.loading = true;
-      let response = await availabilityService.getAvailabilitiesByID2(userId);
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        let response = await availabilityService.getAvailabilitiesByID2(userId);
+        this.availabilities = response.data;
+        console.log(response.data);
+      }
 
       let response1 = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
@@ -83,13 +87,12 @@ export default {
       this.loading = false;
       this.teachers = response1;
       this.subjects = response2;
-      this.availabilities = response.data;
+
       this.days = response3;
       this.slots = response4;
       console.log(this.teachers);
       console.log(this.subjects);
       console.log(this.availabilities);
-      console.log(response.data);
     } catch (e) {
       console.log(e);
     }

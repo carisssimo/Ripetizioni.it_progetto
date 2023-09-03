@@ -1,5 +1,7 @@
 import axios from "axios";
 import $ from "jquery";
+import Cookie from "vue-cookies";
+
 export class availabilityService {
 
 
@@ -10,50 +12,55 @@ export class availabilityService {
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
 
 
-        return $.get(dataURL,{action: 'getAllAvailabilitiesAvailable'});
+        return $.get(dataURL, {action: 'getAllAvailabilitiesAvailable'});
     }
-    static getAvailabilitiesByID()
-    {
-        const params = {
+
+    static getAvailabilitiesByID() {
+        console.log("EMAIL"+localStorage.getItem("email"))
+        let g=Cookie.get(localStorage.getItem("email"));
+        console.log('prova '+g)
+        /*const params = {
             action: 'getAvailabilitiesOfUser',
-        };
+            token: Cookie.get(localStorage.getItem("email"))
+        };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params});
+        return $.get(dataURL, {action: 'getAvailabilitiesOfUser',
+            token: Cookie.get(localStorage.getItem("email"))});
     }
-    static getAvailabilitiesByID2(userId)
-    {
+
+    static getAvailabilitiesByID2(userId) {
         const params = {
             action: 'getAvailabilitiesOfUserById',
-            userId:userId,
+            userId: userId,
         };
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params});
+        return axios.get(dataURL, {params});
     }
-    static getAvailabilitiesByIDActive()
-    {
+
+    static getAvailabilitiesByIDActive() {
         /*const params = {
             action: 'getAvailabilitiesOfUserActive',
         };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return $.get(dataURL,{action: 'getAvailabilitiesOfUserActive'})
+        return $.get(dataURL, {action: 'getAvailabilitiesOfUserActive',token:Cookie.get(localStorage.getItem("email"))})
     }
 
-    static getAllAvailabilitiesByProfessor(teacherId)
-    {
+    static getAllAvailabilitiesByProfessor(teacherId) {
         /*const params = {
             action: 'getAvailabilitiesByProfessor',
             teacherId: teacherId,
         };*/
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
 
-        return $.get(dataURL,{action: 'getAvailabilitiesByProfessor', teacherId: teacherId,})
+        return $.get(dataURL, {action: 'getAvailabilitiesByProfessor', teacherId: teacherId,})
     }
+
     static getAllAvailabilities() {
         const params = {
             action: 'getAllAvailabilities',
         };
         let dataURL = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-        return axios.get(dataURL,{params}); /*libreria utilizzata per effettuare chiamate http async*/
+        return axios.get(dataURL, {params}); /*libreria utilizzata per effettuare chiamate http async*/
 
     }
 

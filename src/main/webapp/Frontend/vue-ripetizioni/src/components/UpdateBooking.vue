@@ -127,6 +127,8 @@ import { availabilityService } from "@/Service/availabilityService";
 import $ from 'jquery';
 import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
+import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   name: "UpdateBooking",
@@ -161,13 +163,25 @@ export default {
       this.loading = true;
       let response = await teacherService.getAllTeachers();
       let response2 = await subjectsService.getAllSubjects();
-      let response3 = await availabilityService.getAvailabilitiesByIDActive(); //TODO:da cambiare solo le prenotazioni attive non quelle disdette
+      if(localStorage.getItem("isLogged")==='true') {
+        let response3 = await availabilityService.getAvailabilitiesByIDActive();
+        if(response3==='invalidSession'){
+          alert("sessioneInvalida")
+          router.push("/")
+        }else {
+          this.availabilities = response3;
+        }
+      }
+     else{
+        alert("non sei loggato")
+        router.push("/")
+      }
       let response4 = await dayService.getAllDays();
       let response5 = await slotService.getAllSlots();
       this.loading = false;
       this.teachers = response;
       this.subjects = response2;
-      this.availabilities = response3;
+
       this.days = response4;
       this.slots = response5;
       console.log(this.teachers);
@@ -187,6 +201,31 @@ export default {
         }
       }
 
+    },
+    Click() {
+      console.log('logout')
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('admin');
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      //cookieService.delete(localStorage.getItem('email'));
+      const params = {
+        action: 'logout',
+      };
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "Logout") {
+              console.log(" logout ")
+              this.isLogged = false;
+              localStorage.removeItem('isLogged');
+            } else {
+              alert("failed logout ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
     },
     getSubject(day, slot){
       for (let i = 0; i < this.availabilities.length; i++) {
@@ -239,17 +278,22 @@ export default {
     },
 
     archiv(id) {
-      console.log(id);
-      const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
+      if(localStorage.getItem("isLogged")==='true') {
+        console.log(id);
+        const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
 
-        $.get(url, {action: "archiveAvailability", availabilityId: id})
+
+        $.get(url, {action: "archiveAvailability", availabilityId: id,token:Cookie.get(localStorage.getItem("email"))})
             .then(response => {
-              if (response=== "booked") {
+              if (response === "booked") {
                 console.log("archiviata con successo");
                 const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
                 if (index !== -1) {
                   this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
                 }
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
               } else {
                 alert("Archiviazione fallita");
               }
@@ -257,29 +301,34 @@ export default {
             .catch(error => {
               console.error(error);
             });
-
+      }
     },
 
     delet(id) {
-      console.log(id);
-      const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
+      if(localStorage.getItem("isLogged")==='true') {
+        console.log(id);
+        const url = "http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet";
 
 
-      $.get(url, {action: "deleteAvailability", availabilityId: id})
-          .then(response => {
-            if (response === "booked") {
-              console.log("Prenotato con successo");
-              const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
-              if (index !== -1) {
-                this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+        $.get(url, {action: "deleteAvailability", availabilityId: id,token:Cookie.get(localStorage.getItem("email"))})
+            .then(response => {
+              if (response === "booked") {
+                console.log("Prenotato con successo");
+                const index = this.availabilities.findIndex(availability => availability.availabilityID === id);
+                if (index !== -1) {
+                  this.availabilities.splice(index, 1); // Rimuovi la riga corrispondente dalla lista delle disponibilità
+                }
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              } else {
+                alert("Prenotazione fallita");
               }
-            } else {
-              alert("Prenotazione fallita");
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      }
     },
    /* Click() {
       console.log('logout')

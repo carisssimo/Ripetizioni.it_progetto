@@ -138,9 +138,11 @@ export default {
   created: async function() {
     try {
       this.loading = true;
-      let response = await teacherService.getAllTeachers();
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        let response = await teacherService.getAllTeachers();
+        this.teachers = response;
+      }
       this.loading = false;
-      this.teachers = response;
       console.log(this.teachers);
     } catch (e) {
       console.log(e);
@@ -185,7 +187,7 @@ export default {
         action: 'deleteTeacher',
         teacherId:id
       };*/
-      /*if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
+      if(localStorage.getItem("isLogged")==="true"&&localStorage.getItem("admin")==="true") {
         $.get(url, {action: 'deleteTeacher', teacherId:id}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Removed") {
@@ -205,7 +207,7 @@ export default {
 
               console.error(error);
             });
-      /*}*/
+      }
     }
   }
 }

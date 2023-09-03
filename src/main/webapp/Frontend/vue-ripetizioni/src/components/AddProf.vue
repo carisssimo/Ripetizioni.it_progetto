@@ -97,6 +97,8 @@
 <script>
 //import axios from "axios";
 import $ from 'jquery';
+import router from "@/router";
+import Cookie from "vue-cookies";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -111,6 +113,31 @@ export default {
     }
   },
   methods:{
+    Click() {
+      console.log('logout')
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('admin');
+      const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
+      //cookieService.delete(localStorage.getItem('email'));
+      const params = {
+        action: 'logout',
+      };
+      $.get(url, {params}) /*prima effettuiamo la http request async*/
+          .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
+            if (response.data === "Logout") {
+              console.log(" logout ")
+              this.isLogged = false;
+              localStorage.removeItem('isLogged');
+            } else {
+              alert("failed logout ");
+            }
+
+          })
+          .catch(error => {
+
+            console.error(error);
+          });
+    },
     add(){
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
       /*const params = {
@@ -119,8 +146,9 @@ export default {
         surname:this.surname,
         email: this.email,
       };*/
-      /*if(localStorage.getItem("isLogged")=="true"&&localStorage.getItem("admin")=="true") {*/
-        $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email,}) /*prima effettuiamo la http request async*/
+
+      if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
+        $.get(url, {action: 'addProf', name:this.name, surname:this.surname, email: this.email, token:Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
                 console.log(" aggiunto con successo")
@@ -128,7 +156,10 @@ export default {
                 this.surname = '';
                 this.email = '';
                 alert("docente aggiunto con successo");
-              } else {
+              } else if(response==='notAdmin'){
+                alert("sessione invalida oppure non sei loggato come utente")
+                router.push("/")
+              } else{
                 alert("problema aggiunta docente");
               }
 
@@ -137,7 +168,7 @@ export default {
 
               console.error(error);
             });
-      /*}*/
+      }
     }
   }
 }
