@@ -1,36 +1,45 @@
 <template>
-  <!--NAVBAR PRINCIPALE-->
-  <!--<div class="container-fluid">-->
-  <nav class="navbar navbar-light bg-light">
-    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <form class="form-inline">
-
-      <div style="margin-right: 25px;">
-        <RouterLink to="/"><a class="btn-login btn btn-primary" role="button" @click="Click">logout</a></RouterLink>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg bg-white rounded fixed-top">
+    <div class="container-fluid">
+      <div class="container-logo-brand align-content-center">
+        <img class="align-content-center" src="../assets/logo-fin.png" height="50" width="50">
+        <a class="navbar-brand" style="font-weight: bold; color: orangered; font-size: 30px" href="#">Ripe.it</a>
       </div>
-    </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+          <li class="nav-item mx-3 active">
+            <RouterLink to="/PersonalPage">
+              <a aria-current="page" class="nav-link active" href="#">Pagina Personale</a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/update">
+              <a class="nav-link active" href="#">Modifica </a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/smartBooking">
+              <a class="nav-link active" href="#">Prenota</a>
+            </RouterLink>
+          </li>
+        </ul>
+        <div class="container-right-btn d-inline-flex justify-content-end w-100">
+          <RouterLink to="/">
+            <a class="btn-login btn btn-primary" @click="Click" role="button">Logout</a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
   </nav>
-  <!--</div>-->
-
-  <ul class="title-main navbar-ripetizioni nav nav-tabs">
-    <li class="nav-item">
-      <RouterLink to="/PersonalPage"><a aria-current="page" class="nav-link " href="#">Pagina Personale</a></RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/update"><a class="nav-link " href="#">Modifica </a></RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/smartBooking"><a class="nav-link active" href="#">Prenota</a></RouterLink>
-    </li>
-
-  </ul>
 
   <!--  {{this.teacherSelected}}
     {{this.subjectSelected}}-->
-  <div class="logged-container title-container container">
-    <h1 class="title-main">Scegli la ripe più adatta a te</h1>
+  <div class="logged-container d-flex justify-content-center align-items-center mt-6">
+    <h1 class="title-main text-center" style="font-size: 40px; margin-top: 0;">Scegli materia, docente e orario per prenotare la tua ripetizione!</h1>
   </div>
-
 
   <router-view></router-view>
 
@@ -229,7 +238,15 @@ export default {
 };
 </script>
 
-
 <style scoped>
+.nav-item{
+  font-color: black;
+  font-weight: bold;
+  font-size: 18px;
+}
 
+.container-right-btn{
+  margin: 0;
+  padding: 0;
+}
 </style>

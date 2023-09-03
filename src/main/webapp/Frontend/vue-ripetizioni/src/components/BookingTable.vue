@@ -1,29 +1,51 @@
 <template>
   <!--  nuova tabella -->
-
-  <div class="form-container-selector container ">
-    <div class="title-main">3. Seleziona Ora lo Slot orario!</div>
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">Orario</th>
-        <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
-
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="slot in slots" :key="slot.id">
-        <td>{{ slot.description }}</td>
-        <td v-for="day in days" :key="day.id" >
-          <div  v-if="existAvailability(day.id, slot.id)==='true'" >
-          <a class="btn-login btn btn-primary" role="button" @click="booking(searchAvailability(day.id, slot.id))">Prenota</a>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-
-    </table>
+  <div class="form-container container rounded py-4 mt-4">
+    <div class="container-btn-group">
+      <div class="btn-group btn-group-justified" role="group">
+        <div class="btn-group" role="group">
+          <RouterLink :to="'/'+this.selected">
+            <a class="btn-l btn-login btn btn-success" role="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </a>
+          </RouterLink>
+        </div>
+        <div class="btn-group" role="group">
+          <RouterLink :to="'/'+this.selected">
+            <a class="btn-l btn-login btn btn-success" role="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
+    <h3>3. Seleziona lo slot orario: </h3>
+    <div class="container-table">
+      <table class="table table-bordered bg-light mx-1 mt-5">
+        <thead>
+        <tr>
+          <th scope="col">ORARIO</th>
+          <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="slot in slots" :key="slot.id">
+          <td>{{ slot.description }}</td>
+          <td v-for="day in days" :key="day.id" class="center-td">
+            <div  v-if="existAvailability(day.id, slot.id)==='true'">
+              <a class="btn-login btn btn-primary" role="button" @click="booking(searchAvailability(day.id, slot.id))">Prenota</a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -253,5 +275,13 @@ export default {
 </script>
 
 <style scoped>
+.container-btn-group{
+  display: inline-block;
+  float: right;
+}
+
+table th{
+  width: 16%;
+}
 
 </style>

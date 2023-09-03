@@ -1,36 +1,45 @@
 <template>
   <!-- NAVBAR PRINCIPALE -->
   <!-- <div class="container-fluid"> -->
-  <nav class="navbar navbar-light bg-light">
-    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <form class="form-inline">
-      <div style="margin-right: 25px;">
-        <router-link to="/">
-          <a class="btn-login btn btn-primary" @click="Click" role="button">logout</a>
-        </router-link>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg bg-white rounded fixed-top">
+    <div class="container-fluid">
+      <div class="container-logo-brand align-content-center">
+        <img class="align-content-center" src="../assets/logo-fin.png" height="50" width="50">
+        <a class="navbar-brand" style="font-weight: bold; color: orangered; font-size: 30px" href="#">Ripe.it</a>
       </div>
-    </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+          <li class="nav-item mx-3 active">
+            <RouterLink to="/PersonalPage">
+              <a aria-current="page" class="nav-link active" href="#">Pagina Personale</a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/update">
+              <a class="nav-link active" href="#">Modifica </a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/smartBooking">
+              <a class="nav-link active" href="#">Prenota</a>
+            </RouterLink>
+          </li>
+        </ul>
+        <div class="container-right-btn d-inline-flex justify-content-end w-100">
+          <RouterLink to="/">
+            <a class="btn-login btn btn-primary" @click="Click" role="button">Logout</a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
   </nav>
-  <!-- </div> -->
-
-  <!--  navbar per la navigazione dell'utente loggato-->
-
-  <ul class="title-main navbar-ripetizioni nav nav-tabs">
-    <li class="nav-item">
-      <RouterLink to="/PersonalPage"><a class="nav-link " aria-current="page" href="#">Pagina Personale</a></RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/update"><a class="nav-link active" href="#">Modifica </a></RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/smartBooking"><a class="nav-link" href="#">Prenota</a></RouterLink>
-    </li>
-
-  </ul>
 
   <!-- {{ this.teacherSelected }} {{ this.subjectSelected }} -->
-  <div class="logged-container title-container container">
-    <h1 class="title-main">Aggiorna la prenotazione o eliminala</h1>
+  <div class="logged-container d-flex justify-content-center align-items-center mt-6">
+    <h1 class="title-main text-center" style="font-size: 40px; margin-top: 0;">Aggiorna o elimina la prenotazione</h1>
   </div>
 
 <!--vecchia tabella riutilizzabile se si vuole far vedere un ordinamento differente-->
@@ -65,13 +74,12 @@
     </table>
   </div>-->
 
-  <div class="form-container-selector container">
-    <table class="table">
+  <div class="container-table">
+    <table class="table table-bordered bg-light mx-1">
       <thead>
       <tr>
-        <th scope="col">Orario</th>
+        <th scope="col">ORARIO</th>
         <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
-
       </tr>
       </thead>
       <tbody>
@@ -79,23 +87,29 @@
         <td>{{ slot.description }}</td>
         <td v-for="day in days" :key="day.id" >
           <div  v-if="existAvailability(day.id, slot.id)==='true'" class="table_data_slot">
-            <ul>
-              <li>{{printTeacherName(getProfessor(day.id, slot.id))}}</li>
-              <li>{{printSubjectName(getSubject(day.id, slot.id))}}</li>
-              <li><a class="btn-login btn btn-primary" role="button" @click="delet(searchAvailability(day.id, slot.id))">
-                Cancella
-              </a></li>
-              <li><a class="btn-login btn btn-primary" role="button" @click="archiv(searchAvailability(day.id, slot.id))">
-                Effettuata
-              </a></li>
+            <ul class="table-data-slot-elem">
+              <li>Professore: {{printTeacherName(getProfessor(day.id, slot.id))}}</li>
+              <li>Materia: {{printSubjectName(getSubject(day.id, slot.id))}}</li>
             </ul>
+            <div class="row w-100 d-inline-flex justify-content-center align-items-center">
+              <div class="col w-50 g-0 table-btn-row-col">
+                <a class="btn colored-text-btn-del" role="button" @click="delet(searchAvailability(day.id, slot.id))">
+                  Cancella
+                </a>
+              </div>
+              <div class="col w-50 g-0">
+                <a class="btn colored-text-btn-acc" role="button" @click="archiv(searchAvailability(day.id, slot.id))">
+                  Effettuata
+                </a>
+              </div>
+            </div>
           </div>
         </td>
       </tr>
       </tbody>
-
     </table>
   </div>
+
 <!--
   <span style="padding: 0 10px;"></span>
 
@@ -345,5 +359,43 @@ export default {
 </script>
 
 <style scoped>
+.nav-item{
+  font-weight: bold;
+  font-size: 18px;
+}
 
+.container-table{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.table-data-slot-elem{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.table_data_slot{
+  padding-left: 15px;
+}
+
+table th{
+  width: 16%;
+}
+
+.mt-6{
+  margin-top: 6rem;
+  margin-bottom: 1rem;
+}
+
+.colored-text-btn-del{
+  color: red;
+  border: none;
+  font-weight: bold;
+}
+
+.colored-text-btn-acc{
+  color: green;
+  border: none;
+  font-weight: bold;
+}
 </style>

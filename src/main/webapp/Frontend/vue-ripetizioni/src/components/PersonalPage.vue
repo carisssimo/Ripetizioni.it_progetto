@@ -1,35 +1,43 @@
 <template>
   <!--NAVBAR PRINCIPALE-->
-  <!--<div class="container-fluid">-->
-  <nav class="navbar navbar-light bg-light">
-    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <form class="form-inline">
-      <div style="margin-right: 25px;">
-        <RouterLink to="/"><a class="btn-login btn btn-primary" role="button" @click="Click">logout</a></RouterLink>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg bg-white rounded fixed-top">
+    <div class="container-fluid">
+      <div class="container-logo-brand align-content-center">
+        <img class="align-content-center" src="../assets/logo-fin.png" height="50" width="50">
+        <a class="navbar-brand" style="font-weight: bold; color: orangered; font-size: 30px" href="#">Ripe.it</a>
       </div>
-    </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+          <li class="nav-item mx-3 active">
+            <RouterLink to="/PersonalPage">
+              <a aria-current="page" class="nav-link active" href="#">Pagina Personale</a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/update">
+              <a class="nav-link active" href="#">Modifica </a>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-3">
+            <RouterLink to="/smartBooking">
+              <a class="nav-link active" href="#">Prenota</a>
+            </RouterLink>
+          </li>
+        </ul>
+        <div class="container-right-btn d-inline-flex justify-content-end w-100">
+          <RouterLink to="/">
+            <a class="btn-login btn btn-primary" @click="Click" role="button">Logout</a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
   </nav>
-  <!--</div>-->
 
-  <!--  navbar per la navigazione dell'utente loggato-->
-
-  <ul class="title-main navbar-ripetizioni nav nav-tabs">
-    <li class="nav-item">
-      <RouterLink to="/PersonalPage"><a aria-current="page" class="nav-link active" href="#">Pagina Personale</a>
-      </RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/update"><a class="nav-link" href="#">Modifica </a></RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink to="/smartBooking"><a class="nav-link" href="#">Prenota</a></RouterLink>
-    </li>
-
-  </ul>
-
-
-  <div class="logged-container title-container container">
-    <h1 class="title-main">Ecco qui il resoconto delle tue prenotazioni!</h1>
+  <div class="logged-container d-flex justify-content-center align-items-center mt-6">
+    <h1 class="title-main text-center" style="font-size: 40px; margin-top: 0;">Ecco qui il resoconto delle tue prenotazioni!</h1>
   </div>
 
   <!--  tabella basic da modificare-->
@@ -61,32 +69,30 @@
 
   <!--  nuova tabella -->
 
-    <div class="form-container-selector container">
-      <table class="table">
-        <thead>
-        <tr>
-          <th scope="col">Orario</th>
-          <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="slot in slots" :key="slot.id">
-          <td>{{ slot.description }}</td>
-          <td v-for="day in days" :key="day.id">
-            <div v-if="existAvailability(day.id,slot.id)==='true'" class="table_data_slot">
-              <ul>
-                <li>{{printTeacherName(getProfessor(day.id,slot.id))}}</li>
-                <li>{{printSubjectName(getSubject(day.id,slot.id))}}</li>
-                <li>{{getState(day.id,slot.id)}}</li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-
-      </table>
-    </div>
+  <div class="container-table">
+    <table class="table table-bordered bg-light mx-1">
+      <thead>
+      <tr>
+        <th scope="col">ORARIO</th>
+        <th v-for="day in days" :key="day.id" scope="col">{{ day.description }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="slot in slots" :key="slot.id">
+        <td>{{ slot.description }}</td>
+        <td v-for="day in days" :key="day.id">
+          <div v-if="existAvailability(day.id,slot.id)==='true'" class="table_data_slot">
+            <ul class="table-data-slot-elem">
+              <li>Professore: {{printTeacherName(getProfessor(day.id,slot.id))}}</li>
+              <li>Materia: {{printSubjectName(getSubject(day.id,slot.id))}}</li>
+              <li>Stato: {{getState(day.id,slot.id)}}</li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 </template>
 
@@ -99,7 +105,6 @@ import {dayService} from "@/Service/dayService";
 import {slotService} from "@/Service/slotService";
 import router from "@/router";
 //import {cookieService} from "@/Service/cookieService"
-
 
 
 export default {
@@ -301,11 +306,39 @@ export default {
 </script>
 
 <style scoped>
+.logged-container{
+  margin: 0;
+}
 
-.pallino {
-  color: orangered;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.table_data_slot{
+  padding: 0;
+}
+
+.mt-6{
+  margin-top: 6rem;
+  margin-bottom: 1rem;
+}
+
+.container-table{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.table-data-slot-elem{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.table_data_slot{
+  padding-left: 10px;
+}
+
+.nav-item{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+table th{
+  width: 16%;
 }
 </style>

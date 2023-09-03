@@ -1,14 +1,63 @@
 <template>
-  <nav class="navbar navbar-light bg-light">
-    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <form class="form-inline">
-      <div style="margin-right: 25px;">
-        <RouterLink to="/login"><a class="btn-login btn btn-primary" role="button">Login</a></RouterLink>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg bg-white rounded fixed-top">
+    <div class="container-fluid">
+      <div class="container-logo-brand align-content-center">
+        <img class="align-content-center" src="../assets/logo-fin.png" height="50" width="50">
+        <a class="navbar-brand" style="font-weight: bold; color: orangered; font-size: 30px" href="#">Ripe.it</a>
       </div>
-
-    </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item mx-3">
+            <RouterLink to="/"><a class="nav-link active pe-auto" aria-current="page">Home</a></RouterLink>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
-  <!--</div>-->
+
+  <div class="container mt-6">
+    <div class="row">
+      <div class="col">
+        <div class="dropdown">
+          <button class="btn btn-login dropdown-toggle dropdown-btn w-100" type="button" id="dropdownMenuButtonSubjects" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Materie disponibili
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonSubjects">
+            <ul class="dropdown-list">
+              <li v-for="subject in subjects" :key="subject.subjectID" class="dropdown-item">{{subject.subjectName}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="dropdown">
+          <button class="btn btn-login dropdown-toggle dropdown-btn w-100" type="button" id="dropdownMenuButtonTeachers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Docenti disponibili
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonTeachers">
+            <ul class="dropdown-list">
+              <li v-for="teacher in teachers" :key="teacher.name" class="dropdown-item">{{teacher.name}} {{teacher.surname}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="dropdown">
+          <button class="btn btn-login dropdown-toggle dropdown-btn w-100" type="button" id="dropdownMenuButtonSlots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Orari disponibili
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonSlots">
+            <ul class="dropdown-list">
+              <li v-for="slot in slots" :key="slot.description" class="dropdown-item">{{slot.description}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--MAIN-->
   <div class="container">
@@ -20,6 +69,7 @@
           <p class="p-start">ripetizioni.it ti aiuta a prenotare ripetizioni con i migliori docenti della tua
             città selezionando le date e gli orari che ti fanno più comodo. Registrati per prenotare la tua
             lezione </p>
+          <RouterLink to="/login"><a class="btn-login btn btn-primary w-50" style="font-weight: bold; " role="button">Comincia ora!</a></RouterLink>
         </div>
       </div>
       <!--colonna di carosello e descrizione(sarebbe utile eliminarlo arrivati ad una certa soglia )-->
@@ -80,70 +130,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <p>
-            <button class="btn-login btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseCourses" aria-expanded="false" aria-controls="collapseWidthExample">
-              Materie disponibili
-            </button>
-          </p>
-          <div style="min-height: 120px;">
-            <div class="collapse width" id="collapseCourses">
-              <div class="card card-body" style="width: 320px;">
-                <ul class="list-group">
-                  <li v-for="subject in subjects" :key="subject.subjectID" class="list-group-item">{{subject.subjectName}}</li>
-
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <p>
-            <button class="btn-login btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSlots" aria-expanded="false" aria-controls="collapseWidthExample">
-              Slot disponibili
-            </button>
-          </p>
-          <div style="min-height: 120px;">
-            <div class="collapse width" id="collapseSlots">
-              <div class="card card-body" style="width: 320px;">
-                <ul class="list-group">
-                  <li class="list-group-item">Vai alle prenotazioni disponibili</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <p>
-            <button class="btn-login btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseProfessors" aria-expanded="false" aria-controls="collapseWidthExample">
-              Insegnanti disponibili
-            </button>
-          </p>
-          <div style="min-height: 120px;">
-            <div class="collapse width" id="collapseProfessors">
-              <div class="list-group">
-                <a v-for="teacher in teachers" :key="teacher.name" class="list-group-item list-group-item-action">{{teacher.name}} {{teacher.surname}}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>
-
-
-
-
-
 
 </template>
 
 <script>
 import {teacherService} from "@/Service/teachersService";
 import {subjectsService} from "@/Service/subjectsService";
-
+import {slotService} from "@/Service/slotService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -152,7 +148,8 @@ export default {
     return{
       loading:false,
       teachers:{},
-      subjects:{}
+      subjects:{},
+      slots:{}
     }
   },
   created: async function(){
@@ -160,16 +157,16 @@ export default {
       this.loading=true;
       let response=await teacherService.getAllTeachers();
       let response2=await subjectsService.getAllSubjects();
+      let response3=await slotService.getAllSlots();
       this.loading=false;
       this.teachers=response;
       this.subjects=response2;
+      this.slots=response3;
       console.log(this.subjects);
       console.log(this.teachers);
     }catch(e){
       console.log(e);
     }
-
-
   }
 }
 </script>
@@ -182,6 +179,11 @@ export default {
   border-radius: 20px;
   overflow: hidden;
 }
+
+.mt-6{
+  margin-top: 7rem;
+}
+
 .card-row {
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -196,10 +198,24 @@ export default {
   /* Altri stili opzionali per le righe */
 }
 
-.align-items-center {
-  align-items: center;
+.nav-item{
+  font-weight: bold;
+  font-size: 18px;
 }
 
+.dropdown-btn{
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
 
+.dropdown-menu{
+  width: 100%;
+}
+
+.dropdown-list{
+  list-style: none;
+  padding-left: 0;
+}
 
 </style>

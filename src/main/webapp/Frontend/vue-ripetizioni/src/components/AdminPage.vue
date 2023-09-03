@@ -1,49 +1,51 @@
 <template>
-
-  <!--NAVBAR PRINCIPALE-->
-  <!--<div class="container-fluid">-->
-  <nav class="navbar navbar-light bg-light">
-    <h1 class="title-ripetizioni">Ripetizioni.it</h1>
-    <form class="form-inline">
-      <div style="margin-right: 25px;">
-        <RouterLink to="/">
-          <a class="btn-login btn btn-primary" @click="Click" role="button">logout</a>
-        </RouterLink>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg bg-white rounded fixed-top">
+    <div class="container-fluid">
+      <div class="container-logo-brand align-content-center">
+        <img class="align-content-center" src="../assets/logo-fin.png" height="50" width="50">
+        <a class="navbar-brand" style="font-weight: bold; color: orangered; font-size: 30px" href="#">Ripe.it</a>
       </div>
-    </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+          <li class="nav-item active">
+            <RouterLink to="/Admin"><a class="nav-link active" aria-current="page" href="#">Pagina Amministratore</a></RouterLink>
+          </li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Docenti</a>
+            <ul class="dropdown-menu">
+              <li><RouterLink to="/AddProf"><a class="dropdown-item" href="#">Aggiungi Docente</a></RouterLink></li>
+              <li><RouterLink to="/DelProf"><a class="dropdown-item" href="#">Elimina Docente</a></RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Corsi</a>
+            <ul class="dropdown-menu">
+              <li><RouterLink to="/Addsub"><a class="dropdown-item" href="#">Aggiungi Corso</a></RouterLink></li>
+              <li><RouterLink to="/RemoveSubject"><a class="dropdown-item" href="#">Elimina Corso</a></RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Lezioni</a>
+            <ul class="dropdown-menu">
+              <li><RouterLink to="/AddLesson"><a class="dropdown-item" href="#">Aggiungi Lezione</a></RouterLink></li>
+              <li><RouterLink to="/RemoveAvailability"><a class="dropdown-item" href="#">Elimina Lezione</a></RouterLink></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="container-right-btn d-inline-flex justify-content-end w-75">
+          <RouterLink to="/">
+            <a class="btn-login btn btn-primary" @click="Click" role="button">Logout</a>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
   </nav>
-  <!--  navbar per la navigazione dell'amministratore loggato-->
 
-  <ul class="title-main navbar-ripetizioni nav nav-tabs">
-    <li class="nav-item">
-      <RouterLink to="/Admin"><a class="nav-link active" aria-current="page" href="#">Pagina Amministratore</a></RouterLink>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Docenti</a>
-      <ul class="dropdown-menu">
-        <li><RouterLink to="/AddProf"><a class="dropdown-item" href="#">Aggiungi Docente</a></RouterLink></li>
-        <li><RouterLink to="/DelProf"><a class="dropdown-item" href="#">Elimina Docente</a></RouterLink></li>
-      </ul>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Corsi</a>
-      <ul class="dropdown-menu">
-        <li><RouterLink to="/Addsub"><a class="dropdown-item" href="#">Aggiungi Corso</a></RouterLink></li>
-        <li><RouterLink to="/RemoveSubject"><a class="dropdown-item" href="#">Elimina Corso</a></RouterLink></li>
-      </ul>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button" aria-expanded="false">Lezioni</a>
-      <ul class="dropdown-menu">
-        <li><RouterLink to="/AddLesson"><a class="dropdown-item" href="#">Aggiungi Lezione</a></RouterLink></li>
-        <li><RouterLink to="/RemoveAvailability"><a class="dropdown-item" href="#">Elimina Lezione</a></RouterLink></li>
-      </ul>
-    </li>
-
-  </ul>
-
-  <div class="logged-container title-container container">
-    <h1 class="title-main">Ecco la cronologia delle lezioni! Ovvero quelle prenotate attive,quelle disdette e quelle effettuate</h1>
+  <div class="logged-container d-flex justify-content-center align-items-center mt-6">
+    <h1 class="title-main text-center" style="font-size: 40px; margin-top: 0;">Riepilogo e storico delle ripetizioni</h1>
   </div>
 
   <router-view></router-view>
@@ -239,5 +241,14 @@ export default {
   .btn-login
   {
     width: 200px;
+  }
+
+  .nav-item{
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .navbar-nav{
+    justify-content: space-evenly;
   }
 </style>
