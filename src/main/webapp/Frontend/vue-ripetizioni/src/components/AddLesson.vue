@@ -123,6 +123,8 @@
 import $ from 'jquery';
 import {subjectsService} from "@/Service/subjectsService";
 import {teacherService} from "@/Service/teachersService";
+import Cookie from "vue-cookies";
+import router from "@/router";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "AddLesson",
@@ -189,6 +191,7 @@ export default {
           id_prof: this.id_prof,
           id_sub: this.id_sub,
           daytime: this.daytime,
+          token: Cookie.get(localStorage.getItem("email"))
         }) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
@@ -196,7 +199,11 @@ export default {
                 this.id_prof = '';
                 this.id_sub = '';
                 this.daytime = '';
-              } else {
+              } else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }
+              else {
                 alert("problema aggiunta lezione");
               }
 
@@ -216,7 +223,7 @@ export default {
       console.log(subjectId)
 
       const url = 'http://localhost:8080/ServletJDBCmaven_war_exploded/HelloServlet';
-      $.get(url, {action: 'addAssociation', id_prof: teacherId, id_sub: subjectId}) /*prima effettuiamo la http request async*/
+      $.get(url, {action: 'addAssociation', id_prof: teacherId, id_sub: subjectId, token: Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
           .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
             if (response === "Added") {
               console.log("Associazione aggiunta con successo");
@@ -224,7 +231,11 @@ export default {
               this.id_prof = '';
               this.id_sub = '';
               this.daytime = '';
-            } else {
+            } else if(response==='invalidSession'){
+              alert("sessione invalida")
+              router.push("/")
+            }
+            else {
               alert("problema aggiunta associazione: l'associazione potrebbe essere già presente nel database");
             }
 

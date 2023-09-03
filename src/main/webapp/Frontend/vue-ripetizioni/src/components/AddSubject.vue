@@ -89,6 +89,8 @@
 <script>
 //import axios from "axios";
 import $ from 'jquery';
+import Cookie from "vue-cookies";
+import router from "@/router";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -137,14 +139,18 @@ export default {
 
       };*/
       if(localStorage.getItem("isLogged")==='true' && localStorage.getItem('admin')==='true') {
-        $.get(url, {action: 'addSub', name: this.name, descp: this.descp,}) /*prima effettuiamo la http request async*/
+        $.get(url, {action: 'addSub', name: this.name, descp: this.descp,token: Cookie.get(localStorage.getItem("email"))}) /*prima effettuiamo la http request async*/
             .then(response => {         /*solo una volta eseguita la request passiamo a gestire la risposta*/
               if (response === "Added") {
                 console.log(" aggiunto con successo")
                 this.name = '';
                 this.descp = '';
                 alert("materia aggiunta con successo")
-              } else {
+              }else if(response==='invalidSession'){
+                alert("sessione invalida")
+                router.push("/")
+              }
+              else {
                 alert("problema aggiunta materia");
               }
 
