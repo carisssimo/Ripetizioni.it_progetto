@@ -11,6 +11,8 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import static java.lang.Integer.parseInt;
@@ -33,7 +35,7 @@ public class HelloServlet extends HttpServlet {
     int id_sessione=0;
     Cookie sessionCookie =null;
    // Cookie c=null;
-    int timeSessionMinutes=25;
+    String timeSessionMinutes="1m";
 
     public void init() {
         message = "Hello World!";
@@ -257,6 +259,17 @@ public class HelloServlet extends HttpServlet {
 
                     System.out.println(sessionCookie.getComment());
                     if(id!=-1){
+                        Timer timer = new Timer();
+                        TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                Cookie sessionCookie = new Cookie("session_id", "");
+                                sessionCookie.setMaxAge(0); // Imposta la durata del cookie a 0 per farlo scadere immediatamente
+                                response.addCookie(sessionCookie);
+                                System.out.println("DRINGGGGGGGGGGGG");
+                            }
+                        };
+                        timer.scheduleAtFixedRate(task, 0, 60000 * 1);
                         sessionCookie.setComment(String.valueOf(id));
                         customResponse.add("isLogged");
                         customResponse.add(token);
@@ -650,7 +663,7 @@ public class HelloServlet extends HttpServlet {
                     Cookie sessionCookie = new Cookie("session_id", "");
                     sessionCookie.setMaxAge(0); // Imposta la durata del cookie a 0 per farlo scadere immediatamente
                     response.addCookie(sessionCookie);
-                    response.sendRedirect("/");
+
                     break;
                 default:
                     break;
