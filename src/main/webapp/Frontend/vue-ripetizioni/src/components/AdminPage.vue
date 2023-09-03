@@ -34,8 +34,11 @@
               <li><RouterLink to="/RemoveAvailability"><a class="dropdown-item" href="#">Elimina Lezione</a></RouterLink></li>
             </ul>
           </li>
+          <li class="nav-item active">
+            <RouterLink to="/PersonalPage"><a class="btn btn-success" role="button">Modalità utente</a></RouterLink>
+          </li>
         </ul>
-        <div class="container-right-btn d-inline-flex justify-content-end w-75">
+        <div class="container-right-btn d-inline-flex justify-content-end w-25">
           <RouterLink to="/">
             <a class="btn-login btn btn-primary" @click="Click" role="button">Logout</a>
           </RouterLink>
