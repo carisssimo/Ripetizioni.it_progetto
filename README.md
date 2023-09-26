@@ -1,4 +1,4 @@
-# Ripetizioni.it_progetto
+# Ripetizioni.it 
 Progetto web app
 Applicazione java web che gestisce prenotazioni di ripetizioni online essendo dotata solo di interfaccia utente per browser web.
 
