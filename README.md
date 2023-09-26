@@ -9,8 +9,8 @@ L’applicazione salva in un database relazionale a scelta i seguenti tipi di in
  - titolo dei corsi di cui si offrono le ripetizioni;
  - nome e cognome dei docenti che tengono le ripetizioni;
  - associazioni corso-docente;
- - prenotazioni di ripetizioni.
-    
+ - prenotazioni di ripetizioni;
+
 L’applicazione controlla l’inserimento di input utente sia lato client che lato server per evitare che l’utente inserisca dati parziali o errati nei form (per esempio, per evitare che l’utente cerchi di collegarsi senza inserire login e password).
 L’applicazione controlla sia lato client che lato server che gli utenti non eseguano operazioni illecite. Per es., gli utenti non autenticati possono vedere il catalogo delle ripetizioni disponibili, ma non possono segnare come effettuate, o disdire, le prenotazioni; solo gli amministratori devono poter operare sul catalogo per inserire/rimuovere corsi e docenti; ogni utente (tranne l’amministratore) deve poter vedere solo le proprie ripetizioni e non quelle altrui.
 
