@@ -1,5 +1,5 @@
 # Ripetizioni.it 
-Progetto web app
+Progetto web app:
 Applicazione java web che gestisce prenotazioni di ripetizioni online essendo dotata solo di interfaccia utente per browser web.
 
 L’applicazione è basata su architettura **MVC**, con Controller + viste e Model. Si noti che non c'è comunicazione diretta tra viste e model: ogni tipo di comunicazione tra questi due livelli deve essere mediato da un controller.
