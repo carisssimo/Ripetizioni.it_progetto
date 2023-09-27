@@ -19,6 +19,6 @@ L’interfaccia è implementata come una sola Single Page Application utilizzand
 Il controllo dell’input utente lato client è effettuato utilizzando i tag di HTML5 e/o JavaScript.
 Il backend dell’applicazione è implementato in **Java**(servlet).
 
-#MIGLIORAMENTI:
+# MIGLIORAMENTI:
 Pulizia del codice nella helloServlet e nelle vari implementazioni specifiche delle interfacce DAO.
 Inoltre è necessaria una riorganizzazione dei vari component in Vue.js
