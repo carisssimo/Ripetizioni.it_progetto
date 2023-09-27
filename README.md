@@ -1,4 +1,4 @@
-# Ripetizioni.it 
+## Ripetizioni.it 
 Progetto web app:
 Applicazione java web che gestisce prenotazioni di ripetizioni online essendo dotata solo di interfaccia utente per browser web.
 
@@ -19,3 +19,6 @@ L’interfaccia è implementata come una sola Single Page Application utilizzand
 Il controllo dell’input utente lato client è effettuato utilizzando i tag di HTML5 e/o JavaScript.
 Il backend dell’applicazione è implementato in **Java**(servlet).
 
+#MIGLIORAMENTI:
+Pulizia del codice nella helloServlet e nelle vari implementazioni specifiche delle interfacce DAO.
+Inoltre è necessaria una riorganizzazione dei vari component in Vue.js
